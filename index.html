@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bayazit Krypto-Schule</title>
+<meta name="theme-color" content="#05080d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Krypto-Schule">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script>(function(){var m='dark';try{m=localStorage.getItem('kompass-theme')||'dark'}catch(e){}var t=m==='auto'?(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):m;document.documentElement.setAttribute('data-theme',t);})();</script>
+<style>
+:root{
+  --bg:#05080d; --panel:#0b1118; --card:#0f1620; --card2:#0a0f15; --line:#1b2532; --line2:#2a3647; --line3:#36465b; --text:#dfe6ef; --soft:#b9c4d2; --soft2:#c9d2de; --mute:#7f8b9c;
+  --up:#1fcf8f; --down:#f0605d; --gold:#f5c542; --blue:#4c9aff; --purple:#b388ff; --orange:#ff9f43;
+  --chart:#020407; --hdr:rgba(5,8,13,.92); --veil:rgba(5,8,13,.75); --on-gold:#1b1505; --on-up:#03140d;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#f3f5f9; --panel:#eef2f7; --card:#ffffff; --card2:#f7f9fc; --line:#dde3ec; --line2:#c9d2de; --line3:#b7c2d1; --text:#131a26; --soft:#3d4757; --soft2:#2c3646; --mute:#5d6879;
+  --up:#087f5b; --down:#c62f2c; --gold:#946200; --blue:#1a66c9; --purple:#7445cc; --orange:#b45000;
+  --chart:#ffffff; --hdr:rgba(243,245,249,.92); --veil:rgba(255,255,255,.85); --on-gold:#ffffff; --on-up:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--hdr);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;gap:12px}
+.logo{width:34px;height:34px;flex:none}
+.brand{font-family:var(--mono);font-weight:800;letter-spacing:.06em;font-size:15px;line-height:1.15;cursor:pointer}
+.brand small{display:block;color:var(--mute);font-weight:500;font-size:11px;letter-spacing:.12em}
+.theme{margin-left:auto;display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;flex:none}
+.theme button{border:0;background:none;color:var(--mute);font-family:var(--mono);font-size:12px;font-weight:700;border-radius:999px;padding:6px 10px;min-height:32px}
+.theme button[aria-pressed="true"]{background:var(--gold);color:var(--on-gold)}
+.theme button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.prog{margin-left:12px;font-family:var(--mono);font-size:11px;color:var(--mute);text-align:right}
+.bar{width:110px;height:5px;background:var(--line);border-radius:9px;margin-top:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));width:0;transition:width .4s}
+main{display:grid;grid-template-columns:320px 1fr;max-width:1280px;margin:0 auto;min-height:calc(100vh - 60px)}
+#nav{border-right:1px solid var(--line);padding:14px 12px 40px;height:calc(100vh - 60px);overflow:auto;position:sticky;top:60px}
+#search{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:15px;outline:none}
+#search:focus{border-color:var(--gold)}
+.cat{margin:18px 4px 8px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--acc,var(--mute));text-transform:uppercase;display:flex;align-items:center;gap:8px;background:none;border:0;padding:0;width:calc(100% - 8px);text-align:left}
+.cat::after{content:"";flex:1;height:1px;background:var(--line)}
+.item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:10px;padding:8px 8px;margin:2px 0}
+.item:hover{background:var(--card)}
+.item.on{background:var(--card);border-color:var(--line2)}
+.item .ic{width:34px;height:34px;flex:none;border-radius:8px;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-weight:800;font-size:12px;color:var(--acc)}
+.item b{display:block;font-size:14.5px;font-weight:600}
+.item span{display:block;font-size:12px;color:var(--mute);margin-top:1px}
+.item .ok{margin-left:auto;color:var(--up);font-size:14px;opacity:0}
+.item.seen .ok{opacity:1}
+.empty{color:var(--mute);font-size:14px;padding:14px 6px}
+#view{padding:18px 22px 60px;min-width:0}
+.back{display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:14px;margin-bottom:12px;font-family:var(--mono);font-weight:700;letter-spacing:.04em}
+.back:hover{border-color:var(--line3)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
+h1{font-family:var(--mono);font-weight:800;letter-spacing:.03em;font-size:clamp(24px,4.4vw,36px);margin:4px 0 6px;text-transform:uppercase;line-height:1.15}
+.lead{color:var(--soft);margin:0 0 14px;font-size:15.5px;line-height:1.5;max-width:760px}
+.player{background:var(--chart);border:1px solid var(--line);border-radius:16px;overflow:hidden;max-width:780px}
+.cwrap{position:relative;cursor:pointer}
+canvas{display:block;width:100%;aspect-ratio:540/400}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;transition:opacity .25s}
+.overlay.show{opacity:1}
+.overlay div{background:var(--veil);border:1px solid var(--line2);border-radius:999px;padding:12px 18px;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.06em}
+.caption{padding:12px 16px 4px;min-height:84px;border-top:1px solid var(--line)}
+.caption .no{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.14em}
+.caption p{margin:5px 0 0;font-size:15.5px;line-height:1.45}
+.ctrl{display:flex;align-items:center;gap:8px;padding:8px 12px 6px}
+.cb{background:var(--card);border:1px solid var(--line);border-radius:9px;min-width:40px;height:38px;padding:0 10px;font-family:var(--mono);font-size:14px;font-weight:700;flex:none}
+.cb:hover{border-color:var(--line3)}
+#seek{flex:1;min-width:60px;accent-color:var(--down);height:28px}
+.time{font-family:var(--mono);font-size:11.5px;color:var(--mute);flex:none;min-width:74px;text-align:right}
+.row2{display:flex;align-items:center;gap:8px;padding:2px 12px 14px;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.chip{background:none;border:1px solid var(--line);border-radius:999px;min-width:32px;height:30px;padding:0 10px;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--mute)}
+.chip.on{border-color:var(--gold);color:var(--gold)}
+.chip.done{color:var(--text)}
+.speed{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;gap:2px}
+.speed button{border:0;background:none;border-radius:999px;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--mute);height:26px;padding:0 9px}
+.speed button.on{background:var(--line2);color:var(--text)}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:16px;max-width:900px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.box h3{margin:0 0 8px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.box p,.box li{font-size:14.5px;line-height:1.5;color:var(--soft2);margin:0}
+.box ul{margin:0;padding-left:18px}.box li{margin:3px 0}
+.box.g h3{color:var(--up)}.box.y h3{color:var(--gold)}.box.b h3{color:var(--blue)}.box.r h3{color:var(--down)}
+.pn{display:flex;justify-content:space-between;gap:10px;margin-top:18px;max-width:900px}
+.pn button{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;font-size:14px;min-width:0}
+.pn button:last-child{text-align:right}
+.pn small{display:block;color:var(--mute);font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;margin-bottom:3px}
+.pn button:disabled{opacity:.35;cursor:default}
+.disc{color:var(--mute);font-size:12px;margin-top:22px;max-width:900px;line-height:1.5}
+.home{max-width:960px}
+.bigtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:18px}
+.big{position:relative;overflow:hidden;text-align:left;background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;min-height:172px;display:flex;flex-direction:column;transition:transform .15s,border-color .15s;color:var(--text);text-decoration:none}
+.big:hover{transform:translateY(-2px);border-color:var(--acc)}
+.big::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--acc)}
+.big::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%);pointer-events:none}
+.big .bi{position:absolute;right:14px;top:16px;color:var(--acc);z-index:1}
+.big h2{font-family:var(--mono);font-weight:800;font-size:clamp(17px,1.6vw + 6px,21px);letter-spacing:.03em;text-transform:uppercase;margin:0 70px 8px 0;line-height:1.2;color:var(--acc)}
+.big p{margin:0 0 14px;color:var(--soft);font-size:14.5px;line-height:1.45;max-width:85%}
+.big .ft{margin-top:auto;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.big .pb{flex:1;height:5px;background:var(--line);border-radius:9px;overflow:hidden}.big .pb i{display:block;height:100%;background:var(--acc)}
+.big .go{color:var(--acc);font-size:16px;font-weight:800}
+.big.small{min-height:0}
+.lcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:16px;max-width:960px}
+.lc{display:flex;align-items:center;gap:12px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.lc:hover{border-color:var(--acc)}
+.lc .ic{width:48px;height:48px;flex:none;border-radius:10px;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-weight:800;font-size:17px;color:var(--acc)}
+.lc small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--mute)}
+.lc b{display:block;font-size:16px;margin:2px 0}
+.lc span{display:block;font-size:13px;color:var(--mute)}
+.lc .ok{margin-left:auto;color:var(--up);font-size:18px;flex:none}
+.start{margin-top:6px;background:var(--acc,var(--up));color:var(--bg);border:0;border-radius:12px;padding:13px 20px;font-weight:800;font-size:15px}
+.ahead{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ahead .apb{flex:1;min-width:160px;max-width:300px;height:6px;background:var(--line);border-radius:9px;overflow:hidden}.ahead .apb i{display:block;height:100%;background:var(--acc)}
+.ahead span{font-family:var(--mono);font-size:12px;color:var(--mute)}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;max-width:760px}
+.qtop{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--mute);margin-bottom:8px}
+.qbar{height:5px;background:var(--line);border-radius:9px;overflow:hidden;margin-bottom:14px}.qbar i{display:block;height:100%;background:var(--gold)}
+.qtag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;border:1px solid var(--line2);border-radius:999px;padding:3px 8px;color:var(--mute);margin-bottom:8px}
+.qq{font-size:18px;font-weight:700;line-height:1.4;margin:0 0 12px}
+.qcv{max-width:620px;border-radius:12px;overflow:hidden;border:1px solid var(--line);margin-bottom:12px;background:var(--chart)}
+.opts{display:grid;gap:8px}
+.opt{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 14px;text-align:left;font-size:15.5px;line-height:1.35}
+.opt:hover:not(:disabled){border-color:var(--line3)}
+.opt.ok{border-color:var(--up);background:rgba(31,207,143,.12)}
+.opt.bad{border-color:var(--down);background:rgba(240,96,93,.12)}
+.opt:disabled{cursor:default}
+.fb{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);font-size:14.5px;line-height:1.5}
+.fb b{font-family:var(--mono)}
+.qnav{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.qnav button{flex:1;min-width:140px;border-radius:12px;padding:12px;font-weight:700;border:1px solid var(--line);background:var(--panel)}
+.qnav .main{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.score{font-family:var(--mono);font-size:54px;font-weight:800;margin:6px 0}
+.rep{display:grid;gap:8px;margin-top:10px}
+.calc{margin-top:16px;max-width:900px}
+.calc h3{color:var(--orange) !important}
+.calc .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{font-size:12px;color:var(--mute);font-family:var(--mono);letter-spacing:.06em}
+.calc input,.calc select{width:100%;margin-top:4px;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;font-size:16px}
+.calc .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.calc .res div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px}
+.calc .res span{display:block;font-size:11.5px;color:var(--mute);font-family:var(--mono)}
+.calc .res b{font-family:var(--mono);font-size:18px}
+.calc .note{font-size:12.5px;color:var(--mute);margin-top:8px}
+@media (max-width:860px){
+  main{grid-template-columns:1fr}
+  #nav{display:none}
+  #view{padding:14px 12px 50px}
+  .bar{width:64px}
+  .theme button .tl{display:none}
+  .theme button{padding:6px 9px}
+  .brand small{display:none}
+  header{gap:8px;padding-left:12px;padding-right:12px}
+  .prog{margin-left:4px}
+}
+@media (max-width:380px){ .time{display:none} }
+</style>
+</head>
+<body>
+<header>
+  <svg class="logo" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#0f1620"/><rect x="4" y="11" width="11" height="12" rx="2.5" fill="none" stroke="#4c9aff" stroke-width="2.2"/><rect x="19" y="11" width="11" height="12" rx="2.5" fill="#f5c542"/><line x1="15" y1="17" x2="19" y2="17" stroke="#4c9aff" stroke-width="2.2"/></svg>
+  <div class="brand" id="brand">KRYPTO-SCHULE<small>BAYAZIT · KRYPTO VERSTEHEN</small></div>
+  <div class="theme" role="group" aria-label="Darstellung"><button data-m="dark" title="Dunkel">☾<span class="tl"> Dunkel</span></button><button data-m="light" title="Hell">☀<span class="tl"> Hell</span></button><button data-m="auto" title="Automatisch">◐<span class="tl"> Auto</span></button></div>
+  <div class="prog"><span id="progtxt">0 / 0</span><div class="bar"><i id="progbar"></i></div></div>
+</header>
+<main>
+  <nav id="nav">
+    <input id="search" placeholder="Lektion suchen … z. B. Hebel" autocomplete="off" aria-label="Lektion suchen">
+    <div id="list"></div>
+  </nav>
+  <section id="view"></section>
+</main>
+<script>
+"use strict";
+/* ================= Farben ================= */
+const THEMES={
+ dark:{bg:'#020407',grid:'#111a24',card:'#0f1620',line:'#2a3647',text:'#e6ecf3',soft:'#b9c4d2',mute:'#7f8b9c',up:'#1fcf8f',down:'#f0605d',gold:'#f5c542',blue:'#4c9aff',purple:'#b388ff',orange:'#ff9f43',pillBg:'rgba(2,4,7,.9)',onTag:'#05080d'},
+ light:{bg:'#ffffff',grid:'#e6ebf2',card:'#f3f6fa',line:'#c9d2de',text:'#131a26',soft:'#3d4757',mute:'#5d6879',up:'#087f5b',down:'#c62f2c',gold:'#946200',blue:'#1a66c9',purple:'#7445cc',orange:'#b45000',pillBg:'rgba(255,255,255,.95)',onTag:'#ffffff'}};
+const C=Object.assign({},THEMES.dark);
+let THEME='dark';
+function setCanvasTheme(t){THEME=t;Object.assign(C,THEMES[t]||THEMES.dark);}
+const MONO="'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace";
+const SANS="'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif";
+const W=540,H=400;
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const P=(t,a,b)=>ease(clamp((t-a)/(b-a)));
+const PL_=(t,a,b)=>clamp((t-a)/(b-a));
+const L=(a,b,p)=>a+(b-a)*p;
+function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+const de=(n,d=0)=>Number(n).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});
+const nz=(i,s=1)=>{const v=Math.sin(i*12.9898+s*78.233)*43758.5453;return v-Math.floor(v);};
+function hx(n,len=16){let x=(n*2654435761+97)>>>0,s='';for(let i=0;i<len;i++){x^=x<<13;x>>>=0;x^=x>>>17;x^=x<<5;x>>>=0;s+='0123456789abcdef'[x&15];}return s;}
+
+/* ================= Zeichen-Helfer ================= */
+let X=null;
+function A(a,fn){if(a<=0.001)return;X.save();X.globalAlpha*=Math.min(1,a);fn();X.restore();}
+function rrp(x,y,w,h,r){r=Math.max(0,Math.min(r,w/2,h/2));X.beginPath();X.moveTo(x+r,y);X.arcTo(x+w,y,x+w,y+h,r);X.arcTo(x+w,y+h,x,y+h,r);X.arcTo(x,y+h,x,y,r);X.arcTo(x,y,x+w,y,r);X.closePath();}
+function box(x,y,w,h,o={}){rrp(x,y,w,h,o.r??10);if(o.f){X.fillStyle=o.f;X.fill();}if(o.s){X.lineWidth=o.lw||2;X.strokeStyle=o.s;if(o.dash)X.setLineDash(o.dash);X.stroke();X.setLineDash([]);}}
+function font(o){return `${o.b||700} ${o.sz||17}px ${o.mono===false?SANS:MONO}`;}
+function T(s,x,y,o={}){X.font=font(o);X.fillStyle=o.c||C.text;X.textAlign=o.al||'center';X.textBaseline=o.bl||'middle';X.fillText(s,x,y);}
+function tw(s,o={}){X.font=font(o);return X.measureText(s).width;}
+function wrapT(s,x,y,maxW,lh,o={}){X.font=font(o);const words=s.split(' ');let line='',yy=y;const lines=[];for(const w of words){const test=line?line+' '+w:w;if(X.measureText(test).width>maxW&&line){lines.push(line);line=w;}else line=test;}if(line)lines.push(line);lines.forEach((l,i)=>T(l,x,yy+i*lh,o));return lines.length;}
+function pill(s,x,y,c,o={}){const sz=o.sz||14;X.font=`800 ${sz}px ${MONO}`;const w=X.measureText(s).width+sz*1.3,h=sz*2;const x0=o.al==='left'?x:o.al==='right'?x-w:x-w/2;box(x0,y-h/2,w,h,{r:h/2,f:o.solid?c:C.pillBg,s:c,lw:2});T(s,x0+w/2,y+1,{sz,c:o.solid?C.onTag:c,b:800});return w;}
+function arrow(x1,y1,x2,y2,c,p=1,o={}){if(p<=0.001)return;const x=L(x1,x2,p),y=L(y1,y2,p);X.strokeStyle=c;X.lineWidth=o.lw||3;X.lineCap='round';if(o.dash)X.setLineDash(o.dash);X.beginPath();X.moveTo(x1,y1);X.lineTo(x,y);X.stroke();X.setLineDash([]);const a=Math.atan2(y2-y1,x2-x1),hs=o.head||11;X.fillStyle=c;X.beginPath();X.moveTo(x+Math.cos(a)*2,y+Math.sin(a)*2);X.lineTo(x-hs*Math.cos(a-.45),y-hs*Math.sin(a-.45));X.lineTo(x-hs*Math.cos(a+.45),y-hs*Math.sin(a+.45));X.closePath();X.fill();}
+function line(x1,y1,x2,y2,c,lw=2,dash){X.strokeStyle=c;X.lineWidth=lw;if(dash)X.setLineDash(dash);X.beginPath();X.moveTo(x1,y1);X.lineTo(x2,y2);X.stroke();X.setLineDash([]);}
+function circ(x,y,r,o={}){X.beginPath();X.arc(x,y,Math.max(0,r),0,Math.PI*2);if(o.f){X.fillStyle=o.f;X.fill();}if(o.s){X.lineWidth=o.lw||2;X.strokeStyle=o.s;X.stroke();}}
+function poly(pts,c,lw=3,p=1){if(pts.length<2||p<=0)return;let tot=0;const seg=[];for(let i=1;i<pts.length;i++){const d=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);seg.push(d);tot+=d;}let rem=tot*clamp(p);X.strokeStyle=c;X.lineWidth=lw;X.lineJoin='round';X.lineCap='round';X.beginPath();X.moveTo(pts[0][0],pts[0][1]);let end=pts[0];for(let i=1;i<pts.length&&rem>0;i++){const d=seg[i-1];if(rem>=d){X.lineTo(pts[i][0],pts[i][1]);end=pts[i];rem-=d;}else{const f=rem/d;end=[L(pts[i-1][0],pts[i][0],f),L(pts[i-1][1],pts[i][1],f)];X.lineTo(end[0],end[1]);rem=0;}}X.stroke();return end;}
+function check(x,y,s,c,lw=4){X.strokeStyle=c;X.lineWidth=lw;X.lineCap='round';X.lineJoin='round';X.beginPath();X.moveTo(x-s*.5,y);X.lineTo(x-s*.15,y+s*.35);X.lineTo(x+s*.5,y-s*.4);X.stroke();}
+function cross(x,y,s,c,lw=4){X.strokeStyle=c;X.lineWidth=lw;X.lineCap='round';X.beginPath();X.moveTo(x-s/2,y-s/2);X.lineTo(x+s/2,y+s/2);X.moveTo(x+s/2,y-s/2);X.lineTo(x-s/2,y+s/2);X.stroke();}
+function coin(x,y,r,sym='₿',c=C.gold){circ(x,y,r,{f:c});circ(x,y,r*.76,{s:hexA(C.bg,.55),lw:Math.max(1.2,r*.08)});T(sym,x,y+1,{sz:Math.round(r*1.05),c:C.bg,b:800,mono:false});}
+function person(x,y,s,c){circ(x,y-s*.42,s*.3,{f:c});X.beginPath();X.arc(x,y+s*.62,s*.6,Math.PI,0);X.closePath();X.fillStyle=c;X.fill();}
+function keyI(x,y,s,c){const lw=Math.max(2.5,s*.13);circ(x-s*.42,y,s*.27,{s:c,lw});X.strokeStyle=c;X.lineWidth=lw;X.lineCap='round';X.beginPath();X.moveTo(x-s*.15,y);X.lineTo(x+s*.62,y);X.moveTo(x+s*.4,y);X.lineTo(x+s*.4,y+s*.26);X.moveTo(x+s*.6,y);X.lineTo(x+s*.6,y+s*.2);X.stroke();}
+function lockI(x,y,s,c,open=false){X.strokeStyle=c;X.lineWidth=Math.max(2.5,s*.12);X.beginPath();if(open)X.arc(x+s*.3,y-s*.18,s*.27,Math.PI,0);else X.arc(x,y-s*.18,s*.27,Math.PI,0);X.stroke();box(x-s*.42,y-s*.18,s*.84,s*.62,{f:c,r:s*.1});circ(x,y+s*.1,s*.08,{f:C.bg});}
+function gear(x,y,r,a,c){X.save();X.translate(x,y);X.rotate(a);X.fillStyle=c;for(let i=0;i<8;i++){X.rotate(Math.PI/4);X.fillRect(-r*.16,-r*1.18,r*.32,r*.4);}circ(0,0,r,{f:c});circ(0,0,r*.42,{f:C.bg});X.restore();}
+function bookI(x,y,s,c){box(x-s*.5,y-s*.4,s,s*.8,{s:c,lw:2,r:3});line(x,y-s*.4,x,y+s*.4,c,2);}
+function shield(x,y,w,h,c,a=1){X.save();X.globalAlpha*=a;X.strokeStyle=c;X.lineWidth=3;X.fillStyle=hexA(c,.08);X.beginPath();X.moveTo(x,y-h/2);X.quadraticCurveTo(x+w/2,y-h/2+10,x+w/2,y-h/2+18);X.quadraticCurveTo(x+w/2,y+h*.18,x,y+h/2);X.quadraticCurveTo(x-w/2,y+h*.18,x-w/2,y-h/2+18);X.quadraticCurveTo(x-w/2,y-h/2+10,x,y-h/2);X.closePath();X.fill();X.stroke();X.restore();}
+function burst(x,y,p,c){if(p<=0||p>=1)return;A(1-p,()=>{for(let i=0;i<10;i++){const a=i/10*Math.PI*2,r1=8+p*14,r2=14+p*34;line(x+Math.cos(a)*r1,y+Math.sin(a)*r1,x+Math.cos(a)*r2,y+Math.sin(a)*r2,c,3);}circ(x,y,6+p*10,{s:c,lw:3});});}
+function bg(){X.fillStyle=C.bg;X.fillRect(0,0,W,H);X.fillStyle=C.grid;for(let x=18;x<W;x+=36)for(let y=18;y<H;y+=36)X.fillRect(x-1,y-1,2,2);}
+function header(x,y,w,h,txt,c){box(x,y,w,h,{f:c,r:10});X.fillStyle=c;X.fillRect(x,y+h/2,w,h/2);T(txt,x+w/2,y+h/2+1,{sz:13,c:C.onTag,b:800});}
+function yMap(min,max,y0,y1){return v=>y1-(v-min)/(max-min)*(y1-y0);}
+
+/* ================= Bereiche ================= */
+const AREAS=[
+ {id:'chain',name:'Blockchain',acc:'blue',desc:'Wie Blöcke, Hashes und Mining zusammen ein fälschungssicheres Kassenbuch bilden.',icon:'chain'},
+ {id:'wallet',name:'Wallets',acc:'purple',desc:'Schlüssel, Seed-Phrase und wie du deine Coins wirklich sicher aufbewahrst.',icon:'wallet'},
+ {id:'boerse',name:'Börsen',acc:'up',desc:'Orderbuch, Ordertypen und dein erster Kauf – Schritt für Schritt.',icon:'book'},
+ {id:'futures',name:'Futures',acc:'orange',desc:'Perpetuals, Long & Short, Funding Rate und Open Interest.',icon:'fut'},
+ {id:'hebel',name:'Hebel & Liquidation',acc:'down',desc:'Warum Hebel Gewinne UND Verluste vervielfacht – und wann du liquidiert wirst.',icon:'lever'},
+ {id:'steuer',name:'Steuern (DE)',acc:'gold',desc:'Haltefrist, Freigrenze, FIFO und wie Futures versteuert werden.',icon:'para'}
+];
+const AREA=Object.fromEntries(AREAS.map(a=>[a.id,a]));
+const ICONS={
+ chain:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="3" y="14" width="14" height="18" rx="3"/><rect x="29" y="14" width="14" height="18" rx="3" fill="currentColor" fill-opacity=".25"/><path d="M17 23h12"/><path d="M8 20h4M8 25h4M34 20h4M34 25h4"/></svg>',
+ wallet:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="12" width="34" height="24" rx="4"/><path d="M9 12l20-7 3 7"/><rect x="28" y="20" width="12" height="8" rx="3" fill="currentColor" fill-opacity=".25"/><circle cx="33" cy="24" r="1.6" fill="currentColor"/></svg>',
+ book:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 8h22M24 14h16M14 20h26"/><path d="M6 27h20M6 33h26M6 39h14" opacity=".6"/></svg>',
+ fut:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 38V8M6 16l8-8 8 8"/><path d="M32 8v30M24 30l8 8 8-8"/></svg>',
+ lever:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 34L42 16"/><path d="M18 38l5-10 5 10z" fill="currentColor" fill-opacity=".25"/><rect x="4" y="27" width="8" height="8" rx="1.5"/><path d="M38 6v8M34 10h8"/></svg>',
+ para:'<svg width="46" height="46" viewBox="0 0 46 46"><text x="23" y="34" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="32" fill="currentColor">§</text></svg>',
+ quiz:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="23" cy="23" r="18"/><path d="M17 18a6 6 0 1 1 8.5 5.4c-1.6.8-2.5 2-2.5 3.6v1" stroke-linecap="round"/><circle cx="23" cy="33" r="1.8" fill="currentColor"/></svg>',
+ chart:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke-width="2.4"><path d="M13 6v34" stroke="#f0605d"/><rect x="8" y="14" width="10" height="14" rx="1.5" fill="#f0605d"/><path d="M32 4v36" stroke="#1fcf8f"/><rect x="27" y="10" width="10" height="20" rx="1.5" fill="#1fcf8f"/></svg>'
+};
+
+/* ================= Lektionen ================= */
+const LESSONS=[];const add=o=>LESSONS.push(o);
+
+/* ---------- BLOCKCHAIN ---------- */
+add({id:'kassenbuch',area:'chain',title:'Das Kassenbuch für alle',sub:'Was ist eine Blockchain?',
+ lead:'Eine Blockchain ist ein Kassenbuch, das nicht einer Bank gehört, sondern bei tausenden Teilnehmern gleichzeitig liegt.',
+ total:15500,steps:[
+  {at:0,text:'Früher führt EINE Stelle das Kassenbuch – zum Beispiel eine Bank. Alle müssen ihr vertrauen.'},
+  {at:4000,text:'Bei einer Blockchain hat JEDER Teilnehmer (Knoten) eine vollständige Kopie des Kassenbuchs.'},
+  {at:8000,text:'Anna schickt Ben 0,5 BTC. Die Nachricht verbreitet sich in Sekunden an alle Knoten.'},
+  {at:11800,text:'Alle prüfen die Zahlung und tragen sie ein – alle Kopien sind wieder gleich. Niemand kann heimlich etwas ändern.'}],
+ draw(t){bg();
+  const a1=1-P(t,3400,4100),a2=P(t,3900,4600),cx=270,cy=200;
+  A(a1,()=>{const bx=270,by=185;
+   X.fillStyle=C.blue;X.beginPath();X.moveTo(bx-82,by-40);X.lineTo(bx,by-86);X.lineTo(bx+82,by-40);X.closePath();X.fill();
+   box(bx-70,by-38,140,88,{f:C.card,s:C.blue});
+   for(let i=0;i<4;i++)box(bx-55+i*32,by-28,14,68,{f:hexA(C.blue,.35),r:3});
+   pill('BANK',bx,by+76,C.blue,{solid:true});
+   [[78,78,'Anna'],[462,78,'Ben'],[78,300,'Cem'],[462,300,'Dana']].forEach(([x,y,n],i)=>{const p=P(t,200+i*250,1000+i*250);A(p,()=>{person(x,y,30,C.soft);T(n,x,y+40,{sz:15,c:C.soft});const tx=x<bx?bx-74:bx+74,ty=y<by?by-30:by+30;arrow(x+(x<bx?32:-32),y+(y<by?6:-6),tx,ty,C.mute,p,{dash:[6,6],lw:2});});});
+   const c=P(t,2300,2900);A(c,()=>{cross(bx,by+5,56*c,C.down,9);pill('EIN ANGRIFFSPUNKT',bx,372,C.down);});});
+  A(a2,()=>{const R=128,N=[];for(let i=0;i<6;i++){const a=-Math.PI/2+i*Math.PI/3;N.push([cx+Math.cos(a)*R,cy+Math.sin(a)*R]);}
+   for(let i=0;i<6;i++)for(let j=i+1;j<6;j++)line(N[i][0],N[i][1],N[j][0],N[j][1],hexA(C.mute,.28),1.5);
+   const hop1=[[0,1],[0,5],[0,3]],hop2=[[1,2],[5,4]];
+   const recv=i=>i===0?t>=8200:([1,5,3].includes(i)?t>=9600:t>=10900);
+   hop1.forEach(([a,b])=>{const p=PL_(t,8400,9600);if(p>0&&p<1)circ(L(N[a][0],N[b][0],p),L(N[a][1],N[b][1],p),7,{f:C.gold});});
+   hop2.forEach(([a,b])=>{const p=PL_(t,9700,10900);if(p>0&&p<1)circ(L(N[a][0],N[b][0],p),L(N[a][1],N[b][1],p),7,{f:C.gold});});
+   N.forEach(([x,y],i)=>{const r=recv(i);box(x-36,y-26,72,52,{f:C.card,s:r?C.gold:C.line,lw:r?2.5:2});
+    for(let k=0;k<3;k++)line(x-22,y-14+k*8,x+22,y-14+k*8,C.mute,3);
+    if(r)A(P(t,i===0?8200:(i===1||i===5||i===3)?9600:10900,(i===0?8200:(i===1||i===5||i===3)?9600:10900)+400),()=>line(x-22,y+12,x+12,y+12,C.gold,3.5));
+    const ck=P(t,11900+i*120,12400+i*120);A(ck,()=>{circ(x+34,y-24,11,{f:C.up});check(x+34,y-24,12,C.onTag,3);});});
+   A(P(t,4300,4900)*(1-P(t,7800,8200)),()=>pill('JEDER HAT EINE KOPIE',cx,cy,C.blue));
+   A(P(t,8000,8400),()=>pill('Anna → Ben · 0,5 BTC',cx,22,C.gold,{solid:true}));
+   A(P(t,12600,13200),()=>pill('ALLE KOPIEN GLEICH ✓',cx,cy,C.up,{solid:true}));});
+ },
+ box:{was:'Eine Blockchain ist eine Datenbank, die als Kette von Blöcken gespeichert und auf tausenden Computern (Knoten) gleichzeitig geführt wird.',
+  erkennen:['Kein Chef: Niemand allein kontrolliert das Kassenbuch','Jeder Knoten hat eine vollständige Kopie','Neue Einträge werden von allen geprüft'],
+  bedeutung:'Du musst keiner Bank vertrauen – sondern nur den offenen Regeln, die alle Knoten gemeinsam einhalten.',
+  tipp:'Bitcoin läuft auf über 15.000 öffentlich erreichbaren Knoten weltweit. Du kannst sogar selbst einen betreiben.'}});
+
+add({id:'block',area:'chain',title:'Was steckt in einem Block?',sub:'Kopf, Transaktionen und Hash',
+ lead:'Ein Block ist wie eine Seite im Kassenbuch. Schau zu, wie er sich Zeile für Zeile füllt.',
+ total:14500,steps:[
+  {at:0,text:'Ein Block hat einen KOPF (oben) und einen INHALT (unten).'},
+  {at:2800,text:'Der Inhalt: viele Transaktionen – bei Bitcoin oft mehrere Tausend pro Block.'},
+  {at:6500,text:'Im Kopf stehen Blocknummer, Zeitpunkt und – ganz wichtig – der Hash des VORHERIGEN Blocks.'},
+  {at:10000,text:'Aus allem zusammen wird der eigene HASH berechnet: der Fingerabdruck dieses Blocks.'}],
+ draw(t){bg();const x=60,y=18,w=420,h=366;
+  box(x,y,w,h,{f:C.card,s:t>=10000?C.gold:C.blue,lw:t>=10000?3:2});header(x,y,w,34,'BLOCK #900.123 · BEISPIEL',C.blue);
+  T('KOPF',x+18,y+56,{sz:12,c:C.mute,al:'left'});
+  const rows=[['Nummer','#900.123'],['Zeit','17.11.2026 · 14:32'],['Vorheriger Hash','0000…a91f']];
+  rows.forEach(([k,v],i)=>{const p=P(t,6600+i*650,7200+i*650);A(p,()=>{const yy=y+82+i*28;if(i===2)box(x+10,yy-13,w-20,26,{f:hexA(C.gold,.12),r:6});T(k,x+18,yy,{sz:15,c:C.soft,al:'left',mono:false,b:600});T(v,x+w-18+(1-p)*30,yy,{sz:15,al:'right',c:i===2?C.gold:C.text});});});
+  line(x+12,y+170,x+w-12,y+170,C.line,1.5);
+  T('INHALT · TRANSAKTIONEN',x+18,y+190,{sz:12,c:C.mute,al:'left'});
+  const tx=[['Anna → Ben','0,5 BTC'],['Cem → Dana','0,02 BTC'],['Eva → Finn','1,2 BTC']];
+  tx.forEach(([a,b],i)=>{const p=P(t,2900+i*700,3500+i*700);A(p,()=>{const yy=y+216+i*28;T(a,x+18+(1-p)*40,yy,{sz:15,al:'left',mono:false,b:600});T(b,x+w-18,yy,{sz:15,al:'right',c:C.up});});});
+  A(P(t,5000,5600),()=>T('… + 2.413 weitere',x+18,y+300,{sz:14,al:'left',c:C.mute}));
+  line(x+12,y+318,x+w-12,y+318,C.line,1.5);
+  const hp=PL_(t,10000,11600);
+  if(t<10000)T('HASH: noch offen …',x+w/2,y+344,{sz:15,c:C.mute});
+  else{const v=hp<1?hx(Math.floor(t/60),4)+'…'+hx(Math.floor(t/45),4):'0000…7c2e';T('HASH',x+18,y+344,{sz:15,al:'left',c:C.gold,b:800});T(v,x+w-18,y+344,{sz:17,al:'right',c:C.gold,b:800});}
+  A(P(t,11700,12300),()=>pill('FINGERABDRUCK',x+w/2,y+h-6,C.gold,{solid:true}));
+ },
+ box:{was:'Ein Block bündelt viele Transaktionen und einen Kopf mit Verwaltungsdaten. Bei Bitcoin entsteht etwa alle 10 Minuten ein neuer Block.',
+  erkennen:['Kopf: Nummer, Zeitpunkt, Hash des Vorgängers','Inhalt: die Transaktionen','Eigener Hash: Fingerabdruck über alles'],
+  bedeutung:'Weil jeder Block den Hash seines Vorgängers enthält, hängen alle Blöcke fest zusammen – das ist die „Kette“.',
+  tipp:'Mit einem Block-Explorer (z. B. mempool.space) kannst du dir jeden echten Bitcoin-Block live ansehen.'}});
+
+add({id:'hash',area:'chain',title:'Der Hash: ein Fingerabdruck',sub:'Kleine Änderung, völlig anderes Ergebnis',
+ lead:'Eine Hash-Funktion macht aus beliebigen Daten einen kurzen Fingerabdruck. Schon ein einziges geändertes Zeichen verändert alles.',
+ total:16000,steps:[
+  {at:0,text:'Die Eingabe läuft durch die Hash-Funktion (bei Bitcoin: SHA-256) …'},
+  {at:2600,text:'… heraus kommt ein Fingerabdruck mit fester Länge.'},
+  {at:4800,text:'Gleiche Eingabe → immer exakt derselbe Hash. Jeder Computer der Welt kommt auf dasselbe Ergebnis.'},
+  {at:7200,text:'Jetzt ändern wir nur EIN Zeichen: 0,5 wird zu 0,6 …'},
+  {at:9600,text:'… und es entsteht ein KOMPLETT anderer Hash. Jede Manipulation fällt sofort auf.'},
+  {at:13000,text:'Und: Aus dem Hash kann niemand die Daten zurückrechnen. Es geht nur in eine Richtung.'}],
+ draw(t){bg();const changed=t>=7600;
+  box(40,28,460,58,{f:C.card,s:changed?C.down:C.line});
+  const pre='Anna → Ben 0,',dg=changed?'6':'5',post=' BTC';const o={sz:21,b:800};const full=pre+dg+post,fw=tw(full,o),sx=270-fw/2;
+  T(pre,sx,57,{...o,al:'left'});const dx=sx+tw(pre,o);T(dg,dx,57,{...o,al:'left',c:changed?C.down:C.text});T(post,dx+tw(dg,o),57,{...o,al:'left'});
+  if(t>=7200&&t<9600)A(P(t,7200,7600),()=>circ(dx+tw(dg,o)/2,57,17,{s:C.down,lw:3}));
+  T('EINGABE',48,18,{sz:11,c:C.mute,al:'left'});
+  arrow(270,90,270,138,C.mute,1,{lw:3});
+  const spin=(t<2600||(t>4800&&t<5800)||(t>7700&&t<9600))?t/140:0;
+  box(165,142,210,60,{f:C.card,s:C.blue,lw:2.5});gear(205,172,13,spin,C.blue);T('SHA-256',290,172,{sz:19,c:C.blue,b:800});
+  arrow(270,206,270,250,C.mute,1,{lw:3});
+  T('HASH (FINGERABDRUCK)',28,244,{sz:11,c:C.mute,al:'left'});
+  const h1='3f9a 6c1e 88b2 … d04c',h2='a71d 02fe 5c93 … 6b18';
+  let hv='',hc=C.gold;
+  if(t<1400)hv='';else if(t<2600)hv=hx(Math.floor(t/50),4)+' '+hx(Math.floor(t/70),4)+' … '+hx(Math.floor(t/40),4);
+  else if(t<7700)hv=h1;else if(t<9600){hv=hx(Math.floor(t/50),4)+' '+hx(Math.floor(t/70),4)+' … '+hx(Math.floor(t/40),4);hc=C.mute;}else{hv=h2;hc=C.down;}
+  box(24,254,492,58,{f:C.card,s:t>=9600?C.down:(t>=2600?C.gold:C.line),lw:2.5});
+  if(hv)T(hv,270,284,{sz:21,c:hc,b:800});
+  A(P(t,4900,5400)*(1-P(t,7100,7400)),()=>pill('✓ IMMER GLEICH',270,350,C.up));
+  A(P(t,9700,10200)*(1-P(t,12800,13100)),()=>pill('KOMPLETT ANDERS!',270,350,C.down,{solid:true}));
+  A(P(t,13000,13600),()=>{arrow(522,282,522,64,C.down,1,{lw:3,dash:[7,6]});circ(522,172,14,{f:C.bg});cross(522,172,16,C.down,4);pill('KEIN ZURÜCK',270,350,C.down);});
+ },
+ box:{was:'Eine Hash-Funktion berechnet aus beliebigen Daten eine Zeichenkette fester Länge. Bitcoin nutzt SHA-256 (256 Bit = 64 Hex-Zeichen).',
+  erkennen:['Gleiche Eingabe → immer gleicher Hash','Winzige Änderung → komplett anderer Hash','Kein Rückweg: Aus dem Hash folgt nicht die Eingabe'],
+  bedeutung:'Hashes machen Manipulation sofort sichtbar – das Fundament jeder Blockchain.',
+  tipp:'Hashes werden auch bei Passwörtern genutzt: Webseiten speichern meist nur den Hash, nicht dein Passwort.'}});
+
+const KB=[{d:'A→B 0,5',p:'0000',h:'7a3f'},{d:'C→D 1,2',p:'7a3f',h:'c91e'},{d:'E→F 0,8',p:'c91e',h:'4b2d'},{d:'G→H 2,0',p:'4b2d',h:'e80a'}];
+add({id:'kette',area:'chain',title:'Blöcke bauen die Kette',sub:'Warum niemand die Vergangenheit fälschen kann',
+ lead:'Jeder Block speichert den Hash seines Vorgängers. Schau zu, wie die Kette wächst – und was passiert, wenn ein Betrüger etwas ändert.',
+ total:22000,steps:[
+  {at:0,text:'Block 1 – der Anfang der Kette (der „Genesis-Block“).'},
+  {at:3400,text:'Block 2 speichert unter VORHER den Hash von Block 1. Dadurch hängen die beiden fest zusammen.'},
+  {at:7000,text:'Block für Block wächst die Kette. Jeder Block zeigt auf seinen Vorgänger.'},
+  {at:11000,text:'Ein Betrüger ändert eine Zahlung in Block 2: aus 1,2 wird 9,2 BTC …'},
+  {at:14200,text:'… dadurch ändert sich der Hash von Block 2. Er passt nicht mehr zu Block 3 – die Kette ist gebrochen!'},
+  {at:17800,text:'Der Betrüger müsste alle folgenden Blöcke neu berechnen – schneller als das ganze Netzwerk. Praktisch unmöglich.'}],
+ draw(t){bg();const w=108,h=182,gap=24,x0=18,y0=110,app=[200,3600,7100,8500];
+  const tam=t>=11800,bad=t>=14200;
+  for(let i=0;i<4;i++){const p=P(t,app[i],app[i]+900);if(p<=0)continue;const x=x0+i*(w+gap),y=y0-(1-p)*70;
+   A(p,()=>{const broken=bad&&i>=2,hdrC=(bad&&i>=1)?C.down:C.blue;
+    box(x,y,w,h,{f:C.card,s:broken?C.down:(i===1&&tam?C.down:C.line),lw:2.5,dash:broken?[6,5]:null});
+    header(x,y,w,28,'BLOCK '+(i+1),hdrC);
+    T('DATEN',x+w/2,y+46,{sz:11,c:C.mute});
+    const d=(i===1&&tam)?'C→D 9,2':KB[i].d;T(d,x+w/2,y+66,{sz:15,c:(i===1&&tam)?C.down:C.text});
+    T('VORHER',x+w/2,y+96,{sz:11,c:C.mute});
+    T(KB[i].p,x+w/2,y+116,{sz:17,c:(i===2&&bad)?C.down:C.blue,b:800});
+    T('HASH',x+w/2,y+146,{sz:11,c:C.mute});
+    let hh=KB[i].h,hc=C.gold;if(i===1&&tam){if(t<14200){hh=hx(Math.floor(t/60),4);hc=C.mute;}else{hh='52b7';hc=C.down;}}
+    T(hh,x+w/2,y+166,{sz:17,c:hc,b:800});});
+   if(i>0){const lp=P(t,app[i]+700,app[i]+1300);if(lp>0){const xa=x0+(i-1)*(w+gap)+w,ya=y0+166,xb=x0+i*(w+gap),yb=y0+116;const brk=bad&&i===2;
+     X.strokeStyle=brk?C.down:C.blue;X.lineWidth=3;if(brk)X.setLineDash([5,5]);X.beginPath();X.moveTo(xa-6,ya);X.bezierCurveTo(xa+18,ya,xb-18,yb,L(xa-6,xb+2,lp),L(ya,yb,lp));X.stroke();X.setLineDash([]);
+     if(lp>=1){X.fillStyle=brk?C.down:C.blue;X.beginPath();X.moveTo(xb+4,yb);X.lineTo(xb-6,yb-6);X.lineTo(xb-6,yb+6);X.closePath();X.fill();}
+     if(brk){circ((xa+xb)/2,(ya+yb)/2,12,{f:C.bg});cross((xa+xb)/2,(ya+yb)/2,13,C.down,4);}}}}
+  A(P(t,600,1200)*(1-P(t,10800,11200)),()=>pill('GENESIS',x0+w/2,y0+h+26,C.blue));
+  A(P(t,4300,4900)*(1-P(t,10800,11200)),()=>pill('7a3f = 7a3f ✓',x0+w+gap/2,y0+h+60,C.up));
+  const bx=x0+w+gap+w/2;
+  A(P(t,11000,11600),()=>{person(bx-90,48,30,C.down);pill('BETRÜGER',bx+30,48,C.down,{solid:true});arrow(bx,72,bx,104,C.down,P(t,11300,11800),{lw:3});});
+  A(P(t,14400,15000),()=>{[2,3].forEach(i=>pill('UNGÜLTIG',x0+i*(w+gap)+w/2,y0+h+26,C.down));});
+  A(P(t,17900,18600),()=>pill('NETZWERK LEHNT AB ✗',270,y0+h+72,C.down,{solid:true}));
+ },
+ box:{was:'Jeder Block enthält den Hash des vorherigen Blocks. So entsteht eine Kette, in der jeder Block vom gesamten Verlauf davor abhängt.',
+  erkennen:['VORHER eines Blocks = HASH des Vorgängers','Ändert sich ein alter Block, passt der Hash nicht mehr','Alle späteren Blöcke werden dadurch ungültig'],
+  bedeutung:'Je mehr Blöcke nach einer Zahlung kommen, desto sicherer ist sie. Alte Einträge sind praktisch unveränderbar.',
+  tipp:'Darum warten Börsen bei Einzahlungen auf mehrere Bestätigungen – also mehrere Blöcke nach deiner Transaktion.'}});
+
+add({id:'mining',area:'chain',title:'Mining & Proof of Work',sub:'Rätsel lösen für neue Blöcke',
+ lead:'Wer darf den nächsten Block anhängen? Bei Bitcoin entscheidet ein Rechenwettbewerb – das Mining.',
+ total:17500,steps:[
+  {at:0,text:'Miner sammeln wartende Transaktionen in einen neuen Block.'},
+  {at:2800,text:'Um ihn anhängen zu dürfen, müssen sie ein Rätsel lösen: eine Zahl (NONCE) finden, sodass der Hash mit vielen Nullen beginnt.'},
+  {at:6800,text:'Das geht nur durch Ausprobieren – weltweit Trillionen Versuche pro Sekunde.'},
+  {at:10800,text:'Treffer! Der Hash beginnt mit 0000. Alle Knoten prüfen das in Sekundenbruchteilen und hängen den Block an.'},
+  {at:13800,text:'Belohnung für den Gewinner: neue Bitcoin (aktuell 3,125 BTC pro Block) plus die Gebühren aller Transaktionen.'}],
+ draw(t){bg();const found=t>=10800;
+  box(18,24,270,290,{f:C.card,s:found?C.up:C.line,lw:found?3:2});header(18,24,270,32,'NEUER BLOCK',found?C.up:C.blue);
+  ['Anna → Ben 0,5','Cem → Dana 0,02','Eva → Finn 1,2'].forEach((s,i)=>A(P(t,200+i*500,700+i*500),()=>T(s,36,80+i*24,{sz:14,al:'left',mono:false,b:600,c:C.soft})));
+  T('NONCE',36,170,{sz:12,c:C.mute,al:'left'});
+  let n=0;if(t>=3200&&t<6800)n=Math.floor(PL_(t,3200,6800)*3);else if(t>=6800&&t<10800)n=Math.floor(Math.pow(PL_(t,6800,10800),2)*150390);else if(found)n=150391;
+  T(de(n),270,170,{sz:22,al:'right',c:C.text,b:800});
+  T('HASH',36,214,{sz:12,c:C.mute,al:'left'});
+  const hv=found?'0000 9b1c 3e…':(t<3200?'– – –':hx(n+3,4)+' '+hx(n+7,4)+' …');
+  T(hv,36,242,{sz:18,al:'left',c:found?C.up:(t<3200?C.mute:C.down),b:800});
+  if(t>=3200&&!found){cross(262,242,14,C.down,4);}
+  if(found)A(P(t,10800,11200),()=>check(262,242,18,C.up,5));
+  A(P(t,2900,3400),()=>pill('ZIEL: 0000…',153,290,C.gold));
+  T('MINER',420,40,{sz:13,c:C.mute});
+  for(let i=0;i<3;i++){const y=70+i*82;box(352,y,136,62,{f:C.card,s:C.line});const sp=(t>=6800&&!found)?t/60:t/400;
+   for(let k=0;k<2;k++){const fx=390+k*60,fy=y+31;circ(fx,fy,20,{s:C.mute,lw:2});X.save();X.translate(fx,fy);X.rotate(sp+k);X.strokeStyle=C.blue;X.lineWidth=4;for(let j=0;j<3;j++){X.rotate(Math.PI*2/3);X.beginPath();X.moveTo(0,0);X.lineTo(0,-16);X.stroke();}X.restore();}}
+  A(P(t,6900,7400)*(1-P(t,10600,10900)),()=>pill('BILLIONEN VERSUCHE/s',270,352,C.orange));
+  A(P(t,10900,11400)*(1-P(t,13600,13900)),()=>pill('TREFFER ✓',270,352,C.up,{solid:true}));
+  if(t>=13800){const p=P(t,13800,15200);A(1-P(t,15200,15800),()=>coin(L(153,420,p),L(170,150-Math.sin(p*Math.PI)*90,p),18));A(P(t,14800,15300),()=>pill('+3,125 BTC + GEBÜHREN',270,352,C.gold,{solid:true}));}
+ },
+ box:{was:'Mining ist ein Wettrennen: Wer zuerst eine passende Nonce findet, darf den nächsten Block anhängen. Das nennt man Proof of Work (Arbeitsnachweis).',
+  erkennen:['Spezielle Rechner (ASICs) probieren Nonces aus','Ziel: Hash unter einem Grenzwert (viele Nullen vorne)','Die Schwierigkeit passt sich an: im Schnitt alle 10 Minuten ein Block'],
+  bedeutung:'Wer die Kette fälschen will, bräuchte mehr Rechenleistung als alle ehrlichen Miner zusammen – das macht Bitcoin sicher.',
+  tipp:'Ethereum nutzt seit 2022 Proof of Stake: Statt Rechenleistung hinterlegen Teilnehmer Coins als Pfand („Staking“).'}});
+
+add({id:'halving',area:'chain',title:'21 Millionen & Halving',sub:'Warum Bitcoin knapp ist',
+ lead:'Die Gesamtmenge an Bitcoin ist fest begrenzt. Und alle vier Jahre halbiert sich die Menge neuer Coins.',
+ total:17500,steps:[
+  {at:0,text:'Es wird nie mehr als 21 Millionen Bitcoin geben – das ist im Code festgelegt.'},
+  {at:3500,text:'Neue Bitcoin entstehen nur als Mining-Belohnung. 2009 gab es 50 BTC pro Block.'},
+  {at:7000,text:'Alle 210.000 Blöcke (etwa 4 Jahre) halbiert sich die Belohnung: das HALVING.'},
+  {at:11400,text:'Seit April 2024 gibt es 3,125 BTC pro Block. Das nächste Halving wird um 2028 erwartet.'},
+  {at:14500,text:'Die Menge nähert sich langsam den 21 Millionen. Der letzte Bitcoin wird etwa im Jahr 2140 geschürft.'}],
+ draw(t){bg();
+  A(1-P(t,3100,3600),()=>{coin(270,130,46);T('21.000.000',270,230,{sz:44,c:C.gold,b:800});T('BITCOIN – MEHR WIRD ES NIE GEBEN',270,276,{sz:15,c:C.soft});});
+  A(P(t,3300,3900),()=>{const x0=56,x1=512,y0=58,y1=320,yr=v=>x0+(v-2009)/(2033-2009)*(x1-x0);
+   line(x0,y1,x1,y1,C.line,2);
+   [2009,2012,2016,2020,2024,2028,2032].forEach(yv=>T(String(yv),yr(yv),y1+18,{sz:12,c:C.mute}));
+   const eras=[[2009,2012.9,50,'50'],[2012.9,2016.5,25,'25'],[2016.5,2020.4,12.5,'12,5'],[2020.4,2024.3,6.25,'6,25'],[2024.3,2028.3,3.125,'3,125'],[2028.3,2032.3,1.5625,'1,56']];
+   eras.forEach(([a,b,v,lab],i)=>{const st=i===0?3600:7000+(i-1)*800;const p=P(t,st,st+700);if(p<=0)return;const hgt=v/50*240*p,xa=yr(a)+2,xb=yr(b)-2;
+    box(xa,y1-hgt,xb-xa,hgt,{f:i===5?hexA(C.gold,.25):hexA(C.gold,.75),s:i===5?C.gold:null,dash:i===5?[5,4]:null,r:4});
+    A(p,()=>T(lab,(xa+xb)/2,y1-hgt-12,{sz:13,c:C.gold,b:800}));});
+   A(P(t,7100,7600)*(1-P(t,11200,11500)),()=>pill('ALLE ~4 JAHRE ÷ 2',300,34,C.gold));
+   const supply=[[2009,0],[2012.9,10.5],[2016.5,15.75],[2020.4,18.375],[2024.3,19.6875],[2028.3,20.34],[2032.3,20.67]];
+   const ys=v=>y1-v/21*(y1-y0);
+   const pts=supply.map(([a,v])=>[yr(a),ys(v)]);
+   if(t>=11400){poly(pts,C.blue,3.5,P(t,11500,14300));}
+   A(P(t,11500,12000),()=>{const xh=yr(2026.9);line(xh,y0+10,xh,y1,C.soft,1.5,[4,5]);T('HEUTE',xh+5,150,{sz:11,c:C.soft,al:'left'});});
+   A(P(t,14500,15100),()=>{line(x0,y0,x1,y0,C.gold,2,[7,6]);T('21 MIO. BTC',x1,y0-12,{sz:12,c:C.gold,al:'right'});T('Bitcoin-Menge',yr(2020.6),ys(18.4)+24,{sz:13,c:C.blue,al:'left'});});
+   T('Balken: Belohnung pro Block (BTC)',x0,370,{sz:12,c:C.mute,al:'left',mono:false,b:600});
+  });
+ },
+ box:{was:'Bitcoin hat eine feste Höchstmenge von 21 Millionen. Neue Coins entstehen nur durch Mining, und die Belohnung halbiert sich alle 210.000 Blöcke.',
+  erkennen:['2009: 50 BTC · 2012: 25 · 2016: 12,5 · 2020: 6,25 · 2024: 3,125','Halving etwa alle 4 Jahre','Heute sind schon über 19,9 Mio. BTC im Umlauf'],
+  bedeutung:'Das Angebot neuer Bitcoin wird immer knapper. Viele sehen darin den Grund für die Bitcoin-Zyklen.',
+  tipp:'Wenn die Belohnung irgendwann gegen null geht, sollen die Transaktionsgebühren die Miner bezahlen.'}});
+
+/* ---------- WALLETS ---------- */
+add({id:'schluessel',area:'wallet',title:'Privater & öffentlicher Schlüssel',sub:'Das Briefkasten-Prinzip',
+ lead:'Eine Wallet speichert keine Coins – sondern Schlüssel. Die Coins liegen auf der Blockchain.',
+ total:16500,steps:[
+  {at:0,text:'Im Kern deiner Wallet steckt ein PRIVATER SCHLÜSSEL – eine riesige, geheime Zufallszahl.'},
+  {at:3200,text:'Daraus wird der ÖFFENTLICHE SCHLÜSSEL berechnet und daraus deine ADRESSE.'},
+  {at:6800,text:'Das geht nur in eine Richtung: Aus deiner Adresse kann niemand den privaten Schlüssel zurückrechnen.'},
+  {at:10000,text:'Wie ein Briefkasten: Jeder, der die Adresse kennt, kann dir etwas einwerfen (Coins senden) …'},
+  {at:13200,text:'… aber nur wer den privaten Schlüssel hat, kann den Briefkasten öffnen und die Coins ausgeben.'}],
+ draw(t){bg();
+  const bxs=[[15,'PRIVATER','SCHLÜSSEL','5Kb8…geheim',C.down],[195,'ÖFFENTLICHER','SCHLÜSSEL','02f1…9ac',C.blue],[375,'ADRESSE','zum Teilen','bc1q…8f2k',C.up]];
+  bxs.forEach(([x,a,b,v,c],i)=>{const p=P(t,i===0?200:3300+(i-1)*1500,i===0?800:3900+(i-1)*1500);A(p,()=>{box(x,24,150,112,{f:C.card,s:c,lw:2.5});
+   if(i===0)keyI(x+75,50,30,c);else if(i===1)keyI(x+75,50,30,c);else{box(x+58,38,34,24,{s:c,lw:2.5,r:4});line(x+64,46,x+86,46,c,2.5);}
+   T(a,x+75,80,{sz:13,c,b:800});T(b,x+75,97,{sz:12,c:C.soft,mono:i!==2});T(v,x+75,119,{sz:12,c:C.mute});});
+   if(i>0)arrow(x-28,80,x-4,80,C.mute,P(t,3300+(i-1)*1500,3800+(i-1)*1500),{lw:3,head:9});});
+  A(P(t,6900,7500),()=>{pill('NUR IN EINE RICHTUNG →',270,160,C.blue);arrow(440,192,100,192,C.down,1,{lw:2.5,dash:[6,6]});circ(270,192,13,{f:C.bg});cross(270,192,14,C.down,4);});
+  A(P(t,9800,10400),()=>{const mx=330,my=300;
+   box(mx-8,my+40,16,56,{f:C.mute,r:3});
+   const open=P(t,14000,14700);
+   box(mx-62,my-44,124,86,{f:C.card,s:C.up,lw:2.5,r:14});box(mx-36,my-28,72,9,{f:C.bg,r:4});
+   T('DEINE ADRESSE',mx,my-62,{sz:12,c:C.up});
+   if(open>0){A(open,()=>{coin(mx-36,my+12,14);coin(mx-6,my+14,14);});}
+   A(1-open,()=>lockI(mx+38,my+16,22,C.soft));
+   person(70,305,32,C.soft);T('Jeder',70,348,{sz:13,c:C.soft});
+   [10300,11500].forEach(st=>{const p=P(t,st,st+1100);if(p>0&&p<1)coin(L(98,mx,p),L(300,my-24,p)-Math.sin(p*Math.PI)*60,13);});
+   const kp=P(t,13300,14100);if(t>=13200){keyI(L(480,mx+40,kp),L(300,my+16,kp),30,C.down);}
+   A(P(t,14600,15100),()=>pill('NUR DU ✓',470,370,C.up,{solid:true}));});
+ },
+ box:{was:'Der private Schlüssel ist dein Geheimnis. Aus ihm folgt der öffentliche Schlüssel und daraus die Adresse, die du anderen gibst.',
+  erkennen:['Privater Schlüssel: geheim halten, niemals teilen','Adresse (z. B. bc1q…): darfst du jedem geben','Richtung: privat → öffentlich → Adresse, nie zurück'],
+  bedeutung:'Wer den privaten Schlüssel hat, besitzt die Coins. Punkt. Es gibt keine Bank, die etwas zurückholt.',
+  tipp:'Prüfe Adressen beim Kopieren immer am Anfang UND am Ende – Schadsoftware kann die Zwischenablage austauschen.'}});
+
+add({id:'seed',area:'wallet',title:'Die Seed-Phrase',sub:'12 oder 24 Wörter für alles',
+ lead:'Die Seed-Phrase ist das Backup deiner gesamten Wallet. Wer sie kennt, besitzt deine Coins.',
+ total:15500,steps:[
+  {at:0,text:'Beim Einrichten zeigt dir die Wallet 12 oder 24 Wörter: die SEED-PHRASE (Wiederherstellungsphrase).'},
+  {at:4600,text:'Aus diesen Wörtern lassen sich ALLE deine Schlüssel jederzeit neu erzeugen – auch auf einem neuen Gerät.'},
+  {at:8400,text:'Richtig aufbewahren: auf Papier oder einer Metallplatte, offline, an einem sicheren Ort.'},
+  {at:11600,text:'Niemals: Foto, Cloud, E-Mail – und niemals auf einer Webseite eintippen. Wer die Wörter hat, hat deine Coins!'}],
+ draw(t){bg();const words=['river','candle','eagle','frozen','puzzle','oxygen','velvet','harbor','tiger','glance','mosaic','pilot'];
+  T('SEED-PHRASE · NUR BEISPIEL',18,18,{sz:12,c:C.gold,al:'left'});
+  words.forEach((w,i)=>{const c=i%3,r=Math.floor(i/3),x=18+c*106,y=36+r*46,p=P(t,200+i*320,600+i*320);A(p,()=>{box(x,y,98,38,{f:C.card,s:C.line});T(String(i+1),x+14,y+19,{sz:12,c:C.mute});T(w,x+28,y+20,{sz:15,al:'left',b:700});});});
+  A(P(t,4600,5200),()=>{arrow(340,128,382,92,C.purple,P(t,4600,5200),{lw:3});keyI(445,64,34,C.purple);T('Hauptschlüssel',445,94,{sz:12,c:C.purple,mono:false,b:700});
+   [['BTC',388],['ETH',445],['SOL',502]].forEach(([n,x],i)=>{const p=P(t,5400+i*400,5900+i*400);A(p,()=>{line(445,104,x,140,C.line,2);keyI(x,158,24,C.soft);T(n,x,184,{sz:12,c:C.soft});});});});
+  const items=[[60,'paper','Papier',true],[165,'metal','Metall',true],[270,'cam','Foto',false],[375,'cloud','Cloud',false],[480,'mail','E-Mail',false]];
+  items.forEach(([x,k,n,ok],i)=>{const st=ok?8500+i*400:11700+(i-2)*400;const p=P(t,st,st+500);A(p,()=>{const y=290,c=ok?C.up:C.down;
+   if(k==='paper'){box(x-22,y-28,44,56,{f:C.card,s:C.soft,r:3});for(let j=0;j<4;j++)line(x-14,y-16+j*10,x+14,y-16+j*10,C.mute,2);}
+   if(k==='metal'){box(x-28,y-20,56,40,{f:hexA(C.soft,.25),s:C.soft,r:5});for(let j=0;j<3;j++)line(x-18,y-8+j*8,x+18,y-8+j*8,C.soft,2);}
+   if(k==='cam'){box(x-26,y-16,52,36,{s:C.soft,lw:2.5,r:6});circ(x,y+2,10,{s:C.soft,lw:2.5});box(x-10,y-22,20,8,{f:C.soft,r:2});}
+   if(k==='cloud'){X.fillStyle=hexA(C.soft,.3);X.strokeStyle=C.soft;X.lineWidth=2.5;X.beginPath();X.arc(x-12,y+4,12,Math.PI*.5,Math.PI*1.5);X.arc(x+2,y-8,15,Math.PI,0);X.arc(x+16,y+4,12,Math.PI*1.5,Math.PI*.5);X.closePath();X.fill();X.stroke();}
+   if(k==='mail'){box(x-26,y-18,52,36,{s:C.soft,lw:2.5,r:4});X.beginPath();X.moveTo(x-26,y-16);X.lineTo(x,y+4);X.lineTo(x+26,y-16);X.stroke();}
+   T(n,x,y+46,{sz:13,c:C.soft,mono:false,b:600});
+   circ(x+26,y-30,12,{f:c});if(ok)check(x+26,y-30,12,C.onTag,3);else cross(x+26,y-30,10,C.onTag,3);});});
+  A(P(t,8600,9100),()=>pill('OFFLINE ✓',112,372,C.up));
+  A(P(t,11800,12300),()=>pill('NIE DIGITAL ✗',375,372,C.down));
+ },
+ box:{was:'Die Seed-Phrase (12 oder 24 Wörter nach dem Standard BIP39) ist der Generalschlüssel deiner Wallet. Aus ihr werden alle privaten Schlüssel abgeleitet.',
+  erkennen:['12 oder 24 einfache englische Wörter','Reihenfolge ist wichtig','Jede seriöse Wallet zeigt sie nur beim Einrichten'],
+  bedeutung:'Handy kaputt? Mit der Seed-Phrase stellst du alles auf einem neuen Gerät wieder her. Ohne sie ist alles weg.',
+  tipp:'Kein echter Support fragt jemals nach deiner Seed-Phrase. Wer danach fragt, ist ein Betrüger – immer.'}});
+
+add({id:'hotcold',area:'wallet',title:'Hot vs. Cold Wallet',sub:'Bequem oder maximal sicher',
+ lead:'Es gibt Wallets, die ständig online sind, und Geräte, die deinen Schlüssel offline verwahren.',
+ total:14500,steps:[
+  {at:0,text:'HOT WALLET: eine App auf Handy oder PC – immer online und bequem für den Alltag.'},
+  {at:3400,text:'Weil sie online ist, können Schadsoftware oder gefälschte Webseiten (Phishing) sie angreifen.'},
+  {at:7000,text:'COLD WALLET: ein Hardware-Gerät (z. B. Ledger, Trezor, BitBox). Der Schlüssel verlässt das Gerät nie.'},
+  {at:10600,text:'Jede Zahlung bestätigst du per Knopfdruck am Gerät. Selbst ein verseuchter PC kommt nicht an den Schlüssel.'}],
+ draw(t){bg();line(270,20,270,380,C.line,1.5,[5,6]);
+  pill('HOT WALLET',135,26,C.orange);
+  const hit=P(t,4300,4700);
+  box(95,96,80,140,{f:C.card,s:hit>0?C.down:C.soft,lw:2.5,r:14});box(103,110,64,104,{f:hexA(C.orange,.15),r:6});circ(135,224,4,{f:C.soft});
+  keyI(135,160,26,C.orange);
+  for(let i=1;i<=3;i++){X.strokeStyle=hexA(C.orange,.4+i*.15);X.lineWidth=3;X.beginPath();X.arc(135,92,i*12,Math.PI*1.25,Math.PI*1.75);X.stroke();}
+  A(1-P(t,3400,3800),()=>T('immer online',135,262,{sz:13,c:C.soft,mono:false,b:600}));
+  A(P(t,3400,3900),()=>{pill('MALWARE',62,330,C.down);pill('PHISHING',200,330,C.down);arrow(62,312,118,242,C.down,P(t,3600,4300),{lw:3});arrow(200,312,152,242,C.down,P(t,3600,4300),{lw:3});});
+  A(P(t,7000,7500),()=>{pill('COLD WALLET',405,26,C.blue);
+   shield(405,170,200,190,C.blue,P(t,8200,8800));
+   box(335,140,140,64,{f:C.card,s:C.soft,lw:2.5,r:12});box(345,152,78,40,{f:hexA(C.blue,.18),r:5});
+   const conf=t>=11400;T(conf?'✓ OK':'0,1 BTC?',384,173,{sz:12,c:conf?C.up:C.text});
+   const press=t>=11000&&t<11500;circ(448,160,8,{f:press?C.up:C.soft});circ(448,186,8,{f:C.soft});
+   T('Schlüssel bleibt im Gerät',405,282,{sz:13,c:C.soft,mono:false,b:600});});
+  A(P(t,10600,11100),()=>{box(330,300,82,52,{s:C.soft,lw:2.5,r:5});line(371,352,371,364,C.soft,3);line(352,366,390,366,C.soft,3);
+   X.strokeStyle=C.soft;X.lineWidth=2.5;X.beginPath();X.moveTo(412,320);X.quadraticCurveTo(450,290,430,208);X.stroke();
+   T('PC',371,326,{sz:14,c:C.soft});
+   const p=PL_(t,11600,12600);if(p>0){const bx=L(520,498,Math.min(1,p*2)),by=L(340,250,Math.min(1,p*2));arrow(520,340,bx,by,C.down,1,{lw:3});if(p>.5){circ(498,250,12,{f:C.bg});cross(498,250,12,C.down,4);}}});
+ },
+ box:{was:'Hot Wallets sind Apps mit Internetverbindung. Cold Wallets (Hardware-Wallets) speichern den privaten Schlüssel offline auf einem eigenen Gerät.',
+  erkennen:['Hot: App, Browser-Erweiterung, Börsen-Wallet','Cold: USB-/Bluetooth-Gerät mit eigenem Display','Bei Cold bestätigst du jede Zahlung am Gerät'],
+  bedeutung:'Für kleine Beträge im Alltag ist Hot okay. Größere Summen gehören auf eine Cold Wallet.',
+  tipp:'Hardware-Wallets nur direkt beim Hersteller kaufen – nie gebraucht oder von unbekannten Händlern.'}});
+
+add({id:'transaktion',area:'wallet',title:'Eine Transaktion senden',sub:'Vom Absenden bis zur Bestätigung',
+ lead:'Was passiert eigentlich zwischen „Senden“ und „angekommen“? Folge deiner Zahlung durch das Netzwerk.',
+ total:20000,steps:[
+  {at:0,text:'Du gibst Empfänger-Adresse, Betrag und Gebühr ein.'},
+  {at:3400,text:'Die Wallet UNTERSCHREIBT die Zahlung mit deinem privaten Schlüssel (digitale Signatur).'},
+  {at:6800,text:'Die Zahlung landet im MEMPOOL – dem Wartezimmer für noch unbestätigte Transaktionen.'},
+  {at:10600,text:'Miner wählen meist die Zahlungen mit den höchsten Gebühren zuerst aus.'},
+  {at:14200,text:'Im Block! Jeder weitere Block erhöht die Sicherheit. Nach 6 Bestätigungen gilt eine Bitcoin-Zahlung als endgültig.'}],
+ draw(t){bg();
+  const shrink=P(t,7000,8000);
+  if(shrink<1){A(1-shrink,()=>{box(14,18,226,190,{f:C.card,s:C.purple,lw:2.5});header(14,18,226,30,'SENDEN',C.purple);
+   [['AN','bc1q…8f2k'],['BETRAG','0,1 BTC'],['GEBÜHR','12 sat/vB']].forEach(([k,v],i)=>A(P(t,200+i*800,700+i*800),()=>{T(k,28,72+i*36,{sz:12,c:C.mute,al:'left'});T(v,226,72+i*36,{sz:15,al:'right'});}));
+   const sp=P(t,3400,3900);if(sp>0){X.save();X.translate(127,182);X.rotate(-0.12);X.scale(L(2,1,sp),L(2,1,sp));X.globalAlpha*=sp;pill('SIGNIERT ✓',0,0,C.up,{solid:true});X.restore();}});}
+  const mx=262,my=18;box(mx,my,262,190,{f:C.card,s:C.line});T('MEMPOOL · WARTEZIMMER',mx+131,my+18,{sz:12,c:C.mute});
+  const chips=[];for(let r=0;r<4;r++)for(let c=0;c<5;c++){const i=r*5+c,fee=[45,3,8,22,5,31,2,12,6,18,4,27,9,1,15,7,40,3,11,6][i];chips.push({x:mx+16+c*48,y:my+38+r*36,fee,me:i===7});}
+  const picked=chips.filter(c=>c.fee>=15||c.me).slice(0,6);
+  const tb={x:20,y:258,w:150,h:96};
+  chips.forEach(c=>{if(c.me&&t<7800){if(t>=7000){const p=P(t,7000,7800);const x=L(110,c.x,p),y=L(120,c.y,p);box(x,y,40,26,{f:C.card,s:C.gold,lw:2.5,r:6});T('DU',x+20,y+14,{sz:12,c:C.gold});}return;}
+   const pi=picked.indexOf(c);let x=c.x,y=c.y;
+   if(pi>=0&&t>=10800){const p=P(t,10800+pi*150,11800+pi*150);x=L(c.x,tb.x+10+(pi%3)*46,p);y=L(c.y,tb.y+30+Math.floor(pi/3)*32,p);}
+   const col=c.me?C.gold:c.fee>=15?C.up:c.fee>=6?C.soft:C.mute;
+   box(x,y,40,26,{f:C.card,s:col,lw:c.me?2.5:1.5,r:6});T(c.me?'DU':String(c.fee),x+20,y+14,{sz:12,c:col});});
+  A(P(t,10700,11200)*(1-P(t,14000,14300)),()=>pill('HOHE GEBÜHR ZUERST',393,232,C.up));
+  if(t>=10800){A(P(t,10800,11300),()=>{box(tb.x,tb.y,tb.w,tb.h,{s:t>=14200?C.up:C.blue,lw:2.5});T('NEUER BLOCK',tb.x+tb.w/2,tb.y+14,{sz:12,c:C.blue});});}
+  let conf=0;if(t>=14200){conf=1+Math.floor(PL_(t,14400,17600)*5.999);}
+  for(let i=1;i<conf;i++){const p=P(t,14400+(i-1)*640,14900+(i-1)*640);A(p,()=>{const x=184+(i-1)*68;box(x,tb.y+18,56,60,{f:C.card,s:C.blue,lw:2});line(x-14,tb.y+48,x,tb.y+48,C.blue,3);T('#'+(i+1),x+28,tb.y+48,{sz:13,c:C.blue});});}
+  if(conf>0)pill('BESTÄTIGUNGEN: '+conf+' / 6'+(conf>=6?' ✓':''),270,382,conf>=6?C.up:C.gold,{solid:conf>=6});
+ },
+ box:{was:'Eine Transaktion ist eine signierte Nachricht: „Von dieser Adresse X Coins an jene Adresse“. Sie wird im Netzwerk verteilt und von Minern in einen Block geschrieben.',
+  erkennen:['Signatur beweist: Der Besitzer hat zugestimmt','Mempool = unbestätigte Zahlungen','Bestätigung = Anzahl der Blöcke seit deiner Zahlung'],
+  bedeutung:'Höhere Gebühr = schnellere Aufnahme. Bei vollem Netz können billige Zahlungen Stunden warten.',
+  tipp:'Sende bei großen Beträgen zuerst einen kleinen Testbetrag. Eine falsche Adresse lässt sich nicht rückgängig machen.'}});
+
+add({id:'notyourkeys',area:'wallet',title:'„Not your keys, not your coins“',sub:'Börse oder eigene Wallet?',
+ lead:'Coins auf einer Börse gehören dir nur auf dem Papier. Was das bedeutet, zeigt diese Lektion.',
+ total:15500,steps:[
+  {at:0,text:'Kaufst du auf einer Börse, verwaltet DIE BÖRSE die Schlüssel. Du hast nur ein Guthaben in ihrem System.'},
+  {at:4000,text:'Geht die Börse pleite oder wird gehackt (z. B. Mt. Gox 2014, FTX 2022), kann dein Guthaben weg sein.'},
+  {at:8000,text:'In einer EIGENEN Wallet hältst du die Schlüssel selbst. Niemand kann dein Geld einfrieren oder verlieren.'},
+  {at:11800,text:'Dafür trägst du die volle Verantwortung: Seed-Phrase verloren = Coins verloren. Kein Kundenservice hilft.'}],
+ draw(t){bg();const crack=P(t,4200,4800);
+  box(20,58,232,200,{f:C.card,s:crack>0?C.down:C.line,lw:2.5});header(20,58,232,32,'BÖRSE',crack>0?C.down:C.soft);
+  keyI(212,112,24,C.soft);T('Schlüssel',212,132,{sz:11,c:C.mute,mono:false,b:600});
+  box(46,104,120,110,{f:hexA(C.soft,.1),s:C.soft,r:12});circ(106,159,26,{s:C.soft,lw:3});
+  for(let i=0;i<4;i++){const fall=P(t,4600+i*200,5800+i*200);A(1-fall,()=>coin(78+(i%2)*56,138+Math.floor(i/2)*42+fall*140,13));}
+  if(crack>0){X.strokeStyle=C.down;X.lineWidth=3;X.beginPath();X.moveTo(120,90);X.lineTo(104,140);X.lineTo(130,168);X.lineTo(110,258);X.stroke();X.beginPath();X.moveTo(200,90);X.lineTo(214,150);X.lineTo(196,196);X.stroke();}
+  A(P(t,4300,4800),()=>pill('PLEITE / GEHACKT',136,30,C.down,{solid:true}));
+  person(46,318,30,C.soft);pill(crack>=1?'0 BTC ✗':'Guthaben 0,5 BTC',150,318,crack>=1?C.down:C.soft);
+  A(P(t,8000,8600),()=>{box(288,58,232,200,{f:C.card,s:C.purple,lw:2.5});header(288,58,232,32,'EIGENE WALLET',C.purple);
+   keyI(404,130,36,C.purple);T('deine Schlüssel',404,160,{sz:13,c:C.purple,mono:false,b:700});
+   coin(370,212,14);coin(404,212,14);coin(438,212,14);
+   person(312,318,30,C.soft);pill('DEINE KEYS ✓',426,318,C.up);});
+  A(P(t,11900,12500),()=>pill('SEED WEG = COINS WEG',270,374,C.orange,{solid:true}));
+ },
+ box:{was:'Bei einer Börse (Verwahrung) gehört der Schlüssel der Börse. In einer eigenen Wallet (Selbstverwahrung) gehört er dir.',
+  erkennen:['Börse: bequem, aber du vertraust einer Firma','Eigene Wallet: volle Kontrolle, volle Verantwortung','Abheben auf die eigene Adresse = Selbstverwahrung'],
+  bedeutung:'Für aktives Trading bleibt Geld auf der Börse. Für langfristiges Halten ist die eigene Wallet sicherer.',
+  tipp:'Seit MiCA müssen Krypto-Dienstleister in der EU zugelassen sein. Prüfe die Lizenz – das schützt aber nicht vor jedem Risiko.'}});
+
+/* ---------- BÖRSEN ---------- */
+const OB_A=[[100050,.8],[100040,1.2],[100030,.4],[100020,.6],[100010,.3]],OB_B=[[99990,.5],[99980,.9],[99970,1.1],[99960,.4],[99950,1.5]];
+add({id:'orderbuch',area:'boerse',title:'Das Orderbuch',sub:'Käufer, Verkäufer und der Spread',
+ lead:'Jede Börse hat ein Orderbuch. Darin warten alle Kauf- und Verkaufsaufträge darauf, dass jemand sie annimmt.',
+ total:17000,steps:[
+  {at:0,text:'Das ORDERBUCH zeigt alle offenen Kauf- und Verkaufsaufträge, sortiert nach Preis.'},
+  {at:3400,text:'Rot: Verkäufer (ASK) – sie wollen mindestens diesen Preis. Grün: Käufer (BID) – sie bieten höchstens diesen Preis.'},
+  {at:7000,text:'Die Lücke zwischen bestem Verkaufs- und bestem Kaufpreis heißt SPREAD. Hier: 20 $.'},
+  {at:10400,text:'Eine Market-Order über 1 BTC kauft SOFORT – sie „frisst“ die günstigsten Verkaufsaufträge weg …'},
+  {at:14000,text:'… weil sie dabei auch teurere Aufträge nimmt, zahlst du im Schnitt mehr: die SLIPPAGE.'}],
+ draw(t){bg();const px=250,ax=370,rowY=i=>50+i*29,bidY=i=>226+i*29;
+  T('PREIS ($)',px,22,{sz:12,c:C.mute,al:'right'});T('MENGE (BTC)',ax+40,22,{sz:12,c:C.mute,al:'right'});
+  const used=[0,0,0,0,0];
+  const f1=PL_(t,10800,11500),f2=PL_(t,11500,12600),f3=PL_(t,12600,13200);
+  used[4]=.3*f1;used[3]=.6*f2;used[2]=.1*f3;
+  const lab=P(t,3400,3900);
+  OB_A.forEach(([p,a],i)=>{const y=rowY(i),left=a-used[i];const gone=left<=0.0001;
+   A(P(t,200+(4-i)*200,600+(4-i)*200),()=>{box(510-left*150,y-12,left*150,24,{f:hexA(C.down,.2),r:3});
+    T(de(p),px,y,{sz:15,al:'right',c:gone?C.mute:C.down});T(gone?'–':de(left,2),ax+40,y,{sz:15,al:'right',c:gone?C.mute:C.text});
+    if(used[i]>0&&!gone&&t<14000)circ(ax+58,y,5,{f:C.gold});});});
+  OB_B.forEach(([p,a],i)=>{const y=bidY(i);A(P(t,1200+i*200,1600+i*200),()=>{box(510-a*150,y-12,a*150,24,{f:hexA(C.up,.2),r:3});T(de(p),px,y,{sz:15,al:'right',c:C.up});T(de(a,2),ax+40,y,{sz:15,al:'right'});});});
+  A(lab,()=>{pill('ASK',470,108,C.down);pill('BID',470,284,C.up);});
+  A(P(t,7000,7500),()=>{box(130,182,380,30,{f:hexA(C.gold,.1),s:C.gold,lw:1.5,r:6});T('SPREAD: 20 $',320,197,{sz:15,c:C.gold,b:800});});
+  A(P(t,10400,10900),()=>{box(8,110,104,74,{f:C.card,s:C.up,lw:2.5});T('MARKET',60,132,{sz:13,c:C.up});T('KAUF',60,150,{sz:13,c:C.up});T('1,0 BTC',60,170,{sz:14,c:C.text});arrow(114,150,150,165,C.up,P(t,10500,10900),{lw:3});});
+  A(P(t,14000,14500),()=>pill('Ø 100.018 $ STATT 100.010 $',270,378,C.gold,{solid:true}));
+ },
+ box:{was:'Das Orderbuch listet alle Limit-Aufträge: oben die Verkäufer (Ask), unten die Käufer (Bid). Dazwischen liegt der Spread.',
+  erkennen:['Rot/Ask: Verkaufsaufträge, günstigster ganz unten','Grün/Bid: Kaufaufträge, höchster ganz oben','Balken zeigen die Menge (Markttiefe)'],
+  bedeutung:'Ein enger Spread und viel Menge bedeuten einen „liquiden“ Markt – du handelst günstig und mit wenig Slippage.',
+  tipp:'Bei kleinen Coins ist das Orderbuch oft dünn. Große Market-Orders können dort den Preis stark verschieben.'}});
+
+function otPath(){const pts=[];for(let i=0;i<48;i++){let b=i<=10?100000-40*i:i<=32?L(99600,94950,(i-10)/22):L(94950,99200,(i-32)/15);const amp=(i>=26&&i<=32)?40:300;b+=i===32?0:Math.sin(i*1.7)*amp+Math.sin(i*.63)*amp*.7;pts.push(b);}return pts;}
+const OTP=otPath();
+add({id:'ordertypen',area:'boerse',title:'Market- vs. Limit-Order',sub:'Sofort kaufen oder zum Wunschpreis',
+ lead:'Die zwei wichtigsten Ordertypen: Mit der Market-Order kaufst du sofort, mit der Limit-Order zu deinem Preis.',
+ total:17000,steps:[
+  {at:0,text:'MARKET-ORDER: sofort zum aktuellen Preis kaufen oder verkaufen.'},
+  {at:3400,text:'Sie wird garantiert ausgeführt – aber du zahlst den Marktpreis und meist die höhere TAKER-Gebühr.'},
+  {at:7000,text:'LIMIT-ORDER: Du legst deinen Preis selbst fest, zum Beispiel Kauf bei 95.000 $.'},
+  {at:10700,text:'Die Order wartet im Orderbuch. Erst wenn der Kurs dorthin fällt, wird gekauft.'},
+  {at:13600,text:'Vorteil: genauer Preis und oft die günstigere MAKER-Gebühr. Nachteil: Kommt der Kurs nicht hin, wird nichts gekauft.'}],
+ draw(t){bg();const x0=56,x1=510,y=yMap(93500,101500,30,300),xi=i=>x0+i/47*(x1-x0);
+  [100000,97000,94000].forEach(v=>{line(x0,y(v),x1,y(v),C.grid,1);T(de(v/1000)+'k',x0-6,y(v),{sz:11,c:C.mute,al:'right'});});
+  const n=t<7000?Math.min(8,8*P(t,0,1200)):8+39*PL_(t,7000,13200);
+  const pts=[];for(let i=0;i<=Math.floor(n);i++)pts.push([xi(i),y(OTP[i])]);if(n%1>0&&Math.floor(n)<47){const i=Math.floor(n),f=n-i;pts.push([L(xi(i),xi(i+1),f),L(y(OTP[i]),y(OTP[i+1]),f)]);}
+  poly(pts,C.text,2.5,1);
+  if(pts.length)circ(pts[pts.length-1][0],pts[pts.length-1][1],5,{f:C.text});
+  A(P(t,1200,1700),()=>{const mx=xi(8),my=y(OTP[8]);circ(mx,my,9,{f:C.up});pill('MARKET ✓ '+de(OTP[8],0)+' $',mx+10,my-34,C.up,{al:'left',sz:13});});
+  A(P(t,3400,3900),()=>pill('TAKER: HÖHERE GEBÜHR',140,350,C.orange,{sz:12}));
+  A(P(t,7000,7600),()=>{line(x0,y(95000),x1,y(95000),C.gold,2.5,[8,6]);pill('LIMIT 95.000 $',x0+4,y(95000)+24,C.gold,{al:'left',sz:13});});
+  if(n>=32){A(P(t,10700,11100),()=>{const fx=xi(32),fy=y(95000);circ(fx,fy,10,{f:C.up});pill('AUSGEFÜHRT ✓',fx,fy+30,C.up,{solid:true,sz:13});});}
+  A(P(t,13600,14100),()=>pill('MAKER: GÜNSTIGER',400,350,C.up,{sz:12}));
+ },
+ box:{was:'Market-Orders werden sofort zum besten verfügbaren Preis ausgeführt. Limit-Orders legen einen festen Preis fest und warten im Orderbuch.',
+  erkennen:['Market = Tempo, Limit = Preis','Taker nimmt Liquidität (Market), Maker stellt sie bereit (Limit)','Limit-Kauf liegt unter, Limit-Verkauf über dem Kurs'],
+  bedeutung:'Wer viel handelt, spart mit Limit-Orders deutlich Gebühren. Bei schnellen Märkten ist Market oft die sicherere Ausführung.',
+  tipp:'Die Gebühren unterscheiden sich je Börse und Handelsvolumen – schau in die Gebührentabelle deiner Börse.'}});
+
+function slPath(){const p=[];for(let i=0;i<=30;i++){let v=i<=12?L(104,100,i/12):L(100,110,(i-12)/18);if(i!==12&&i!==30&&i!==0)v+=Math.sin(i*1.9)*.9+Math.sin(i*.7)*.6;p.push(v);}return p;}
+const SLP=slPath();
+add({id:'stoploss',area:'boerse',title:'Stop-Loss & Take-Profit',sub:'Verluste begrenzen, Gewinne sichern',
+ lead:'Profis planen den Ausstieg, bevor sie einsteigen. Dafür gibt es Stop-Loss und Take-Profit.',
+ total:17500,steps:[
+  {at:0,text:'Du kaufst bei 100 $ (EINSTIEG).'},
+  {at:3000,text:'STOP-LOSS bei 95 $: Fällt der Kurs dorthin, wird automatisch verkauft. Dein Verlust ist begrenzt.'},
+  {at:6400,text:'TAKE-PROFIT bei 110 $: Steigt der Kurs dorthin, wird automatisch verkauft und der Gewinn gesichert.'},
+  {at:9800,text:'Risiko 5 $, Chance 10 $ → Chance-Risiko-Verhältnis (CRV) 1 : 2.'},
+  {at:13300,text:'Der Kurs steigt bis 110 $ – Take-Profit ausgeführt: +10 %.'}],
+ draw(t){bg();const x0=30,x1=440,y=yMap(90,114,30,340),xi=i=>x0+i/30*(x1-x0),ex=xi(12);
+  A(P(t,3000,3500),()=>{box(ex,y(100),x1-ex,y(95)-y(100),{f:hexA(C.down,.14),r:0});line(ex,y(95),x1,y(95),C.down,2.5,[7,5]);T('STOP-LOSS 95 $',x1-4,y(95)+16,{sz:13,c:C.down,al:'right'});});
+  A(P(t,6400,6900),()=>{box(ex,y(110),x1-ex,y(100)-y(110),{f:hexA(C.up,.1),r:0});line(ex,y(110),x1,y(110),C.up,2.5,[7,5]);T('TAKE-PROFIT 110 $',x1-4,y(110)-14,{sz:13,c:C.up,al:'right'});});
+  A(P(t,1800,2300),()=>{line(ex,y(100),x1,y(100),C.blue,2.5);T('EINSTIEG 100 $',x1-4,y(100)-14,{sz:13,c:C.blue,al:'right'});});
+  const n=t<13300?12*P(t,0,1800):12+18*PL_(t,13300,16300);const pts=[];for(let i=0;i<=Math.floor(n);i++)pts.push([xi(i),y(SLP[i])]);if(n%1>0){const i=Math.floor(n),f=n-i;pts.push([L(xi(i),xi(i+1),f),L(y(SLP[i]),y(SLP[i+1]),f)]);}
+  poly(pts,C.text,2.5);if(pts.length)circ(pts[pts.length-1][0],pts[pts.length-1][1],5,{f:C.text});
+  A(P(t,1800,2200),()=>circ(ex,y(100),8,{f:C.blue}));
+  A(P(t,9800,10400),()=>{const rx=474;box(rx-10,y(100),20,y(95)-y(100),{f:C.down,r:3});box(rx+16,y(110),20,y(100)-y(110),{f:C.up,r:3});T('1',rx,y(95)+16,{sz:16,c:C.down,b:800});T('2',rx+26,y(110)-14,{sz:16,c:C.up,b:800});pill('CRV 1 : 2',486,368,C.gold,{sz:13});});
+  if(n>=29.9)A(P(t,16200,16700),()=>{circ(xi(30),y(110),10,{f:C.up});pill('TP ✓ +10 %',xi(30)-6,y(110)+30,C.up,{solid:true,al:'right',sz:13});});
+ },
+ box:{was:'Ein Stop-Loss verkauft automatisch, wenn der Kurs gegen dich läuft. Ein Take-Profit verkauft automatisch im Gewinn.',
+  erkennen:['Stop-Loss unter dem Einstieg (bei Long)','Take-Profit über dem Einstieg (bei Long)','CRV = möglicher Gewinn ÷ mögliches Risiko'],
+  bedeutung:'Mit einem CRV von 1 : 2 reicht schon eine Trefferquote von etwas über 33 %, um langfristig nicht zu verlieren (ohne Gebühren).',
+  tipp:'Setze den Stop dort, wo deine Idee falsch wäre – zum Beispiel unter einer Unterstützung – nicht einfach bei einer runden Zahl.'}});
+
+add({id:'spotkauf',area:'boerse',title:'Dein erster Spot-Kauf',sub:'Von der Anmeldung bis zum Coin',
+ lead:'So läuft ein ganz normaler Krypto-Kauf in Deutschland ab – in fünf Schritten.',
+ total:17000,steps:[
+  {at:0,text:'1. Konto bei einer in der EU zugelassenen Börse eröffnen. Prüfe die MiCA-Lizenz!'},
+  {at:3400,text:'2. Identität bestätigen (KYC) – mit Ausweis und Selfie. Das ist gesetzlich Pflicht.'},
+  {at:6800,text:'3. Euro per SEPA-Überweisung einzahlen.'},
+  {at:10000,text:'4. Coin kaufen – zum Beispiel Bitcoin für 500 €. Im Spot-Handel gehört er dir wirklich, ohne Hebel.'},
+  {at:13400,text:'5. Optional: auf die eigene Wallet abheben – siehe Lektion „Not your keys“.'}],
+ draw(t){bg();const rows=[['Börse wählen','EU-Lizenz nach MiCA prüfen'],['Identität prüfen (KYC)','Ausweis + Selfie, gesetzliche Pflicht'],['Euro einzahlen','SEPA-Überweisung, meist 0–1 Tag'],['Coin kaufen','z. B. 500 € in Bitcoin – ohne Hebel'],['Eigene Wallet','optional: Coins abheben']];
+  const ats=[0,3400,6800,10000,13400];
+  rows.forEach(([a,b],i)=>{const y=16+i*75,p=P(t,ats[i]+100,ats[i]+600);const cur=t>=ats[i]&&(i===4||t<ats[i+1]),done=i<4&&t>=ats[i+1];
+   A(Math.max(.25,p),()=>{box(16,y,508,64,{f:C.card,s:cur?C.up:C.line,lw:cur?2.5:1.5});
+    circ(52,y+32,20,{f:done||cur?C.up:C.line});T(String(i+1),52,y+33,{sz:17,c:done||cur?C.onTag:C.mute,b:800});
+    T(a,86,y+23,{sz:17,al:'left',mono:false,b:700});T(b,86,y+45,{sz:14,al:'left',mono:false,b:400,c:C.soft});
+    if(done){circ(494,y+32,13,{f:C.up});check(494,y+32,13,C.onTag,3);}
+    if(i===3&&cur){const cp=P(t,10600,11600);coin(L(410,470,cp),y+32,15);}});});
+ },
+ box:{was:'Spot heißt: Du kaufst den Coin direkt und besitzt ihn. Kein Hebel, keine Liquidation – fällt der Kurs, wartest du einfach.',
+  erkennen:['Zugelassene Börse (MiCA) mit Sitz oder Lizenz in der EU','KYC: Identitätsprüfung ist Pflicht','Einzahlung per SEPA ist meist kostenlos'],
+  bedeutung:'Spot ist der sicherste Einstieg. Erst wer Spot versteht, sollte über Futures und Hebel nachdenken.',
+  tipp:'Notiere dir jeden Kauf mit Datum, Menge und Preis – für die Steuer brauchst du das später (FIFO, Haltefrist).'}});
+
+/* ---------- FUTURES ---------- */
+add({id:'future',area:'futures',title:'Was ist ein Future?',sub:'Verträge auf den Preis – und Perpetuals',
+ lead:'Mit Futures handelst du nicht den Coin selbst, sondern einen Vertrag auf seinen Preis.',
+ total:16000,steps:[
+  {at:0,text:'Ein FUTURE ist ein Vertrag zwischen zwei Seiten: Du setzt auf den Preis, ohne den Coin zu besitzen.'},
+  {at:4000,text:'Klassische Futures haben ein Ablaufdatum. Krypto-Börsen bieten meist PERPETUALS (Perps) – ohne Ablauf.'},
+  {at:8000,text:'Der Perp-Preis folgt dem Spot-Preis sehr eng. Dafür sorgt die Funding Rate (eigene Lektion).'},
+  {at:12000,text:'Mit Futures kannst du auf steigende (LONG) UND fallende Kurse (SHORT) setzen – meist mit Hebel.'}],
+ draw(t){bg();
+  A(P(t,0,500),()=>{box(205,24,130,150,{f:C.card,s:C.orange,lw:2.5,r:6});T('VERTRAG',270,46,{sz:14,c:C.orange});for(let i=0;i<4;i++)line(222,70+i*16,318,70+i*16,C.mute,2.5);T('BTC-USDT',270,146,{sz:13,c:C.text});
+   person(70,92,34,C.up);T('Käufer',70,140,{sz:13,c:C.soft,mono:false,b:600});person(470,92,34,C.down);T('Verkäufer',470,140,{sz:13,c:C.soft,mono:false,b:600});
+   arrow(100,100,196,100,C.up,P(t,600,1300),{lw:3});arrow(440,100,344,100,C.down,P(t,600,1300),{lw:3});});
+  A(P(t,4000,4500)*(1-P(t,11700,12000)),()=>{pill('ABLAUF 27.03.',135,206,C.mute);A(P(t,5000,5400),()=>line(70,206,200,206,C.down,3));A(P(t,5400,5900),()=>pill('∞ PERPETUAL',405,206,C.orange,{solid:true}));});
+  A(P(t,12000,12500),()=>{pill('LONG ▲',150,206,C.up,{solid:true});pill('SHORT ▼',390,206,C.down,{solid:true});});
+  A(P(t,8000,8500),()=>{const x0=40,x1=470,y=yMap(96,104,250,375);const n=Math.floor(60*P(t,8000,11500));const s=[],pp=[];
+   for(let i=0;i<=n;i++){const x=L(x0,x1,i/60),v=100+Math.sin(i/6)*2+Math.sin(i/2.3)*.7;s.push([x,y(v)]);pp.push([x,y(v+.35+Math.sin(i/3)*.25)]);}
+   poly(s,C.blue,2.5);poly(pp,C.orange,2.5);
+   if(n>0){T('Spot',x1+8,s[s.length-1][1]+10,{sz:13,c:C.blue,al:'left'});T('Perp',x1+8,pp[pp.length-1][1]-10,{sz:13,c:C.orange,al:'left'});}});
+ },
+ box:{was:'Ein Future ist ein Terminkontrakt auf den Preis eines Basiswerts. Perpetual Futures („Perps“) haben kein Ablaufdatum und sind bei Krypto am verbreitetsten.',
+  erkennen:['Name endet oft auf PERP oder SWAP (z. B. BTC-USDT-SWAP)','Du besitzt keinen Coin, nur eine Position','Abrechnung meist in USDT oder USDC'],
+  bedeutung:'Futures ermöglichen Short-Positionen und Hebel – das macht sie mächtig, aber auch gefährlich.',
+  tipp:'Als Anfänger erst Spot verstehen. Futures-Verluste können viel schneller kommen als im Spot-Handel.'}});
+
+function lsPrice(t){let p;if(t<3500)p=100000;else if(t<7500)p=L(100000,105000,P(t,3500,7500));else if(t<9500)p=L(105000,100000,P(t,7500,9500));else if(t<11000)p=100000;else p=L(100000,95000,P(t,11000,14500));const w=t<14500?(Math.sin(t/180)*180+Math.sin(t/77)*90)*Math.min(1,t/400):0;return p+w;}
+add({id:'longshort',area:'futures',title:'Long & Short',sub:'Auf steigende und fallende Kurse setzen',
+ lead:'Long verdient, wenn der Kurs steigt. Short verdient, wenn er fällt. Beide Seiten live im Vergleich.',
+ total:18000,steps:[
+  {at:0,text:'LONG: Du setzt auf steigende Kurse. SHORT: auf fallende Kurse. Einstieg für beide: 100.000 $, je 0,1 BTC.'},
+  {at:3500,text:'Der Kurs steigt auf 105.000 $ (+5 %). Long gewinnt, Short verliert.'},
+  {at:7500,text:'Short bedeutet: Du „verkaufst zuerst“ und kaufst später günstiger zurück. Der Kurs geht zurück auf 100.000 $.'},
+  {at:11000,text:'Der Kurs fällt auf 95.000 $ (−5 %). Jetzt gewinnt Short und Long verliert.'},
+  {at:14500,text:'Rechnung: 5.000 $ Kursbewegung × 0,1 BTC = 500 $ Gewinn oder Verlust.'}],
+ draw(t){bg();const x0=24,x1=338,y=yMap(93500,106500,30,350),xt=v=>x0+v/15000*(x1-x0);
+  line(x0,y(100000),x1,y(100000),C.blue,2,[6,5]);T('EINSTIEG 100.000 $',x0+4,y(100000)+18,{sz:12,c:C.blue,al:'left'});
+  [105000,95000].forEach(v=>{line(x0,y(v),x1,y(v),C.grid,1);T(de(v/1000)+'k',x1+4,y(v),{sz:11,c:C.mute,al:'left'});});
+  const pts=[];const te=Math.min(t,15000);for(let u=0;u<=te;u+=60)pts.push([xt(u),y(lsPrice(u))]);pts.push([xt(te),y(lsPrice(te))]);poly(pts,C.text,2.5);
+  const pr=lsPrice(t),lp=(pr-100000)*.1;circ(xt(te),y(pr),5,{f:C.text});
+  const card=(yy,name,c,pnl)=>{box(372,yy,152,134,{f:C.card,s:c,lw:2.5});T(name,448,yy+24,{sz:16,c,b:800});T('0,1 BTC',448,yy+48,{sz:12,c:C.mute});const pc=pnl>=0.5?C.up:pnl<=-0.5?C.down:C.soft;T((pnl>=0?'+':'−')+de(Math.abs(pnl),0)+' $',448,yy+86,{sz:24,c:pc,b:800});T('Gewinn/Verlust',448,yy+114,{sz:11,c:C.mute,mono:false,b:600});};
+  card(24,'LONG ▲',C.up,lp);card(172,'SHORT ▼',C.down,-lp);
+  pill('KURS '+de(pr,0)+' $',448,334,C.soft,{sz:12});
+  A(P(t,14500,15000),()=>pill('5.000 $ × 0,1 = 500 $',180,380,C.gold,{solid:true,sz:13}));
+ },
+ box:{was:'Long = Kauf in Erwartung steigender Kurse. Short = Verkauf in Erwartung fallender Kurse. Bei Futures ist beides gleich einfach.',
+  erkennen:['Long-Gewinn = (Ausstieg − Einstieg) × Menge','Short-Gewinn = (Einstieg − Ausstieg) × Menge','Was die eine Seite gewinnt, verliert die andere'],
+  bedeutung:'Mit Short kannst du auch in fallenden Märkten verdienen – oder dein Spot-Depot absichern (Hedging).',
+  tipp:'Bei Short ist der mögliche Verlust theoretisch unbegrenzt, weil ein Kurs beliebig weit steigen kann. Ohne Stop-Loss nie shorten!'}});
+
+add({id:'funding',area:'futures',title:'Die Funding Rate',sub:'Warum Longs oder Shorts Gebühren zahlen',
+ lead:'Perps haben kein Ablaufdatum. Damit ihr Preis trotzdem beim Spot-Preis bleibt, gibt es die Funding Rate.',
+ total:17500,steps:[
+  {at:0,text:'Perp-Preis über dem Spot-Preis? Dann gibt es zu viele Longs. Die Funding Rate wird POSITIV.'},
+  {at:4000,text:'Bei positiver Funding zahlen LONGS an SHORTS – meist alle 8 Stunden.'},
+  {at:8000,text:'Das macht Long-Positionen teurer und zieht den Perp-Preis zurück zum Spot-Preis.'},
+  {at:11400,text:'Rechenbeispiel: Position 10.000 $ × 0,01 % = 1 $ alle 8 Stunden, also 3 $ pro Tag.'},
+  {at:14200,text:'NEGATIVE Funding (Perp unter Spot): Dann zahlen SHORTS an LONGS.'}],
+ draw(t){bg();const x0=30,x1=470,y=yMap(95.5,106.5,26,166),xt=u=>x0+u/17500*(x1-x0);
+  const gap=u=>u<8000?1.8:u<11000?L(1.8,.2,P(u,8000,11000)):u<14200?.2:L(.2,-1.6,P(u,14200,15600));
+  const sp=u=>100.5+Math.sin(u/1500)*1.6+Math.sin(u/530)*.5;
+  const s=[],p=[];for(let u=0;u<=t;u+=80){s.push([xt(u),y(sp(u))]);p.push([xt(u),y(sp(u)+gap(u))]);}
+  poly(s,C.blue,2.5);poly(p,C.orange,2.5);
+  if(s.length){const lx=Math.min(xt(t)+8,478);T('Spot',lx,y(sp(t))+(gap(t)>=0?10:-10),{sz:13,c:C.blue,al:'left'});T('Perp',lx,y(sp(t)+gap(t))+(gap(t)>=0?-10:10),{sz:13,c:C.orange,al:'left'});}
+  const neg=t>=14200;
+  box(24,214,170,124,{f:C.card,s:C.up,lw:2.5});T('LONGS',109,236,{sz:15,c:C.up,b:800});for(let i=0;i<3;i++)person(69+i*40,294,26,C.up);
+  box(346,214,170,124,{f:C.card,s:C.down,lw:2.5});T('SHORTS',431,236,{sz:15,c:C.down,b:800});for(let i=0;i<3;i++)person(391+i*40,294,26,C.down);
+  pill(neg?'FUNDING −0,01 %':'FUNDING +0,01 %',270,196,neg?C.down:C.up,{sz:13});
+  const flow=(t>=4000&&t<13900)||t>=14800;
+  if(flow){for(let k=0;k<3;k++){const ph=((t-4000)/1100+k/3)%1;const a=neg?[340,276]:[200,276],b=neg?[200,276]:[340,276];coin(L(a[0],b[0],ph),a[1]-Math.sin(ph*Math.PI)*40,11,'$',C.gold);}}
+  A(P(t,11400,11900)*(1-P(t,14000,14300)),()=>pill('10.000 $ × 0,01 % = 1 $ / 8 h',270,374,C.gold,{solid:true,sz:13}));
+  A(P(t,14400,14900),()=>pill('SHORTS ZAHLEN AN LONGS',270,374,C.down,{solid:true,sz:13}));
+ },
+ box:{was:'Die Funding Rate ist eine regelmäßige Zahlung zwischen Long- und Short-Händlern. Sie hält den Perp-Preis in der Nähe des Spot-Preises.',
+  erkennen:['Positiv: Longs zahlen Shorts (Markt ist überhitzt)','Negativ: Shorts zahlen Longs (Markt ist pessimistisch)','Meist alle 8 Stunden, bei manchen Börsen öfter'],
+  bedeutung:'Sehr hohe positive Funding zeigt: Viele sind gehebelt long. Das kann vor einem Rückschlag warnen.',
+  tipp:'Wer Positionen über Tage hält, sollte die Funding einrechnen – sie kann einen kleinen Gewinn auffressen.'}});
+
+add({id:'openinterest',area:'futures',title:'Open Interest',sub:'Wie viele Positionen sind offen?',
+ lead:'Open Interest zählt alle offenen Futures-Kontrakte. Zusammen mit dem Kurs verrät es, wer gerade den Markt bewegt.',
+ total:16000,steps:[
+  {at:0,text:'Zu jedem Long gehört ein Short. Zusammen bilden sie EINEN offenen Kontrakt.'},
+  {at:3400,text:'OPEN INTEREST (OI) = Summe aller offenen Kontrakte. Neue Positionen → OI steigt.'},
+  {at:7400,text:'Werden Positionen geschlossen oder liquidiert, sinkt das OI.'},
+  {at:10800,text:'Kurs und OI zusammen lesen: Kurs ▲ und OI ▲ heißt neues Geld treibt den Trend. Kurs ▲ und OI ▼ heißt eher Shorts steigen aus.'}],
+ draw(t){bg();let n=1;if(t>=3400&&t<7400)n=1+7*PL_(t,3500,7000);else if(t>=7400)n=8-3*PL_(t,7500,9800);const cnt=Math.round(n*100)/100;
+  for(let i=0;i<8;i++){const a=clamp(cnt-i);if(a<=0)continue;const yy=212-i*24;A(a,()=>{box(70,yy,84,20,{f:hexA(C.up,.75),r:4});T('LONG',112,yy+10,{sz:11,c:C.onTag,b:800});line(154,yy+10,180,yy+10,C.mute,2);box(180,yy,84,20,{f:hexA(C.down,.75),r:4});T('SHORT',222,yy+10,{sz:11,c:C.onTag,b:800});});}
+  A(1-P(t,3000,3400),()=>{X.strokeStyle=C.gold;X.lineWidth=2;X.beginPath();X.moveTo(276,212);X.lineTo(284,212);X.lineTo(284,232);X.lineTo(276,232);X.stroke();T('= 1 Kontrakt',292,222,{sz:13,c:C.gold,al:'left'});});
+  T('OPEN INTEREST',430,24,{sz:13,c:C.orange});box(400,40,60,190,{s:C.line,lw:2,r:6});const lev=cnt/8;box(404,226-182*lev,52,182*lev,{f:hexA(C.orange,.7),r:4});
+  T(Math.round(cnt)+(Math.round(cnt)===1?' Kontrakt':' Kontrakte'),430,252,{sz:16,c:C.text,b:800});
+  A(P(t,7500,8000)*(1-P(t,10600,10900)),()=>pill('GESCHLOSSEN → OI SINKT',270,312,C.down,{sz:13}));
+  A(P(t,10800,11400),()=>{const cells=[['Kurs ▲ · OI ▲','neues Geld, Trend stark',C.up],['Kurs ▲ · OI ▼','Shorts steigen aus',C.gold],['Kurs ▼ · OI ▲','neue Shorts, Druck',C.down],['Kurs ▼ · OI ▼','Longs steigen aus',C.gold]];
+   cells.forEach(([a,b,c],i)=>{const x=16+(i%2)*258,yy=278+Math.floor(i/2)*60;box(x,yy,250,54,{f:C.card,s:c,lw:2});T(a,x+12,yy+17,{sz:14,c,al:'left',b:800});T(b,x+12,yy+38,{sz:14,al:'left',mono:false,b:600,c:C.soft});});});
+ },
+ box:{was:'Open Interest (OI) ist die Gesamtzahl offener Futures-Kontrakte – also wie viel Geld gerade in Long/Short-Positionen steckt.',
+  erkennen:['OI steigt: neue Positionen werden eröffnet','OI fällt: Positionen werden geschlossen oder liquidiert','OI ist kein Hinweis auf die Richtung allein'],
+  bedeutung:'Steigender Kurs mit steigendem OI gilt als gesunder Trend. Sehr hohes OI bei hohem Hebel kann heftige Liquidationen auslösen.',
+  tipp:'OI findest du in deinen eigenen Indikatoren (z. B. aus BingX/Bitunix-Daten) oder auf Seiten wie Coinglass.'}});
+
+/* ---------- HEBEL ---------- */
+add({id:'hebel',area:'hebel',title:'Hebel erklärt',sub:'Wenig Geld, große Position',
+ lead:'Mit Hebel bewegst du eine große Position mit wenig eigenem Geld. Schau, was das bei Gewinn und Verlust bedeutet.',
+ total:18000,steps:[
+  {at:0,text:'Du hinterlegst 100 $ als Sicherheit – das ist deine MARGIN.'},
+  {at:3000,text:'Mit 10× HEBEL bewegst du damit eine Position von 1.000 $.'},
+  {at:6400,text:'Kurs +5 % → Position +50 $ → auf deine 100 $ sind das +50 %!'},
+  {at:10400,text:'Kurs −5 % → Position −50 $ → du verlierst 50 % deiner Margin.'},
+  {at:14000,text:'Der Hebel vervielfacht Gewinne UND Verluste – aber er verbessert nicht deine Trefferquote.'}],
+ draw(t){bg();const s=.36,bx=130;
+  T('MARGIN',20,52,{sz:13,c:C.mute,al:'left'});box(bx,34,100*s,36,{f:C.gold,r:5});T('100 $',bx+100*s+10,52,{sz:16,al:'left',b:800});
+  const g=P(t,3000,4200);const up=P(t,6600,7600)*(1-P(t,10400,10900)),dn=P(t,10600,11600);
+  A(g,()=>{T('POSITION',20,132,{sz:13,c:C.mute,al:'left'});const base=L(100,1000,g)*s;box(bx,114,base,36,{f:hexA(C.orange,.85),r:5});
+   if(up>0)box(bx+base,114,50*s*up,36,{f:C.up,r:3});
+   if(dn>0)box(bx+base-50*s*dn,114,50*s*dn,36,{f:C.down,r:3});
+   const val=1000+50*up-50*dn;T(de(val)+' $',bx+8,132,{sz:16,al:'left',c:C.onTag,b:800});
+   pill('×10 HEBEL',bx+40,91,C.orange,{sz:12});});
+  const card=(x,c,head,pos,res,pct,a)=>A(a,()=>{box(x,190,244,140,{f:C.card,s:c,lw:2.5});T(head,x+122,212,{sz:15,c,b:800});T(pos,x+122,240,{sz:13,c:C.soft,mono:false,b:600});T(res,x+122,262,{sz:13,c:C.soft,mono:false,b:600});T(pct,x+122,302,{sz:28,c,b:800});});
+  card(16,C.up,'KURS +5 %','Position: 1.050 $','Konto: 150 $','+50 %',P(t,6600,7200));
+  card(280,C.down,'KURS −5 %','Position: 950 $','Konto: 50 $','−50 %',P(t,10600,11200));
+  A(P(t,14000,14500),()=>pill('×10 GEWINN · ×10 VERLUST',270,368,C.orange,{solid:true,sz:13}));
+ },
+ box:{was:'Hebel (Leverage) bedeutet: Die Börse lässt dich eine größere Position handeln, als dein eingesetztes Geld (Margin) wert ist.',
+  erkennen:['Position = Margin × Hebel','Kursbewegung × Hebel = Veränderung deiner Margin','10× Hebel: 1 % Kurs = 10 % auf die Margin'],
+  bedeutung:'Hebel ist ein Werkzeug für Kapital-Effizienz – kein Werkzeug, um schneller reich zu werden. Er beschleunigt vor allem Verluste.',
+  tipp:'Gebühren werden auf die GANZE Position berechnet, nicht auf die Margin. Bei hohem Hebel fressen sie viel mehr.'}});
+
+function liqPrice(t){if(t<3500)return 100000+Math.sin(t/200)*140;if(t<11000){const p=PL_(t,3500,11000);return L(100000,90500,ease(p))+Math.sin(t/260)*380*(1-p)*Math.min(1,(t-3500)/600);}return 90420;}
+add({id:'liquidation',area:'hebel',title:'Die Liquidation',sub:'Wenn die Margin aufgebraucht ist',calc:'liq',
+ lead:'Wird der Verlust so groß wie deine Margin, schließt die Börse deine Position zwangsweise. Das ist die Liquidation.',
+ total:18000,steps:[
+  {at:0,text:'Long mit 10× Hebel: Einstieg 100.000 $, Margin 1.000 $, Position 10.000 $.'},
+  {at:3500,text:'Der Kurs fällt. Deine Margin schmilzt: −1 % Kurs = −10 % Margin.'},
+  {at:7500,text:'Bei rund −9,5 % ist die Margin fast aufgebraucht. Übrig ist nur noch die Wartungsmargin.'},
+  {at:11000,text:'LIQUIDATION! Die Börse schließt die Position zwangsweise. Die Margin ist weg.'},
+  {at:14400,text:'Faustformel Long: Liq-Preis ≈ Einstieg × (1 − 1/Hebel + Wartungsmargin). Hier ca. 90.500 $.'}],
+ draw(t){bg();const x0=24,x1=360,y=yMap(88500,101500,30,320),xt=u=>x0+u/12000*(x1-x0);
+  line(x0,y(100000),x1,y(100000),C.blue,2,[6,5]);T('EINSTIEG 100.000 $',x0+4,y(100000)-14,{sz:12,c:C.blue,al:'left'});
+  line(x0,y(90500),x1,y(90500),C.down,2.5,[7,5]);T('LIQ ≈ 90.500 $',x0+4,y(90500)+16,{sz:12,c:C.down,al:'left'});
+  const te=Math.min(t,12000),pts=[];for(let u=0;u<=te;u+=60)pts.push([xt(u),y(liqPrice(u))]);poly(pts,C.text,2.5);
+  const pr=liqPrice(t);circ(xt(te),y(pr),5,{f:C.text});
+  let m=clamp(1000-(100000-pr)*.1,0,1000);if(t>=11000)m=0;
+  const lev=m/1000,col=lev>.5?C.up:lev>.2?C.orange:C.down;
+  T('MARGIN',452,24,{sz:13,c:C.mute});box(410,40,84,250,{s:C.line,lw:2.5,r:8});
+  if(lev>0)box(414,286-242*lev,76,242*lev,{f:col,r:5});
+  A(P(t,7500,8000),()=>{box(414,286-242*.05,76,242*.05,{f:'transparent',s:C.gold,lw:2,r:3,dash:[4,3]});T('Wartung',452,268,{sz:11,c:C.gold});});
+  T(de(m,0)+' $',452,312,{sz:18,c:col,b:800});
+  T('Kurs '+de(pr,0)+' $',192,344,{sz:13,c:C.soft});
+  if(t>=11000){burst(xt(11000),y(90500),PL_(t,11000,11700),C.down);A(P(t,11000,11400),()=>pill('LIQUIDIERT ✗',112,215,C.down,{solid:true,sz:18}));}
+  A(P(t,14400,14900),()=>pill('100.000 × (1 − 0,1 + 0,005)',270,378,C.gold,{solid:true,sz:13}));
+ },
+ box:{was:'Bei der Liquidation schließt die Börse deine Position, weil deine Margin die Verluste nicht mehr deckt.',
+  erkennen:['Liq-Preis steht in deiner Positionsübersicht','Long: Liq unter dem Einstieg · Short: darüber','Je höher der Hebel, desto näher die Liquidation'],
+  bedeutung:'Eine Liquidation kostet die gesamte Margin der Position – oft plus Gebühren. Ein Stop-Loss VOR dem Liq-Preis verhindert das.',
+  tipp:'Die Börse nutzt für die Liquidation meist den MARK-Preis (Durchschnitt mehrerer Börsen), nicht den letzten Handelspreis. Das schützt vor kurzen Ausreißern.'}});
+
+add({id:'abstand',area:'hebel',title:'Wie nah ist die Liquidation?',sub:'Hebel und Abstand im Vergleich',
+ lead:'Je höher der Hebel, desto kleiner der Abstand bis zur Liquidation. Bei 100× reicht schon ein Prozent.',
+ total:15500,steps:[
+  {at:0,text:'Je höher der Hebel, desto näher liegt die Liquidation am Einstieg.'},
+  {at:3400,text:'Grob gilt: Abstand ≈ 100 % ÷ Hebel. 2× ≈ 50 %, 10× ≈ 10 %, 100× ≈ 1 % (ohne Gebühren).'},
+  {at:7600,text:'Bitcoin schwankt oft 3–5 % an einem einzigen Tag – manche Altcoins noch viel mehr.'},
+  {at:11000,text:'Ab etwa 20× kann schon normales Tagesrauschen deine Position liquidieren.'}],
+ draw(t){bg();const levs=[2,5,10,20,50,100],xs=96,sc=20;
+  T('ABSTAND EINSTIEG → LIQUIDATION',xs,22,{sz:12,c:C.mute,al:'left'});
+  A(P(t,7600,8200),()=>{box(xs+3*sc,40,2*sc,258,{f:hexA(C.orange,.2),r:0});line(xs+3*sc,40,xs+3*sc,298,C.orange,1.5,[4,4]);line(xs+5*sc,40,xs+5*sc,298,C.orange,1.5,[4,4]);pill('TAGESSCHWANKUNG 3–5 %',xs+4*sc+30,322,C.orange,{sz:12,al:'left'});arrow(xs+4*sc+28,322,xs+4*sc+6,300,C.orange,1,{lw:2,head:8});});
+  levs.forEach((lv,i)=>{const yy=60+i*44,pct=100/lv,p=P(t,3400+i*350,4100+i*350);const danger=lv>=20&&t>=11000;
+   T(lv+'×',xs-16,yy,{sz:18,al:'right',b:800,c:danger?C.down:C.text});
+   const full=Math.min(pct,20)*sc,len=full*p;
+   if(p>0){box(xs,yy-13,Math.max(len,3),26,{f:danger?C.down:(lv<=5?C.up:lv<=10?C.gold:C.orange),r:4});
+    const lab='≈ '+de(pct)+' %';
+    if(pct>=20)A(p,()=>{T(lab+(pct>20?' →':''),xs+len-8,yy+1,{sz:14,al:'right',c:C.onTag,b:800});});
+    else A(p,()=>T(lab,xs+len+8,yy+1,{sz:14,al:'left',c:danger?C.down:C.text,b:800}));}});
+  A(P(t,11000,11500),()=>pill('AB 20×: NORMALES RAUSCHEN REICHT',270,370,C.down,{solid:true,sz:13}));
+ },
+ box:{was:'Der Abstand zwischen Einstieg und Liquidation ist ungefähr 100 % geteilt durch den Hebel – abzüglich Wartungsmargin und Gebühren.',
+  erkennen:['2× ≈ 50 % · 5× ≈ 20 % · 10× ≈ 10 %','20× ≈ 5 % · 50× ≈ 2 % · 100× ≈ 1 %','In Wahrheit liegt die Liq immer etwas näher'],
+  bedeutung:'Bei hohem Hebel entscheidet oft nicht deine Analyse, sondern ein zufälliger Docht, ob du liquidiert wirst.',
+  tipp:'Wähle den Hebel so, dass dein Stop-Loss deutlich VOR dem Liquidationspreis liegt – dann wirst du nie liquidiert.'}});
+
+add({id:'margin',area:'hebel',title:'Isoliert vs. Cross',sub:'Wie viel deines Kontos steht auf dem Spiel?',
+ lead:'Der Margin-Modus entscheidet, ob nur die Margin einer Position oder dein ganzes Konto haftet.',
+ total:17500,steps:[
+  {at:0,text:'Dein Futures-Konto: 1.000 $. Du eröffnest einen Trade mit 100 $ Margin.'},
+  {at:3400,text:'ISOLIERT: Nur die 100 $ dieser Position stehen auf dem Spiel. Sie sind vom Rest getrennt.'},
+  {at:7400,text:'Läuft der Trade schief, verlierst du höchstens diese 100 $. Die anderen 900 $ bleiben sicher.'},
+  {at:10600,text:'CROSS: Das ganze Kontoguthaben dient als Puffer. Die Liquidation liegt dadurch weiter weg …'},
+  {at:14000,text:'… aber im schlimmsten Fall ist das GESAMTE Konto weg.'}],
+ draw(t){bg();line(270,16,270,384,C.line,1.5,[5,6]);
+  const panel=(ox,iso,act)=>{A(act,()=>{pill(iso?'ISOLIERT':'CROSS',ox+125,22,iso?C.blue:C.purple,{solid:true});
+   for(let i=0;i<10;i++){let c=i%5,r=Math.floor(i/5),x=ox+12+c*46,y=50+r*40,col=C.up,a=1;
+    if(iso&&i===9){const mv=P(t,3500,4300);x=L(x,ox+104,mv);y=L(y,214,mv);if(t>=7400){col=C.down;a=1-P(t,8200,9000);}}
+    if(!iso&&t>=14000){col=C.down;a=1-P(t,14600+i*60,15200+i*60);}
+    A(a,()=>box(x,y,40,32,{f:hexA(col,.8),r:5}));}
+   T('KONTO',ox+125,148,{sz:13,c:C.mute});
+   box(ox+20,192,210,76,{s:iso?C.blue:C.purple,lw:2.5,dash:iso?[6,5]:null,r:10});T('POSITION',ox+60,206,{sz:11,c:C.mute});
+   if(!iso&&t>=10600){A(P(t,10600,11200),()=>{box(ox+6,40,236,90,{s:C.purple,lw:2.5,r:10});arrow(ox+125,160,ox+125,188,C.purple,1,{lw:3});T('ganzes Konto = Puffer',ox+125,290,{sz:13,c:C.purple,mono:false,b:700});});}
+   if(iso&&t>=7400)A(P(t,8000,8500),()=>{pill('−100 $',ox+124,290,C.down,{sz:13});pill('900 $ SICHER ✓',ox+125,330,C.up,{solid:true,sz:13});});
+   if(!iso&&t>=14000)A(P(t,14400,14900),()=>pill('−1.000 $ ✗',ox+125,330,C.down,{solid:true,sz:13}));});};
+  panel(10,true,1);panel(280,false,L(.35,1,P(t,10400,11000)));
+ },
+ box:{was:'Isolierte Margin begrenzt das Risiko auf die Margin einer Position. Cross-Margin nutzt das gesamte verfügbare Guthaben als Sicherheit.',
+  erkennen:['Isoliert: eigener „Topf“ je Position','Cross: alle Positionen teilen sich das Konto','Der Modus wird vor dem Trade eingestellt'],
+  bedeutung:'Isoliert ist für Anfänger meist die bessere Wahl: Ein schlechter Trade kann nicht das ganze Konto mitreißen.',
+  tipp:'Halte nur so viel Geld auf dem Futures-Konto, wie du wirklich brauchst. Den Rest im Spot oder in der eigenen Wallet.'}});
+
+add({id:'risiko',area:'hebel',title:'Die 1-%-Regel',sub:'Positionsgröße richtig berechnen',calc:'risk',
+ lead:'Nicht der Hebel bestimmt dein Risiko, sondern Positionsgröße und Stop-Loss. So rechnen Profis.',
+ total:17500,steps:[
+  {at:0,text:'Profis riskieren pro Trade nur 1–2 % ihres Kontos.'},
+  {at:3400,text:'Konto 10.000 € → 1 % Risiko = höchstens 100 € Verlust pro Trade.'},
+  {at:6800,text:'Stop-Loss 2 % unter dem Einstieg. Positionsgröße = Risiko ÷ Stop-Abstand = 100 € ÷ 2 % = 5.000 €.'},
+  {at:10800,text:'Der Hebel bestimmt nur, wie viel Margin gebunden ist – nicht dein Risiko! Das legt der Stop fest.'},
+  {at:13800,text:'So überstehst du sogar 10 Verluste in Folge: Mit 1 % bleiben 9.044 €, mit 10 % nur 3.487 €.'}],
+ draw(t){bg();
+  T('KONTO 10.000 €',18,22,{sz:13,c:C.mute,al:'left'});const cw=5;
+  for(let i=0;i<100;i++){const x=18+i*cw,hl=i===99&&t>=3400;box(x,36,cw-1,34,{f:hl?C.down:hexA(C.up,.6),r:1});}
+  A(P(t,3400,3900),()=>{arrow(514,104,516,74,C.down,1,{lw:2.5,head:8});pill('1 % = 100 €',516,116,C.down,{al:'right',sz:13});});
+  const cards=[['RISIKO','100 €',C.down],['STOP','2 %',C.orange],['POSITION','5.000 €',C.up]];
+  cards.forEach(([a,b,c],i)=>{const p=P(t,6900+i*700,7500+i*700);A(p,()=>{const x=14+i*178;box(x,140,154,72,{f:C.card,s:c,lw:2.5});T(a,x+77,160,{sz:12,c:C.mute});T(b,x+77,190,{sz:22,c,b:800});if(i<2)T(i===0?'÷':'=',x+166,176,{sz:22,c:C.soft,b:800});});});
+  A(P(t,10800,11300)*(1-P(t,13600,13900)),()=>pill('HEBEL ÄNDERT NICHT DAS RISIKO',270,250,C.orange,{solid:true,sz:13}));
+  A(P(t,13800,14300),()=>{const x0=50,x1=420,y=yMap(0,10000,262,380);line(x0,y(0),x1,y(0),C.line,1.5);
+   const a=[],b=[];for(let i=0;i<=10;i++){a.push([L(x0,x1,i/10),y(10000*Math.pow(.99,i))]);b.push([L(x0,x1,i/10),y(10000*Math.pow(.9,i))]);}
+   const p=P(t,14000,16000);poly(a,C.up,3,p);poly(b,C.down,3,p);
+   A(P(t,15800,16200),()=>{T('9.044 €',x1+8,y(9044),{sz:14,al:'left',c:C.up,b:800});T('3.487 €',x1+8,y(3487),{sz:14,al:'left',c:C.down,b:800});T('1 % Risiko',x0,y(10000)-12,{sz:12,al:'left',c:C.up});T('10 % Risiko',x0+L(0,x1-x0,.5),y(10000*Math.pow(.9,5))+20,{sz:12,al:'left',c:C.down});});
+   T('10 Verluste in Folge',x0,392,{sz:11,c:C.mute,al:'left'});});
+ },
+ box:{was:'Die 1-%-Regel: Pro Trade riskierst du höchstens 1 % deines Kontos. Daraus und aus dem Stop-Abstand ergibt sich die Positionsgröße.',
+  erkennen:['Risiko (€) = Konto × Risiko-%','Positionsgröße = Risiko ÷ Stop-Abstand (%)','Margin = Positionsgröße ÷ Hebel'],
+  bedeutung:'Mit kleinem Risiko pro Trade überlebst du Verlustserien – und nur wer überlebt, kann langfristig gewinnen.',
+  tipp:'Rechne die Positionsgröße VOR jedem Trade aus. Der Rechner unten nimmt dir das ab.'}});
+
+function kPrice(t){const k=[[0,100000],[3500,99500],[5000,97000],[5600,96000],[7000,94000],[7600,92500],[9000,90000],[9600,88000],[10500,86000],[12500,87800],[17500,88300]];let i=0;while(i<k.length-2&&k[i+1][0]<=t)i++;const a=k[i],b=k[i+1];return L(a[1],b[1],clamp((t-a[0])/(b[0]-a[0])))+Math.sin(t/140)*160+Math.sin(t/61)*90;}
+add({id:'kaskade',area:'hebel',title:'Die Liquidationskaskade',sub:'Wenn Zwangsverkäufe sich gegenseitig anstoßen',
+ lead:'Viele gehebelte Positionen mit ähnlichen Liquidationspreisen können einen Kurs-Absturz wie Dominosteine beschleunigen.',
+ total:17500,steps:[
+  {at:0,text:'Viele Trader mit hohem Hebel haben ihre Liquidationen knapp unter dem aktuellen Kurs (Beispiel-Zonen rechts).'},
+  {at:3500,text:'Ein Ausverkauf trifft die erste Zone. Die Börse VERKAUFT diese Long-Positionen zwangsweise.'},
+  {at:7000,text:'Die Zwangsverkäufe drücken den Kurs weiter – die nächste Zone wird getroffen …'},
+  {at:10200,text:'Domino-Effekt: eine LIQUIDATIONSKASKADE. Der Kurs fällt in wenigen Minuten extrem.'},
+  {at:13500,text:'Echtes Beispiel: Am 10.10.2025 wurden innerhalb eines Tages Positionen im Wert von rund 19 Mrd. US-Dollar liquidiert.'}],
+ draw(t){bg();const x0=24,x1=360,y=yMap(84000,102000,40,350),xt=u=>x0+u/17500*(x1-x0);
+  const zones=[[97000,.6,5000],[94000,1.1,7000],[90000,1.8,9000]];
+  let sum=0;
+  zones.forEach(([lv,sz,hit])=>{const gone=P(t,hit,hit+700);if(t>=hit)sum+=sz;A(1-gone*.75,()=>{box(x0,y(lv)-9,x1-x0,18,{f:hexA(C.down,.18),r:3});T(de(lv/1000)+'k',x1+6,y(lv),{sz:12,c:C.down,al:'left'});box(408,y(lv)-11,sz*36,22,{f:hexA(C.down,.75),r:3});T(de(sz,1)+' Mrd',408+sz*36+6,y(lv),{sz:12,al:'left',c:C.soft});});
+   if(t>=hit)burst(xt(hit),y(lv),PL_(t,hit,hit+700),C.down);});
+  T('LIQUIDATIONEN',466,24,{sz:11,c:C.mute});T('(Beispiel)',466,40,{sz:11,c:C.mute});
+  const pts=[];for(let u=0;u<=t;u+=50)pts.push([xt(u),y(kPrice(u))]);poly(pts,C.text,2.5);circ(xt(t),y(kPrice(t)),5,{f:C.text});
+  pill('LIQUIDIERT: '+de(sum,1)+' MRD $',24,24,sum>0?C.down:C.soft,{al:'left',sz:13,solid:sum>2});
+  A(P(t,13500,14000),()=>pill('10.10.2025: ≈ 19 MRD. $ AN EINEM TAG',270,380,C.down,{solid:true,sz:12}));
+ },
+ box:{was:'Eine Liquidationskaskade entsteht, wenn Zwangsverkäufe den Kurs weiter drücken und dadurch immer neue Liquidationen auslösen.',
+  erkennen:['Sehr schnelle, lange Kerzen mit wenig Gegenwehr','Open Interest bricht plötzlich ein','Funding war vorher oft stark positiv (zu viele Longs)'],
+  bedeutung:'Kaskaden erzeugen extreme Dochte. Danach erholt sich der Kurs oft teilweise – aber liquidierte Positionen sind weg.',
+  tipp:'Liquidations-Heatmaps (z. B. auf Coinglass) zeigen, wo viele Liquidationen liegen. Dort ist das Risiko für starke Bewegungen hoch.'}});
+
+/* ---------- STEUERN ---------- */
+add({id:'haltefrist',area:'steuer',title:'Die Haltefrist',sub:'Nach einem Jahr steuerfrei (Spot)',
+ lead:'Für Coins, die du direkt besitzt (Spot), gilt in Deutschland eine einjährige Haltefrist.',
+ total:16000,steps:[
+  {at:0,text:'Kauf von Bitcoin am 01.03.2025 – ab jetzt läuft die Uhr.'},
+  {at:3400,text:'Verkauf innerhalb eines Jahres: Der Gewinn ist steuerpflichtig (privates Veräußerungsgeschäft, § 23 EStG).'},
+  {at:7400,text:'Verkauf nach mehr als einem Jahr, also ab dem 02.03.2026: Der Gewinn ist STEUERFREI.'},
+  {at:11400,text:'Achtung, Stand November 2026: Die Bundesregierung plant, die Haltefrist für Neukäufe ab 2027 abzuschaffen. Das ist noch nicht beschlossen – prüfe den aktuellen Stand!'}],
+ draw(t){bg();const x0=40,x1=500,xm=m=>x0+m/18*(x1-x0),yl=180;
+  T('HALTEFRIST: 1 JAHR',270,28,{sz:16,c:C.gold,b:800});
+  const r=P(t,800,2400);
+  A(r,()=>{box(x0,yl-22,xm(12)-x0,44,{f:hexA(C.down,.16),r:6});T('STEUERPFLICHTIG',(x0+xm(12))/2,yl,{sz:14,c:C.down,b:800});});
+  A(P(t,2000,2800),()=>{box(xm(12),yl-22,x1-xm(12),44,{f:hexA(C.up,.16),r:6});T('STEUERFREI',(xm(12)+x1)/2,yl,{sz:14,c:C.up,b:800});});
+  line(x0,yl+26,x1,yl+26,C.line,2);
+  [[0,'01.03.2025','left'],[12,'01.03.2026','center'],[18,'01.09.2026','right']].forEach(([m,s,al])=>{line(xm(m),yl+20,xm(m),yl+32,C.soft,2);T(s,xm(m),yl+46,{sz:12,c:C.soft,al});});
+  coin(x0+16,yl-56,16);pill('KAUF',x0+44,yl-56,C.gold,{al:'left',sz:12});
+  const mk=t<3400?7*P(t,1000,3200):t<7400?7+6*P(t,3600,7000):13;const mx=xm(mk);line(mx,yl-30,mx,yl+30,C.text,2.5);circ(mx,yl-34,6,{f:C.text});
+  A(P(t,3400,3900),()=>{line(xm(7),yl+30,xm(7),yl+70,C.down,2,[4,4]);pill('VERKAUF OKT. 2025 → STEUER',xm(7),yl+84,C.down,{sz:12});});
+  A(P(t,7400,7900),()=>{line(xm(13),yl+30,xm(13),yl+110,C.up,2,[4,4]);pill('VERKAUF APR. 2026 → FREI ✓',xm(13)-30,yl+124,C.up,{solid:true,sz:12});});
+  A(P(t,11400,11900),()=>pill('⚠ REFORM 2027 GEPLANT – STAND PRÜFEN',270,372,C.orange,{solid:true,sz:12}));
+ },
+ box:{was:'Gewinne aus dem Verkauf von Kryptowährungen sind private Veräußerungsgeschäfte nach § 23 EStG. Liegen zwischen Kauf und Verkauf mehr als ein Jahr, sind sie steuerfrei.',
+  erkennen:['Frist läuft ab dem Kaufdatum jedes einzelnen Kaufs','Steuerpflichtig: Verkauf innerhalb eines Jahres','Steuersatz: dein persönlicher Einkommensteuersatz'],
+  bedeutung:'Wer langfristig hält, kann Gewinne bisher komplett steuerfrei mitnehmen – ein großer Vorteil in Deutschland.',
+  tipp:'Die Bundesregierung will die Haltefrist für Neukäufe ab 2027 streichen (Stand Nov. 2026: noch nicht beschlossen). Verfolge die Nachrichten. Keine Steuerberatung!'}});
+
+add({id:'freigrenze',area:'steuer',title:'Die Freigrenze 1.000 €',sub:'Freigrenze ist kein Freibetrag',
+ lead:'Kleine Gewinne bleiben steuerfrei – aber Vorsicht: Schon ein Euro zu viel macht den ganzen Gewinn steuerpflichtig.',
+ total:16000,steps:[
+  {at:0,text:'Gewinne aus privaten Veräußerungsgeschäften bleiben steuerfrei, wenn sie im Jahr insgesamt UNTER 1.000 € liegen.'},
+  {at:3800,text:'Beispiel: 999 € Gewinn → 0 € Steuer.'},
+  {at:7200,text:'Aber: 1.200 € Gewinn → der GESAMTE Betrag wird versteuert, nicht nur die 200 € darüber. Das ist eine FREIGRENZE, kein Freibetrag.'},
+  {at:11800,text:'Die Grenze gilt pro Person für alle privaten Veräußerungsgeschäfte eines Jahres zusammen. Bei Ehepaaren hat jeder seine eigene.'}],
+ draw(t){bg();const base=320,sc=220/1200,yv=v=>base-v*sc;
+  A(P(t,200,800),()=>{line(40,yv(1000),510,yv(1000),C.gold,2.5,[8,6]);T('FREIGRENZE 1.000 €',510,yv(1000)-14,{sz:13,c:C.gold,al:'right'});});
+  line(40,base,510,base,C.line,2);
+  const bar=(cx,v,c,st,lab,s1,s2)=>{const p=P(t,st,st+900);if(p<=0)return;const h=v*sc*p;box(cx-55,base-h,110,h,{f:hexA(c,.8),r:6});A(p,()=>{T(lab,cx,base-h-14,{sz:16,c,b:800});T(s1,cx,base+20,{sz:13,c,b:800});if(s2)T(s2,cx,base+40,{sz:12,c:C.soft});});};
+  bar(140,999,C.up,3800,'999 €','Steuer: 0 €','unter der Grenze ✓');
+  bar(300,1200,C.down,7200,'1.200 €','Steuer auf 1.200 €',t>=9200?'bei 30 %: 360 €':'');
+  A(P(t,11800,12300),()=>pill('PRO PERSON · ALLE VERKÄUFE ZUSAMMEN',270,26,C.blue,{sz:12}));
+ },
+ box:{was:'Die Freigrenze nach § 23 Abs. 3 EStG beträgt seit 2024 1.000 € pro Jahr (vorher 600 €). Sie gilt für die Summe aller privaten Veräußerungsgewinne.',
+  erkennen:['Gewinn unter 1.000 € → komplett steuerfrei','Gewinn ab 1.000 € → komplett steuerpflichtig','Verluste aus demselben Jahr werden vorher verrechnet'],
+  bedeutung:'Wer knapp über der Grenze liegt, kann manchmal mit Verlustverkäufen oder Abwarten bis zum Jahresende darunter bleiben.',
+  tipp:'Die Freigrenze gilt nicht für Futures/Derivate – dort gibt es stattdessen den Sparer-Pauschbetrag (siehe letzte Lektion).'}});
+
+add({id:'fifo',area:'steuer',title:'FIFO: Was zuerst kam',sub:'Welche Coins hast du verkauft?',
+ lead:'Hast du einen Coin mehrmals zu verschiedenen Preisen gekauft, regelt FIFO, welche Coins als verkauft gelten.',
+ total:17500,steps:[
+  {at:0,text:'März: Kauf von 0,5 BTC zu 20.000 € je BTC.'},
+  {at:3000,text:'Juli: noch ein Kauf von 0,5 BTC, diesmal zu 40.000 € je BTC.'},
+  {at:6000,text:'Dezember: Verkauf von 0,5 BTC zu 50.000 € je BTC. Aber welche Coins hast du verkauft?'},
+  {at:9400,text:'FIFO – „first in, first out“: Die zuerst gekauften Coins gelten als zuerst verkauft. Also die aus dem März.'},
+  {at:12800,text:'Gewinn = 0,5 × (50.000 € − 20.000 €) = 15.000 €. Innerhalb eines Jahres also steuerpflichtig.'}],
+ draw(t){bg();
+  const card=(x,y,c,a,b,d,al=1)=>A(al,()=>{box(x,y,200,78,{f:C.card,s:c,lw:2.5});T(a,x+100,y+18,{sz:12,c:C.mute});T(b,x+100,y+42,{sz:19,c,b:800});T(d,x+100,y+64,{sz:13,c:C.soft});});
+  T('BESTAND',126,22,{sz:12,c:C.mute});T('VERKAUF',414,22,{sz:12,c:C.mute});
+  const mv=P(t,9600,10800);
+  card(L(26,314,mv),L(40,140,mv),C.gold,'MÄRZ · KAUF','0,5 BTC','je 20.000 €',P(t,0,600));
+  card(26,140,C.blue,'JULI · KAUF','0,5 BTC','je 40.000 €',P(t,3000,3600)*(t>=10800?.55:1));
+  card(314,40,C.down,'DEZEMBER','0,5 BTC','je 50.000 €',P(t,6000,6600));
+  A(P(t,6300,6800)*(1-P(t,9300,9500)),()=>T('?',270,180,{sz:44,c:C.gold,b:800}));
+  A(P(t,9400,9900),()=>{pill('FIFO: ÄLTESTE ZUERST',270,22,C.gold,{solid:true,sz:13});});
+  A(P(t,10800,11300),()=>T('bleibt im Bestand',126,232,{sz:12,c:C.mute,mono:false,b:600}));
+  A(P(t,12800,13300),()=>{box(30,284,480,100,{f:C.card,s:C.up,lw:2.5});T('0,5 × (50.000 € − 20.000 €)',270,316,{sz:17,c:C.soft});T('= 15.000 € GEWINN',270,352,{sz:22,c:C.up,b:800});});
+ },
+ box:{was:'FIFO (first in, first out) ist die übliche Methode in Deutschland: Die zuerst gekauften Coins gelten als zuerst verkauft – getrennt je Wallet bzw. Börse.',
+  erkennen:['Käufe chronologisch sortieren','Verkauf zieht immer vom ältesten Bestand ab','Haltefrist gilt je Kauf-Bestand einzeln'],
+  bedeutung:'FIFO kann ein Vorteil sein: Die ältesten Coins haben die Haltefrist oft schon erfüllt und sind dann steuerfrei.',
+  tipp:'Bei vielen Trades hilft ein Krypto-Steuer-Tool (z. B. Blockpit, CoinTracking) oder eine eigene Auswertung aus den Börsen-Exporten.'}});
+
+add({id:'tausch',area:'steuer',title:'Tausch & Staking',sub:'Auch ohne Euro kann Steuer anfallen',
+ lead:'Nicht nur der Verkauf gegen Euro zählt. Auch ein Tausch zwischen Coins und Erträge aus Staking sind steuerlich relevant.',
+ total:16500,steps:[
+  {at:0,text:'Ein Tausch BTC → ETH ist steuerlich ein VERKAUF von BTC und ein KAUF von ETH.'},
+  {at:4000,text:'Liegt dein BTC-Kauf weniger als ein Jahr zurück, ist der Gewinn steuerpflichtig – auch wenn nie Euro geflossen sind!'},
+  {at:8000,text:'STAKING- und Lending-Erträge sind sonstige Einkünfte (§ 22 Nr. 3 EStG). Steuerfrei nur, wenn sie im Jahr unter 256 € bleiben.'},
+  {at:12000,text:'Gut zu wissen: Staking verlängert die Haltefrist NICHT auf 10 Jahre. Das hat das Finanzministerium klargestellt.'}],
+ draw(t){bg();
+  coin(110,92,40);coin(430,92,40,'Ξ',C.purple);
+  const sp=t/500;arrow(170,78,370,78,C.soft,P(t,300,1000),{lw:3});arrow(370,108,170,108,C.soft,P(t,600,1300),{lw:3});
+  A(P(t,1300,1800),()=>{pill('VERKAUF',110,160,C.down,{sz:12});pill('KAUF',430,160,C.up,{sz:12});});
+  A(P(t,4000,4500),()=>pill('< 1 JAHR → STEUER',270,160,C.orange,{solid:true,sz:12}));
+  line(20,198,520,198,C.line,1.5,[5,6]);
+  A(P(t,8000,8500),()=>{box(50,236,150,110,{f:C.card,s:C.purple,lw:2.5});T('STAKING',125,256,{sz:13,c:C.purple});lockI(125,298,34,C.purple);
+   for(let k=0;k<3;k++){const ph=((t-8000)/1400+k/3)%1;coin(L(210,330,ph),300-Math.sin(ph*Math.PI)*30,10,'+',C.gold);}
+   pill('§ 22 Nr. 3 · UNTER 256 € FREI',386,350,C.gold,{sz:12});});
+  A(P(t,12000,12500),()=>pill('HALTEFRIST BLEIBT 1 JAHR ✓',386,228,C.up,{solid:true,sz:12}));
+ },
+ box:{was:'Jeder Tausch von Krypto gegen Krypto ist ein Veräußerungsgeschäft. Staking- und Lending-Erträge werden beim Zufluss als sonstige Einkünfte besteuert.',
+  erkennen:['Tausch = Verkauf + Kauf (zum Marktwert in Euro)','Staking-Rewards: Wert in Euro am Tag des Zuflusses','Freigrenze für § 22 Nr. 3: unter 256 € pro Jahr'],
+  bedeutung:'Viele Trader sind überrascht: Auch ohne Auszahlung in Euro kann eine Steuerschuld entstehen.',
+  tipp:'Bewahre die Exporte aller Börsen auf. Ohne Nachweise der Anschaffungskosten kann das Finanzamt schätzen.'}});
+
+add({id:'derivate',area:'steuer',title:'Futures & Derivate',sub:'Kapitalerträge statt § 23',
+ lead:'Futures und andere Derivate werden in Deutschland anders besteuert als Spot-Coins – ohne Haltefrist.',
+ total:18000,steps:[
+  {at:0,text:'Futures, Perps und andere Derivate fallen NICHT unter § 23 EStG.'},
+  {at:3500,text:'Sie gelten als Kapitalerträge (Termingeschäfte): 25 % Abgeltungsteuer plus 5,5 % Soli darauf (ggf. Kirchensteuer) – zusammen rund 26,4 %.'},
+  {at:7400,text:'Keine Haltefrist, keine 1.000-€-Freigrenze – aber der Sparer-Pauschbetrag: 1.000 € pro Person (Ehepaare 2.000 €).'},
+  {at:11200,text:'Ausländische Börsen ziehen keine Steuer ab. Du trägst die Ergebnisse selbst in die Anlage KAP ein.'},
+  {at:14600,text:'Seit 2026 melden Krypto-Börsen Daten an die Finanzämter (DAC8). Bei größeren Summen: Steuerberater fragen!'}],
+ draw(t){bg();
+  const top=t<3500?['NICHT § 23 → KAPITALERTRAG',C.gold]:t<7400?['25 % + 5,5 % SOLI',C.orange]:t<11200?['SPARER-PAUSCHBETRAG 1.000 €',C.up]:t<14600?['AUSLAND: ANLAGE KAP',C.blue]:['AB 2026: DAC8-MELDUNGEN',C.purple];
+  pill(top[0],270,28,top[1],{solid:true,sz:13});
+  A(P(t,3700,4200)*(1-P(t,7200,7500)),()=>{T('≈ 26,4 %',270,190,{sz:52,c:C.orange,b:800});T('ohne Kirchensteuer',270,236,{sz:14,c:C.soft,mono:false,b:600});});
+  A(1-P(t,3200,3500),()=>{box(60,110,180,120,{f:C.card,s:C.mute,lw:2});T('SPOT',150,140,{sz:15,c:C.mute});T('§ 23 EStG',150,174,{sz:17,c:C.mute});cross(150,206,20,C.down,4);
+   box(300,110,180,120,{f:C.card,s:C.gold,lw:2.5});T('FUTURES',390,140,{sz:15,c:C.gold});T('§ 20 EStG',390,174,{sz:17,c:C.gold});check(390,206,22,C.up,4);});
+  A(P(t,7400,7900),()=>{const base=320,sc=230/5000,bars=[[40,5000,'5.000 €','Gewinn','',C.up,0],[160,1000,'−1.000 €','Pausch-','betrag',C.gold,4000],[280,4000,'4.000 €','zu ver-','steuern',C.blue,0],[400,1055,'1.055 €','Steuer','26,375 %',C.down,0]];
+   line(24,base,516,base,C.line,2);
+   bars.forEach(([x,v,lab,n1,n2,c,off],i)=>{const p=P(t,7600+i*700,8300+i*700);if(p<=0)return;const h=v*sc*p,yb=base-off*sc;box(x,yb-h,90,h,{f:hexA(c,.8),r:5});A(p,()=>{T(lab,x+45,yb-h-12,{sz:14,c,b:800});T(n1,x+45,base+18,{sz:12,c:C.soft});if(n2)T(n2,x+45,base+34,{sz:12,c:C.soft});});});});
+  A(P(t,14600,15100),()=>T('Keine Steuerberatung · Stand Nov. 2026',270,384,{sz:12,c:C.mute,mono:false,b:600}));
+ },
+ box:{was:'Gewinne aus Krypto-Futures gelten nach überwiegender Auffassung als Einkünfte aus Termingeschäften (§ 20 EStG) und unterliegen der Abgeltungsteuer.',
+  erkennen:['25 % + Soli (+ ggf. Kirchensteuer)','Sparer-Pauschbetrag 1.000 € / 2.000 € (Ehepaare)','Eintrag in Anlage KAP (Termingeschäfte), da keine Steuer einbehalten wurde'],
+  bedeutung:'Bei Futures gibt es keine steuerfreie Haltedauer. Verluste aus Termingeschäften lassen sich seit Ende 2024 wieder unbegrenzt mit Gewinnen verrechnen.',
+  tipp:'Die Einordnung einzelner Produkte ist nicht in jedem Detail geklärt. Bei hohen Summen oder Unsicherheit einen Steuerberater fragen. Keine Steuerberatung!'}});
+
+/* Nummern je Bereich */
+AREAS.forEach(a=>{let n=0;LESSONS.forEach(l=>{if(l.area===a.id)l.no=++n;});});
+const BYID=Object.fromEntries(LESSONS.map(l=>[l.id,l]));
+
+/* ================= Speicher ================= */
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+let SEEN=new Set(store.get('krypto-seen',[]));
+function markSeen(id){if(!SEEN.has(id)){SEEN.add(id);store.set('krypto-seen',[...SEEN]);updProgress();renderNav();}}
+function updProgress(){$('#progtxt').textContent=SEEN.size+' / '+LESSONS.length;$('#progbar').style.width=(SEEN.size/LESSONS.length*100)+'%';}
+
+/* ================= DOM-Helfer ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const accVar=a=>`--acc:var(--${AREA[a].acc});--glow:color-mix(in srgb,var(--${AREA[a].acc}) 22%,transparent)`;
+
+/* ================= Navigation (PC) ================= */
+let NAVQ='';
+function renderNav(){const q=NAVQ.trim().toLowerCase(),cur=location.hash.slice(3);let h='';
+ AREAS.forEach(a=>{const ls=LESSONS.filter(l=>l.area===a.id&&(!q||(l.title+' '+l.sub+' '+a.name).toLowerCase().includes(q)));if(!ls.length)return;
+  h+=`<button class="cat" style="${accVar(a.id)}" onclick="location.hash='b-${a.id}'">${esc(a.name)}</button>`;
+  ls.forEach(l=>{h+=`<button class="item${SEEN.has(l.id)?' seen':''}${location.hash==='#l-'+l.id?' on':''}" style="${accVar(a.id)}" onclick="location.hash='l-${l.id}'"><div class="ic">${String(l.no).padStart(2,'0')}</div><div><b>${esc(l.title)}</b><span>${esc(l.sub)}</span></div><span class="ok">✓</span></button>`;});});
+ if(!h)h='<div class="empty">Keine Lektion gefunden.</div>';
+ if(!q)h+=`<button class="cat" style="--acc:var(--gold)" onclick="location.hash='quiz'">Quiz</button>`;
+ $('#list').innerHTML=h;}
+$('#search').addEventListener('input',e=>{NAVQ=e.target.value;renderNav();});
+
+/* ================= Startseite ================= */
+function renderHome(){const best=store.get('krypto-best',null);
+ let h=`<div class="home"><div class="kicker">Bayazit · Lern-App</div><h1>Krypto verstehen</h1><p class="lead">Von der Blockchain bis zur Steuererklärung: ${LESSONS.length} Lektionen als kleine Videos – Schritt für Schritt, mit Quiz. Die perfekte Ergänzung zur Chart-Schule.</p><div class="bigtiles">`;
+ AREAS.forEach(a=>{const ls=LESSONS.filter(l=>l.area===a.id),s=ls.filter(l=>SEEN.has(l.id)).length;
+  h+=`<button class="big" style="${accVar(a.id)}" onclick="location.hash='b-${a.id}'"><div class="bi">${ICONS[a.icon]}</div><h2>${esc(a.name)}</h2><p>${esc(a.desc)}</p><div class="ft"><span>${s}/${ls.length}</span><div class="pb"><i style="width:${s/ls.length*100}%"></i></div><span class="go">→</span></div></button>`;});
+ h+=`<button class="big" style="--acc:var(--gold);--glow:color-mix(in srgb,var(--gold) 22%,transparent)" onclick="location.hash='quiz'"><div class="bi">${ICONS.quiz}</div><h2>Quiz</h2><p>10 zufällige Fragen: Bilder, Wissen und Rechenaufgaben.</p><div class="ft"><span>${best==null?'Noch kein Bestwert':'Bestwert: '+best+'/10'}</span><div class="pb"><i style="width:${(best||0)*10}%"></i></div><span class="go">→</span></div></button>`;
+ h+=`<a class="big small" style="--acc:var(--soft);--glow:transparent" href="https://chartschule.kompassapps.de" target="_blank" rel="noopener"><div class="bi">${ICONS.chart}</div><h2>Chart-Schule</h2><p>Kerzen, Formationen und Indikatoren – die zweite Lern-App.</p><div class="ft"><span>chartschule.kompassapps.de</span><div class="pb"></div><span class="go">↗</span></div></a>`;
+ h+=`</div><p class="disc">Alle Inhalte dienen der Bildung. Keine Anlage- oder Steuerberatung. Steuerregeln: Stand November 2026.</p></div>`;
+ $('#view').innerHTML=h;}
+
+/* ================= Bereichsseite ================= */
+function renderArea(id){const a=AREA[id];if(!a)return renderHome();const ls=LESSONS.filter(l=>l.area===id),s=ls.filter(l=>SEEN.has(l.id)).length;
+ const next=ls.find(l=>!SEEN.has(l.id))||ls[0];
+ let h=`<div style="${accVar(id)}"><button class="back" onclick="location.hash=''">← START</button><div class="kicker">Bereich</div><h1 style="color:var(--acc)">${esc(a.name)}</h1><p class="lead">${esc(a.desc)}</p>
+ <div class="ahead"><button class="start" onclick="location.hash='l-${next.id}'">${s?'▶ Weiter lernen':'▶ Los geht’s'}</button><div class="apb"><i style="width:${s/ls.length*100}%"></i></div><span>${s}/${ls.length} gesehen</span></div><div class="lcards">`;
+ ls.forEach(l=>{h+=`<button class="lc" onclick="location.hash='l-${l.id}'"><div class="ic">${String(l.no).padStart(2,'0')}</div><div><small>LEKTION ${l.no}</small><b>${esc(l.title)}</b><span>${esc(l.sub)}</span></div>${SEEN.has(l.id)?'<span class="ok">✓</span>':''}</button>`;});
+ h+=`</div></div>`;$('#view').innerHTML=h;}
+
+/* ================= Lektion + Player ================= */
+let PL=null;
+function stopPlayer(){if(PL){cancelAnimationFrame(PL.raf);PL=null;}}
+function fmtT(ms){const s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function curStep(les,t){let k=0;les.steps.forEach((s,i)=>{if(t>=s.at)k=i;});return k;}
+function renderLesson(id){const l=BYID[id];if(!l)return renderHome();const a=AREA[l.area],ls=LESSONS.filter(x=>x.area===l.area),i=ls.indexOf(l),prev=ls[i-1],next=ls[i+1];
+ const nextArea=!next?AREAS[AREAS.indexOf(a)+1]:null;
+ let h=`<div style="${accVar(l.area)}"><button class="back" onclick="location.hash='b-${l.area}'">← ${esc(a.name.toUpperCase())}</button>
+ <div class="kicker" style="color:var(--acc)">Lektion ${l.no} · ${esc(a.name)}</div><h1>${esc(l.title)}</h1><p class="lead">${esc(l.lead)}</p>
+ <div class="player"><div class="cwrap" id="cwrap"><canvas id="cv" aria-label="Animation: ${esc(l.title)}"></canvas><div class="overlay" id="ov"><div id="ovt">▶ ABSPIELEN</div></div></div>
+ <div class="caption"><div class="no" id="sno"></div><p id="stx"></p></div>
+ <div class="ctrl"><button class="cb" id="bplay" aria-label="Abspielen/Pause">❚❚</button><button class="cb" id="brst" aria-label="Neustart">↺</button><input type="range" id="seek" min="0" max="${l.total}" step="10" value="0" aria-label="Spulen"><span class="time" id="tm"></span></div>
+ <div class="row2"><div class="chips" id="chips">${l.steps.map((s,k)=>`<button class="chip" data-k="${k}">${k+1}</button>`).join('')}</div><div class="speed" id="spd"><button data-s=".5">½×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button></div></div></div>
+ <div class="info"><div class="box b"><h3>Was ist das?</h3><p>${esc(l.box.was)}</p></div><div class="box g"><h3>${l.area==='steuer'||l.area==='boerse'?'So geht’s':'So erkennst du es'}</h3><ul>${l.box.erkennen.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></div><div class="box y"><h3>Was bedeutet es?</h3><p>${esc(l.box.bedeutung)}</p></div><div class="box r"><h3>Tipp</h3><p>${esc(l.box.tipp)}</p></div></div>
+ ${l.calc?calcHTML(l.calc):''}
+ <div class="pn"><button ${prev?`onclick="location.hash='l-${prev.id}'"`:'disabled'}><small>← ZURÜCK</small>${prev?esc(prev.title):'–'}</button><button onclick="location.hash='${next?'l-'+next.id:nextArea?'b-'+nextArea.id:'quiz'}'"><small>WEITER →</small>${next?esc(next.title):nextArea?'Bereich: '+esc(nextArea.name):'Zum Quiz'}</button></div>
+ <p class="disc">Animationen sind vereinfachte Beispiele. Keine Anlage- oder Steuerberatung.</p></div>`;
+ $('#view').innerHTML=h;
+ const cv=$('#cv');PL={les:l,t:0,playing:true,speed:1,last:performance.now(),cv,ctx:cv.getContext('2d'),raf:0,step:-1};
+ sizeCanvas(cv);
+ $('#bplay').onclick=togglePlay;$('#cwrap').onclick=togglePlay;
+ $('#brst').onclick=()=>{PL.t=0;PL.playing=true;PL.last=performance.now();};
+ $('#seek').oninput=e=>{PL.t=+e.target.value;PL.last=performance.now();};
+ $('#chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;PL.t=l.steps[+b.dataset.k].at+1;PL.playing=true;PL.last=performance.now();};
+ $('#spd').onclick=e=>{const b=e.target.closest('button');if(!b)return;PL.speed=+b.dataset.s;[...$('#spd').children].forEach(x=>x.classList.toggle('on',x===b));};
+ if(l.calc)bindCalc(l.calc);
+ PL.raf=requestAnimationFrame(tick);}
+function togglePlay(){if(!PL)return;if(!PL.playing&&PL.t>=PL.les.total)PL.t=0;PL.playing=!PL.playing;PL.last=performance.now();}
+function sizeCanvas(cv){const w=cv.clientWidth||cv.parentElement.clientWidth||540,d=Math.min(window.devicePixelRatio||1,2.5);cv.width=Math.round(w*d);cv.height=Math.round(w*H/W*d);}
+function paint(ctx,cv,les,t){X=ctx;const s=cv.width/W;ctx.setTransform(s,0,0,s,0,0);ctx.clearRect(0,0,W,H);ctx.globalAlpha=1;les.draw(t);}
+function tick(now){if(!PL)return;const l=PL.les;const dt=Math.min(100,now-PL.last);PL.last=now;
+ if(PL.playing){PL.t+=dt*PL.speed;if(PL.t>=l.total){PL.t=l.total;PL.playing=false;}}
+ if(PL.t>=l.steps[l.steps.length-1].at+1200)markSeen(l.id);
+ paint(PL.ctx,PL.cv,l,PL.t);
+ const k=curStep(l,PL.t);if(k!==PL.step){PL.step=k;$('#sno').textContent='SCHRITT '+(k+1)+' / '+l.steps.length;$('#stx').textContent=l.steps[k].text;}
+ [...$('#chips').children].forEach((c,i)=>{c.classList.toggle('on',i===k);c.classList.toggle('done',i<k);});
+ $('#seek').value=PL.t;$('#tm').textContent=fmtT(PL.t)+' / '+fmtT(l.total);
+ $('#bplay').textContent=PL.playing?'❚❚':'▶';
+ const ov=$('#ov');ov.classList.toggle('show',!PL.playing);$('#ovt').textContent=PL.t>=l.total?'↺ NOCHMAL':'▶ ABSPIELEN';
+ PL.raf=requestAnimationFrame(tick);}
+window.addEventListener('resize',()=>{if(PL)sizeCanvas(PL.cv);if(QZ&&QZ.cv)drawQuizCanvas();});
+document.addEventListener('keydown',e=>{if(!PL||e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;if(e.code==='Space'){e.preventDefault();togglePlay();}if(e.code==='ArrowRight'){PL.t=Math.min(PL.les.total,PL.t+2000);}if(e.code==='ArrowLeft'){PL.t=Math.max(0,PL.t-2000);}});
+
+/* ================= Rechner ================= */
+function calcHTML(k){if(k==='liq')return `<div class="box calc"><h3>Rechner: Liquidationspreis (grob)</h3><div class="grid"><label>Einstieg ($)<input id="c1" type="number" value="100000" inputmode="decimal"></label><label>Hebel (×)<input id="c2" type="number" value="10" min="1" inputmode="decimal"></label><label>Richtung<select id="c3"><option value="long">Long</option><option value="short">Short</option></select></label><label>Wartungsmargin (%)<input id="c4" type="number" value="0.5" step="0.1" inputmode="decimal"></label></div><div class="res"><div><span>Liquidation bei ca.</span><b id="r1">–</b></div><div><span>Abstand</span><b id="r2">–</b></div></div><p class="note">Vereinfachte Formel ohne Gebühren und Funding. Die echte Liq steht immer in deiner Börse.</p></div>`;
+ return `<div class="box calc"><h3>Rechner: Positionsgröße</h3><div class="grid"><label>Konto (€)<input id="c1" type="number" value="10000" inputmode="decimal"></label><label>Risiko (%)<input id="c2" type="number" value="1" step="0.1" inputmode="decimal"></label><label>Stop-Abstand (%)<input id="c3" type="number" value="2" step="0.1" inputmode="decimal"></label><label>Hebel (×)<input id="c4" type="number" value="5" min="1" inputmode="decimal"></label></div><div class="res"><div><span>Max. Verlust</span><b id="r1">–</b></div><div><span>Positionsgröße</span><b id="r2">–</b></div><div><span>Gebundene Margin</span><b id="r3">–</b></div></div><p class="note">Ohne Gebühren und Slippage gerechnet.</p></div>`;}
+function bindCalc(k){const g=id=>parseFloat(String($(id).value).replace(',','.'));const run=()=>{if(k==='liq'){const e=g('#c1'),lv=g('#c2'),dir=$('#c3').value,mm=g('#c4')/100;if(!(e>0&&lv>=1)){$('#r1').textContent='–';$('#r2').textContent='–';return;}const lq=dir==='long'?e*(1-1/lv+mm):e*(1+1/lv-mm);$('#r1').textContent=de(lq,lq<10?4:lq<1000?2:0)+' $';$('#r2').textContent=de(Math.abs(lq-e)/e*100,2)+' %';}
+ else{const kto=g('#c1'),r=g('#c2')/100,st=g('#c3')/100,lv=g('#c4');if(!(kto>0&&r>0&&st>0&&lv>=1))return;const loss=kto*r,pos=loss/st;$('#r1').textContent=de(loss,2)+' €';$('#r2').textContent=de(pos,2)+' €';$('#r3').textContent=de(pos/lv,2)+' €';}};
+ ['#c1','#c2','#c3','#c4'].forEach(s=>{$(s).addEventListener('input',run);$(s).addEventListener('change',run);});run();}
+
+/* ================= Quiz ================= */
+const QPOOL=[
+ {img:['kette',16500],q:'Was ist hier passiert?',o:['Ein alter Block wurde verändert – die Kette ist gebrochen','Ein neuer Block wurde erfolgreich gemined','Ein Halving hat stattgefunden','Die Blockchain wurde gelöscht'],l:'kette',ex:'Der Betrüger hat Block 2 geändert. Dadurch passt sein Hash nicht mehr zu Block 3 – alle folgenden Blöcke werden ungültig.'},
+ {img:['orderbuch',6000],q:'Was zeigt dieses Bild?',o:['Ein Orderbuch mit Kauf- und Verkaufsaufträgen','Ein Kassenbuch einer Bank','Den Mempool','Das Open Interest'],l:'orderbuch',ex:'Rot sind die Verkaufsaufträge (Ask), grün die Kaufaufträge (Bid) – das Orderbuch einer Börse.'},
+ {img:['halving',11000],q:'Was zeigen die immer kleineren Balken?',o:['Die Mining-Belohnung halbiert sich etwa alle 4 Jahre','Der Bitcoin-Preis fällt','Die Gebühren werden kleiner','Es gibt immer weniger Miner'],l:'halving',ex:'Alle 210.000 Blöcke halbiert sich die Belohnung: 50 → 25 → 12,5 → 6,25 → 3,125 BTC.'},
+ {img:['stoploss',9200],q:'Wie groß ist das Chance-Risiko-Verhältnis in diesem Trade?',o:['1 : 2','2 : 1','1 : 1','1 : 5'],l:'stoploss',ex:'Risiko 5 $ (100 → 95), Chance 10 $ (100 → 110). Also 1 : 2.'},
+ {img:['mining',8800],q:'Was machen die Miner hier gerade?',o:['Sie probieren Nonces aus, bis der Hash mit Nullen beginnt','Sie überweisen Bitcoin an Kunden','Sie berechnen Steuern','Sie löschen alte Blöcke'],l:'mining',ex:'Proof of Work: Nonce ändern, Hash berechnen, prüfen – milliardenfach, bis ein passender Hash gefunden ist.'},
+ {img:['abstand',12500],q:'Ab welchem Hebel kann schon eine normale Tagesschwankung liquidieren?',o:['Ab etwa 20×','Schon ab 2×','Erst ab 500×','Nie'],l:'abstand',ex:'Bei 20× liegt die Liquidation nur rund 5 % entfernt – das schafft Bitcoin oft an einem einzigen Tag.'},
+ {img:['margin',16000],q:'Welcher Margin-Modus hat hier das ganze Konto gekostet?',o:['Cross','Isoliert','Spot','Maker'],l:'margin',ex:'Bei Cross-Margin haftet das gesamte Kontoguthaben. Bei Isoliert nur die Margin der einen Position.'},
+ {img:['haltefrist',9000],q:'Kauf am 01.03.2025 – ab wann ist der Verkauf nach geltendem Recht steuerfrei?',o:['Ab dem 02.03.2026','Sofort','Ab dem 01.01.2026','Erst nach 10 Jahren'],l:'haltefrist',ex:'Zwischen Kauf und Verkauf muss mehr als ein Jahr liegen – also frühestens ab dem 02.03.2026.'},
+ {img:['fifo',11500],q:'Welche Coins gelten nach FIFO als verkauft?',o:['Die aus dem März (20.000 €)','Die aus dem Juli (40.000 €)','Die mit dem kleinsten Gewinn','Das darfst du frei wählen'],l:'fifo',ex:'First in, first out: Die zuerst gekauften Coins gelten als zuerst verkauft.'},
+ {img:['funding',7000],q:'Perp über Spot, Funding positiv – wer zahlt hier an wen?',o:['Longs zahlen an Shorts','Shorts zahlen an Longs','Die Börse zahlt an beide','Niemand zahlt'],l:'funding',ex:'Positive Funding: Longs zahlen Shorts. Das bremst die Longs und zieht den Perp-Preis zum Spot.'},
+ {img:['kaskade',11000],q:'Wie nennt man diesen Domino-Effekt?',o:['Liquidationskaskade','Halving','Funding-Squeeze','Hard Fork'],l:'kaskade',ex:'Zwangsverkäufe drücken den Kurs, der löst weitere Liquidationen aus – eine Kaskade.'},
+ {img:['hotcold',12500],q:'Warum kommt die Schadsoftware rechts nicht an den Schlüssel?',o:['Der Schlüssel verlässt die Hardware-Wallet nie','Weil der PC ausgeschaltet ist','Weil die Börse ihn schützt','Weil der Schlüssel in der Cloud liegt'],l:'hotcold',ex:'Bei einer Cold Wallet bleibt der private Schlüssel im Gerät. Zahlungen werden dort per Knopfdruck bestätigt.'},
+ {img:['liquidation',12500],q:'Was ist mit dieser Long-Position passiert?',o:['Sie wurde liquidiert – die Margin ist weg','Sie hat den Take-Profit erreicht','Die Funding Rate wurde ausgezahlt','Sie wurde in Spot umgewandelt'],l:'liquidation',ex:'Der Kurs hat den Liquidationspreis erreicht. Die Börse schließt die Position, die Margin ist verloren.'},
+ {q:'Wie viele Bitcoin kann es maximal geben?',o:['21 Millionen','100 Millionen','21 Milliarden','Unbegrenzt'],l:'halving',ex:'Die Höchstmenge von 21 Millionen BTC ist im Code festgelegt.'},
+ {q:'Was passiert, wenn du in einer Eingabe nur ein Zeichen änderst?',o:['Der Hash ist komplett anders','Der Hash ändert sich an einer Stelle','Der Hash bleibt gleich','Der Hash wird länger'],l:'hash',ex:'Schon eine winzige Änderung erzeugt einen völlig anderen Hash – so fällt jede Manipulation auf.'},
+ {q:'Was steht im Kopf eines Blocks und verbindet ihn mit der Kette?',o:['Der Hash des vorherigen Blocks','Der Name des Miners','Der aktuelle Bitcoin-Preis','Die Seed-Phrase'],l:'block',ex:'Jeder Block speichert den Hash seines Vorgängers. Das macht die Kette fälschungssicher.'},
+ {q:'Was darfst du anderen gefahrlos geben?',o:['Deine Adresse','Deinen privaten Schlüssel','Deine Seed-Phrase','Ein Foto deiner Seed-Phrase'],l:'schluessel',ex:'Die Adresse ist wie ein Briefkastenschlitz – jeder darf sie kennen. Privater Schlüssel und Seed bleiben geheim.'},
+ {q:'Ein „Support-Mitarbeiter“ fragt nach deiner Seed-Phrase. Was tust du?',o:['Nichts sagen – das ist immer Betrug','Die ersten 6 Wörter nennen','Ein Foto schicken','Sie in seine Webseite eintippen'],l:'seed',ex:'Kein echter Support fragt jemals nach der Seed-Phrase. Wer sie hat, besitzt deine Coins.'},
+ {q:'Was bedeutet „Not your keys, not your coins“?',o:['Ohne eigene Schlüssel gehören dir die Coins nur auf dem Papier','Schlüssel sind für Börsen verboten','Man braucht immer zwei Schlüssel','Coins ohne Schlüssel sind steuerfrei'],l:'notyourkeys',ex:'Auf einer Börse verwaltet die Börse die Schlüssel. Geht sie pleite, kann dein Guthaben weg sein.'},
+ {q:'Was ist der Mempool?',o:['Das Wartezimmer für unbestätigte Transaktionen','Ein Mining-Gerät','Eine Börse','Die Seed-Phrase einer Wallet'],l:'transaktion',ex:'Im Mempool warten Transaktionen, bis ein Miner sie in einen Block aufnimmt.'},
+ {q:'Nach wie vielen Bestätigungen gilt eine Bitcoin-Zahlung üblicherweise als endgültig?',o:['6','1','100','Sofort ohne Bestätigung'],l:'transaktion',ex:'Als Faustregel gelten 6 Bestätigungen (etwa eine Stunde) als sehr sicher.'},
+ {q:'Was ist eine Limit-Order?',o:['Ein Auftrag zu einem festgelegten Preis, der im Orderbuch wartet','Ein Auftrag, der sofort zum Marktpreis ausgeführt wird','Ein Auftrag mit Hebel','Eine Steuer-Meldung'],l:'ordertypen',ex:'Bei einer Limit-Order bestimmst du den Preis. Sie wird nur ausgeführt, wenn der Kurs dorthin kommt.'},
+ {q:'Wie nennt man den Unterschied zwischen bestem Kauf- und Verkaufspreis?',o:['Spread','Slippage','Funding','Margin'],l:'orderbuch',ex:'Der Spread ist die Lücke zwischen dem höchsten Bid und dem niedrigsten Ask.'},
+ {q:'Was ist ein Perpetual Future?',o:['Ein Future ohne Ablaufdatum','Ein Future, der nach einem Tag abläuft','Ein Spot-Kauf','Eine Hardware-Wallet'],l:'future',ex:'Perps laufen unbegrenzt. Die Funding Rate hält ihren Preis nahe am Spot.'},
+ {q:'Bei einem Short verdienst du, wenn …',o:['… der Kurs fällt','… der Kurs steigt','… die Funding steigt','… das Open Interest steigt'],l:'longshort',ex:'Short: zuerst verkaufen, später günstiger zurückkaufen. Du gewinnst bei fallenden Kursen.'},
+ {q:'Kurs steigt und Open Interest steigt. Was bedeutet das meist?',o:['Neues Geld treibt den Trend','Shorts steigen aus','Die Börse ist pleite','Nichts, das hängt nicht zusammen'],l:'openinterest',ex:'Steigender Kurs mit steigendem OI: Neue Positionen werden eröffnet – der Trend hat Rückenwind.'},
+ {q:'Wer bestimmt dein Risiko pro Trade wirklich?',o:['Positionsgröße und Stop-Loss','Nur der Hebel','Die Funding Rate','Die Börse'],l:'risiko',ex:'Der Hebel ändert nur die gebundene Margin. Das Risiko ergibt sich aus Positionsgröße × Stop-Abstand.'},
+ {q:'Welcher Margin-Modus schützt den Rest deines Kontos?',o:['Isoliert','Cross','Portfolio','Spot'],l:'margin',ex:'Bei Isoliert haftet nur die Margin der einzelnen Position.'},
+ {q:'Ein Tausch von BTC in ETH nach 3 Monaten mit Gewinn – ist das steuerlich relevant?',o:['Ja, ein Tausch gilt als Verkauf','Nein, nur Euro-Auszahlungen zählen','Nur wenn mehr als 10.000 € getauscht werden','Nur bei Futures'],l:'tausch',ex:'Jeder Krypto-zu-Krypto-Tausch ist ein Veräußerungsgeschäft. Innerhalb eines Jahres ist der Gewinn steuerpflichtig.'},
+ {q:'Wie werden Krypto-Futures in Deutschland in der Regel besteuert?',o:['Als Kapitalerträge mit 25 % Abgeltungsteuer + Soli','Gar nicht nach einem Jahr Haltedauer','Mit 50 % Sondersteuer','Wie Spot nach § 23 EStG'],l:'derivate',ex:'Futures gelten als Termingeschäfte (§ 20 EStG): 25 % Abgeltungsteuer plus Soli, ggf. Kirchensteuer.'},
+ {q:'Bis zu welchem Betrag bleiben Staking-Erträge im Jahr steuerfrei?',o:['Unter 256 €','Unter 1.000 €','Unter 10.000 €','Immer steuerfrei'],l:'tausch',ex:'Staking-Erträge sind sonstige Einkünfte nach § 22 Nr. 3 EStG mit einer Freigrenze von unter 256 € pro Jahr.'},
+ {q:'Was gilt laut Finanzministerium für Staking und Haltefrist?',o:['Die Haltefrist bleibt bei einem Jahr','Sie verlängert sich auf 10 Jahre','Sie entfällt ganz','Sie verkürzt sich auf 6 Monate'],l:'tausch',ex:'Das BMF hat klargestellt: Staking verlängert die Haltefrist nicht auf 10 Jahre.'},
+ {q:'Was ist eine Liquidationskaskade?',o:['Zwangsverkäufe lösen weitere Liquidationen aus','Ein besonders schneller Mining-Block','Eine Steuerprüfung','Ein Hardware-Wallet-Update'],l:'kaskade',ex:'Liquidierte Longs werden verkauft, der Kurs fällt weiter, die nächsten werden liquidiert – Domino.'},
+ {q:'Was ist eine Cold Wallet?',o:['Ein Gerät, das den Schlüssel offline aufbewahrt','Eine Wallet auf einer Börse','Eine App mit Internetverbindung','Ein eingefrorenes Börsenkonto'],l:'hotcold',ex:'Cold Wallets (Hardware-Wallets) halten den privaten Schlüssel offline.'}
+];
+const QGEN=[
+ ()=>{const m=[50,100,200,250,500][Math.floor(Math.random()*5)],lv=[5,10,20,25][Math.floor(Math.random()*4)];const r=m*lv;return{q:`Du hinterlegst ${de(m)} $ Margin mit ${lv}× Hebel. Wie groß ist deine Position?`,o:[de(r)+' $',de(r*2)+' $',de(r/2)+' $',de(m)+' $'],l:'hebel',ex:`Position = Margin × Hebel = ${de(m)} $ × ${lv} = ${de(r)} $.`};},
+ ()=>{const lv=[2,5,10,20][Math.floor(Math.random()*4)],e=100000,lq=e*(1-1/lv);return{q:`Long mit ${lv}× Hebel bei 100.000 $. Wo liegt die Liquidation grob (ohne Wartungsmargin)?`,o:[de(lq)+' $',de(e*(1-2/lv>0?1-2/lv:0.25))+' $',de(e*(1-1/(lv*10)))+' $',de(e*(1+1/lv))+' $'],l:'liquidation',ex:`Abstand ≈ 100 % ÷ ${lv} = ${de(100/lv)} %. Also etwa ${de(lq)} $.`};},
+ ()=>{const pos=[5000,10000,20000,50000][Math.floor(Math.random()*4)],f=pos*0.0001;return{q:`Funding +0,01 % alle 8 h. Was zahlt eine Long-Position über ${de(pos)} $ pro 8 Stunden?`,o:[de(f,f<10?2:0)+' $',de(f*10,0)+' $',de(f*100,0)+' $',de(f/10,2)+' $'],l:'funding',ex:`${de(pos)} $ × 0,01 % = ${de(f,2)} $ pro 8 Stunden.`};},
+ ()=>{const g=[600,950,1300,2400][Math.floor(Math.random()*4)],tax=g>=1000;return{q:`Spot-Gewinn innerhalb eines Jahres: ${de(g)} € (keine anderen Verkäufe). Wie viel davon ist steuerpflichtig?`,o:tax?[de(g)+' €','0 €',de(g-1000)+' €',de(g/2)+' €']:['0 €',de(g)+' €',de(g*2)+' €',de(g/2)+' €'],l:'freigrenze',ex:tax?`Ab 1.000 € entfällt die Freigrenze komplett – der gesamte Gewinn von ${de(g)} € ist steuerpflichtig.`:`Unter 1.000 € bleibt der Gewinn komplett steuerfrei.`};},
+ ()=>{const k=[5000,10000,20000][Math.floor(Math.random()*3)],st=[1,2,4][Math.floor(Math.random()*3)],loss=k*.01,pos=loss/(st/100);return{q:`Konto ${de(k)} €, Risiko 1 %, Stop ${st} % entfernt. Wie groß darf die Position sein?`,o:[de(pos)+' €',de(loss)+' €',de(pos*2)+' €',de(pos/2)+' €'],l:'risiko',ex:`Risiko ${de(loss)} € ÷ ${st} % = ${de(pos)} €.`};},
+ ()=>{const a=[0.1,0.2,0.5][Math.floor(Math.random()*3)],mv=[2000,3000,5000][Math.floor(Math.random()*3)],r=a*mv;return{q:`Short mit ${de(a,1)} BTC bei 100.000 $. Der Kurs fällt um ${de(mv)} $. Ergebnis?`,o:['+'+de(r)+' $','−'+de(r)+' $','+'+de(mv)+' $','+'+de(r/10)+' $'],l:'longshort',ex:`Short gewinnt bei fallenden Kursen: ${de(mv)} $ × ${de(a,1)} = ${de(r)} $ Gewinn.`};}
+];
+let QZ=null;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newQuiz(){const imgs=shuffle(QPOOL.filter(q=>q.img)).slice(0,3),gens=shuffle(QGEN).slice(0,3).map(g=>Object.assign(g(),{gen:true})),know=shuffle(QPOOL.filter(q=>!q.img)).slice(0,4);
+ const qs=shuffle([...imgs,...gens,...know]).map(q=>{const seen=new Set(),uo=q.o.filter(t=>!seen.has(t)&&seen.add(t));const order=shuffle(uo.map((t,i)=>({t,ok:i===0})));return Object.assign({},q,{opts:order});});
+ QZ={qs,i:0,score:0,wrong:[],answered:false,cv:null};}
+function renderQuiz(){stopPlayer();if(!QZ||QZ.done)newQuiz();drawQuiz();}
+function drawQuiz(){const q=QZ.qs[QZ.i];const kind=q.img?'BILDFRAGE':q.gen?'RECHENAUFGABE':'WISSEN';
+ let h=`<div style="--acc:var(--gold)"><button class="back" onclick="location.hash=''">← START</button><div class="kicker">Quiz</div><h1>Krypto-Quiz</h1>
+ <div class="qcard"><div class="qtop"><span>FRAGE ${QZ.i+1} / ${QZ.qs.length}</span><span>PUNKTE ${QZ.score}</span></div><div class="qbar"><i style="width:${QZ.i/QZ.qs.length*100}%"></i></div>
+ <span class="qtag">${kind}</span><p class="qq">${esc(q.q)}</p>${q.img?'<div class="qcv"><canvas id="qcv"></canvas></div>':''}
+ <div class="opts">${q.opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o.t)}</button>`).join('')}</div><div id="qfb"></div></div></div>`;
+ $('#view').innerHTML=h;QZ.answered=false;
+ if(q.img){QZ.cv=$('#qcv');drawQuizCanvas();}else QZ.cv=null;
+ $('.opts').onclick=e=>{const b=e.target.closest('.opt');if(!b||QZ.answered)return;answer(+b.dataset.k);};}
+function drawQuizCanvas(){const q=QZ.qs[QZ.i];if(!q||!q.img||!QZ.cv)return;sizeCanvas(QZ.cv);paint(QZ.cv.getContext('2d'),QZ.cv,BYID[q.img[0]],q.img[1]);}
+function answer(k){const q=QZ.qs[QZ.i];QZ.answered=true;const ok=q.opts[k].ok;if(ok)QZ.score++;else if(!QZ.wrong.includes(q.l))QZ.wrong.push(q.l);
+ [...document.querySelectorAll('.opt')].forEach((b,i)=>{b.disabled=true;if(q.opts[i].ok)b.classList.add('ok');else if(i===k)b.classList.add('bad');});
+ const last=QZ.i===QZ.qs.length-1;
+ $('#qfb').innerHTML=`<div class="fb"><b style="color:var(--${ok?'up':'down'})">${ok?'✓ RICHTIG':'✗ FALSCH'}</b> – ${esc(q.ex)}</div><div class="qnav"><button onclick="location.hash='l-${q.l}'">Zur Lektion: ${esc(BYID[q.l].title)}</button><button class="main" id="qnext">${last?'Ergebnis anzeigen':'Nächste Frage →'}</button></div>`;
+ $('#qnext').onclick=()=>{if(last)finishQuiz();else{QZ.i++;drawQuiz();window.scrollTo(0,0);}};
+ $('#qfb').scrollIntoView({behavior:'smooth',block:'nearest'});}
+function finishQuiz(){QZ.done=true;const best=Math.max(store.get('krypto-best',0)||0,QZ.score);store.set('krypto-best',best);
+ const msg=QZ.score>=9?'Hervorragend – du bist ein Krypto-Profi!':QZ.score>=7?'Sehr gut! Nur noch wenige Lücken.':QZ.score>=5?'Solide. Wiederhole die Lektionen unten.':'Kein Problem – schau dir die Lektionen unten noch einmal an.';
+ let h=`<div style="--acc:var(--gold)"><button class="back" onclick="location.hash=''">← START</button><div class="kicker">Quiz · Ergebnis</div><h1>Geschafft!</h1><div class="qcard"><div class="score" style="color:var(--${QZ.score>=7?'up':QZ.score>=5?'gold':'down'})">${QZ.score} / ${QZ.qs.length}</div><p class="lead">${msg}</p><p class="kicker">Bestwert: ${best} / 10</p>`;
+ if(QZ.wrong.length){h+=`<p class="kicker" style="margin-top:16px">Zum Wiederholen</p><div class="rep">`;QZ.wrong.forEach(id=>{const l=BYID[id];h+=`<button class="lc" style="${accVar(l.area)}" onclick="location.hash='l-${id}'"><div class="ic">${String(l.no).padStart(2,'0')}</div><div><small>${esc(AREA[l.area].name.toUpperCase())}</small><b>${esc(l.title)}</b></div></button>`;});h+=`</div>`;}
+ h+=`<div class="qnav"><button class="main" id="qagain">Neues Quiz</button><button onclick="location.hash=''">Zur Startseite</button></div></div></div>`;
+ $('#view').innerHTML=h;$('#qagain').onclick=()=>{newQuiz();drawQuiz();};}
+
+/* ================= Theme ================= */
+let MODE=store.get('kompass-theme-raw',null)||(()=>{try{return localStorage.getItem('kompass-theme')||'dark'}catch(e){return 'dark'}})();
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;
+function applyTheme(){const t=MODE==='auto'?(mq&&mq.matches?'light':'dark'):MODE;document.documentElement.setAttribute('data-theme',t);setCanvasTheme(t);
+ document.querySelectorAll('.theme button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===MODE)));
+ const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=t==='light'?'#f3f5f9':'#05080d';
+ if(QZ&&QZ.cv&&document.body.contains(QZ.cv))drawQuizCanvas();}
+document.querySelectorAll('.theme button').forEach(b=>b.onclick=()=>{MODE=b.dataset.m;try{localStorage.setItem('kompass-theme',MODE);}catch(e){}applyTheme();});
+if(mq&&mq.addEventListener)mq.addEventListener('change',()=>{if(MODE==='auto')applyTheme();});
+
+/* ================= Router ================= */
+function route(){const h=location.hash.slice(1);stopPlayer();
+ if(h==='quiz')renderQuiz();else if(h.startsWith('b-'))renderArea(h.slice(2));else if(h.startsWith('l-'))renderLesson(h.slice(2));else renderHome();
+ renderNav();window.scrollTo(0,0);}
+$('#brand').onclick=()=>{location.hash='';};
+window.addEventListener('hashchange',route);
+applyTheme();updProgress();route();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(QZ&&QZ.cv)drawQuizCanvas();});
+</script>
+</body>
+</html>
