@@ -18,14 +18,14 @@
 <style>
 :root{
   --bg:#05080d; --panel:#0b1118; --card:#0f1620; --card2:#0a0f15; --line:#1b2532; --line2:#2a3647; --line3:#36465b; --text:#dfe6ef; --soft:#b9c4d2; --soft2:#c9d2de; --mute:#7f8b9c;
-  --up:#1fcf8f; --down:#f0605d; --gold:#f5c542; --blue:#4c9aff; --purple:#b388ff; --orange:#ff9f43;
+  --up:#1fcf8f; --down:#f0605d; --gold:#f5c542; --blue:#4c9aff; --purple:#b388ff; --orange:#ff9f43; --pink:#ff5c9a; --aqua:#22d3ee; --lime:#a3e635;
   --chart:#020407; --hdr:rgba(5,8,13,.92); --veil:rgba(5,8,13,.75); --on-gold:#1b1505; --on-up:#03140d;
   --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
   --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
 }
 [data-theme="light"]{
   --bg:#f3f5f9; --panel:#eef2f7; --card:#ffffff; --card2:#f7f9fc; --line:#dde3ec; --line2:#c9d2de; --line3:#b7c2d1; --text:#131a26; --soft:#3d4757; --soft2:#2c3646; --mute:#5d6879;
-  --up:#087f5b; --down:#c62f2c; --gold:#946200; --blue:#1a66c9; --purple:#7445cc; --orange:#b45000;
+  --up:#087f5b; --down:#c62f2c; --gold:#946200; --blue:#1a66c9; --purple:#7445cc; --orange:#b45000; --pink:#c2185b; --aqua:#0e7490; --lime:#4d7c0f;
   --chart:#ffffff; --hdr:rgba(243,245,249,.92); --veil:rgba(255,255,255,.85); --on-gold:#ffffff; --on-up:#ffffff;
 }
 *{box-sizing:border-box}
@@ -183,8 +183,8 @@ canvas{display:block;width:100%;aspect-ratio:540/400}
 "use strict";
 /* ================= Farben ================= */
 const THEMES={
- dark:{bg:'#020407',grid:'#111a24',card:'#0f1620',line:'#2a3647',text:'#e6ecf3',soft:'#b9c4d2',mute:'#7f8b9c',up:'#1fcf8f',down:'#f0605d',gold:'#f5c542',blue:'#4c9aff',purple:'#b388ff',orange:'#ff9f43',pillBg:'rgba(2,4,7,.9)',onTag:'#05080d'},
- light:{bg:'#ffffff',grid:'#e6ebf2',card:'#f3f6fa',line:'#c9d2de',text:'#131a26',soft:'#3d4757',mute:'#5d6879',up:'#087f5b',down:'#c62f2c',gold:'#946200',blue:'#1a66c9',purple:'#7445cc',orange:'#b45000',pillBg:'rgba(255,255,255,.95)',onTag:'#ffffff'}};
+ dark:{bg:'#020407',grid:'#111a24',card:'#0f1620',line:'#2a3647',text:'#e6ecf3',soft:'#b9c4d2',mute:'#7f8b9c',up:'#1fcf8f',down:'#f0605d',gold:'#f5c542',blue:'#4c9aff',purple:'#b388ff',orange:'#ff9f43',pink:'#ff5c9a',aqua:'#22d3ee',lime:'#a3e635',pillBg:'rgba(2,4,7,.9)',onTag:'#05080d'},
+ light:{bg:'#ffffff',grid:'#e6ebf2',card:'#f3f6fa',line:'#c9d2de',text:'#131a26',soft:'#3d4757',mute:'#5d6879',up:'#087f5b',down:'#c62f2c',gold:'#946200',blue:'#1a66c9',purple:'#7445cc',orange:'#b45000',pink:'#c2185b',aqua:'#0e7490',lime:'#4d7c0f',pillBg:'rgba(255,255,255,.95)',onTag:'#ffffff'}};
 const C=Object.assign({},THEMES.dark);
 let THEME='dark';
 function setCanvasTheme(t){THEME=t;Object.assign(C,THEMES[t]||THEMES.dark);}
@@ -231,12 +231,15 @@ function yMap(min,max,y0,y1){return v=>y1-(v-min)/(max-min)*(y1-y0);}
 
 /* ================= Bereiche ================= */
 const AREAS=[
- {id:'chain',name:'Blockchain',acc:'blue',desc:'Wie Blöcke, Hashes und Mining zusammen ein fälschungssicheres Kassenbuch bilden.',icon:'chain'},
+ {id:'chain',name:'Blockchain',acc:'blue',desc:'Blöcke, Hashes, Mining, Proof of Stake, Smart Contracts, Layer 2 und Stablecoins.',icon:'chain'},
  {id:'wallet',name:'Wallets',acc:'purple',desc:'Schlüssel, Seed-Phrase und wie du deine Coins wirklich sicher aufbewahrst.',icon:'wallet'},
+ {id:'sicher',name:'Sicherheit & Betrug',acc:'pink',desc:'Phishing, Drainer, Rug Pulls und Pump & Dump – so schützt du dein Geld.',icon:'shield'},
  {id:'boerse',name:'Börsen',acc:'up',desc:'Orderbuch, Ordertypen und dein erster Kauf – Schritt für Schritt.',icon:'book'},
- {id:'futures',name:'Futures',acc:'orange',desc:'Perpetuals, Long & Short, Funding Rate und Open Interest.',icon:'fut'},
+ {id:'defi',name:'DeFi & Coins',acc:'aqua',desc:'DEX, Liquiditätspools, Staking, Marktkapitalisierung und Token-Arten.',icon:'pool'},
+ {id:'futures',name:'Futures',acc:'orange',desc:'Perps, Long & Short, Funding, Basis, Hedging, Squeeze und Trailing Stop.',icon:'fut'},
  {id:'hebel',name:'Hebel & Liquidation',acc:'down',desc:'Warum Hebel Gewinne UND Verluste vervielfacht – und wann du liquidiert wirst.',icon:'lever'},
- {id:'steuer',name:'Steuern (DE)',acc:'gold',desc:'Haltefrist, Freigrenze, FIFO und wie Futures versteuert werden.',icon:'para'}
+ {id:'markt',name:'Markt verstehen',acc:'lime',desc:'Zyklen, Dominanz, Stimmung, On-Chain-Daten und Makro.',icon:'wave'},
+ {id:'steuer',name:'Steuern (DE)',acc:'gold',desc:'Haltefrist, Freigrenze, FIFO, Futures, Verluste, MiCA und DAC8.',icon:'para'}
 ];
 const AREA=Object.fromEntries(AREAS.map(a=>[a.id,a]));
 const ICONS={
@@ -246,6 +249,9 @@ const ICONS={
  fut:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 38V8M6 16l8-8 8 8"/><path d="M32 8v30M24 30l8 8 8-8"/></svg>',
  lever:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 34L42 16"/><path d="M18 38l5-10 5 10z" fill="currentColor" fill-opacity=".25"/><rect x="4" y="27" width="8" height="8" rx="1.5"/><path d="M38 6v8M34 10h8"/></svg>',
  para:'<svg width="46" height="46" viewBox="0 0 46 46"><text x="23" y="34" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="32" fill="currentColor">§</text></svg>',
+ shield:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"><path d="M23 4l16 6v11c0 10-7 17-16 21C14 38 7 31 7 21V10z" fill="currentColor" fill-opacity=".15"/><path d="M16 23l5 5 9-10" stroke-linecap="round"/></svg>',
+ pool:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="12" width="14" height="26" rx="3"/><rect x="27" y="12" width="14" height="26" rx="3"/><rect x="8" y="24" width="8" height="11" fill="currentColor" stroke="none" opacity=".5"/><rect x="30" y="18" width="8" height="17" fill="currentColor" stroke="none" opacity=".5"/><path d="M19 20h8M27 30h-8" stroke-linecap="round"/></svg>',
+ wave:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 34l7-10 6 6 8-16 7 9 10-15"/><path d="M4 41h38" opacity=".5"/></svg>',
  quiz:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="23" cy="23" r="18"/><path d="M17 18a6 6 0 1 1 8.5 5.4c-1.6.8-2.5 2-2.5 3.6v1" stroke-linecap="round"/><circle cx="23" cy="33" r="1.8" fill="currentColor"/></svg>',
  chart:'<svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke-width="2.4"><path d="M13 6v34" stroke="#f0605d"/><rect x="8" y="14" width="10" height="14" rx="1.5" fill="#f0605d"/><path d="M32 4v36" stroke="#1fcf8f"/><rect x="27" y="10" width="10" height="20" rx="1.5" fill="#1fcf8f"/></svg>'
 };
@@ -1083,6 +1089,848 @@ add({id:'derivate',area:'steuer',title:'Futures & Derivate',sub:'Kapitalerträge
   bedeutung:'Bei Futures gibt es keine steuerfreie Haltedauer. Verluste aus Termingeschäften lassen sich seit Ende 2024 wieder unbegrenzt mit Gewinnen verrechnen.',
   tipp:'Die Einordnung einzelner Produkte ist nicht in jedem Detail geklärt. Bei hohen Summen oder Unsicherheit einen Steuerberater fragen. Keine Steuerberatung!'}});
 
+/* ================= ERWEITERUNG PAKET 1–6 ================= */
+function KF(k,u){let i=0;while(i<k.length-2&&k[i+1][0]<=u)i++;const a=k[i],b=k[i+1];return L(a[1],b[1],clamp((u-a[0])/(b[0]-a[0])));}
+function series(fn,t,x0,x1,tot,y,step=60){const pts=[];const te=Math.min(t,tot);for(let u=0;u<=te;u+=step)pts.push([x0+u/tot*(x1-x0),y(fn(u))]);pts.push([x0+te/tot*(x1-x0),y(fn(te))]);return pts;}
+function hacker(x,y,s){person(x,y,s,C.down);box(x-s*.34,y-s*.52,s*.68,s*.16,{f:C.bg,r:3});}
+
+/* ---------- PAKET 1: FUTURES FÜR PROFIS ---------- */
+const MK_LAST=u=>100+Math.sin(u/900)*1.2+Math.sin(u/260)*.45+(u>8600&&u<9600?-3.4*Math.sin((u-8600)/1000*Math.PI):0);
+const MK_MARK=u=>100+Math.sin(u/900)*1.2;
+add({id:'markpreis',area:'futures',title:'Mark-Preis vs. letzter Preis',sub:'Welcher Preis liquidiert dich?',
+ lead:'An einer Futures-Börse gibt es zwei Preise. Welcher davon über deine Liquidation entscheidet, kann dich vor bösen Überraschungen schützen.',
+ total:17000,steps:[
+  {at:0,text:'Der LETZTE PREIS ist der Kurs des letzten Handels an DEINER Börse. Er zappelt stark.'},
+  {at:3500,text:'Der MARK-PREIS ist ein fairer Durchschnitt aus mehreren großen Börsen (Index). Er verläuft ruhiger.'},
+  {at:7000,text:'Ein kurzer Ausreißer an deiner Börse: Der letzte Preis fällt für Sekunden unter deinen Liquidationspreis …'},
+  {at:10300,text:'… der Mark-Preis bleibt aber darüber. Du wirst NICHT liquidiert – die Börse nutzt für die Liquidation den Mark-Preis.'},
+  {at:13800,text:'Aber: Stop-Loss-Orders lösen je nach Einstellung oft auf den letzten Preis aus. Prüfe, welchen Auslöser du gewählt hast.'}],
+ draw(t){bg();const x0=24,x1=440,y=yMap(95.5,103.5,36,320),tot=12500;
+  line(x0,y(97.6),x1,y(97.6),C.down,2.5,[7,5]);T('DEINE LIQ',x0+4,y(97.6)+16,{sz:12,c:C.down,al:'left'});
+  poly(series(MK_LAST,t,x0,x1,tot,y,40),C.text,2);
+  if(t>=3500)poly(series(MK_MARK,t,x0,x1,tot,y),C.blue,3.5,1);
+  const te=Math.min(t,tot),xe=x0+te/tot*(x1-x0);
+  {const yl=y(MK_LAST(te)),ym=y(MK_MARK(te));if(t<3500)T('Letzter',xe+8,yl,{sz:12,c:C.text,al:'left'});else{const up=yl<=ym;T('Letzter',xe+8,(up?Math.min(yl,ym):Math.max(yl,ym))+(up?-12:12),{sz:12,c:C.text,al:'left'});T('Mark',xe+8,(up?Math.max(yl,ym):Math.min(yl,ym))+(up?12:-12),{sz:12,c:C.blue,al:'left'});}}
+  A(P(t,3500,4000)*(1-P(t,6800,7100)),()=>{['Börse A','Börse B','Börse C'].forEach((n,i)=>pill(n,70+i*110,368,C.soft,{sz:11}));arrow(370,368,404,368,C.blue,1,{lw:2.5,head:8});pill('MARK',450,368,C.blue,{solid:true,sz:12});});
+  if(t>=9000){const sx=x0+9100/tot*(x1-x0);A(P(t,9000,9400),()=>{circ(sx,y(MK_LAST(9100)),9,{s:C.down,lw:3});pill('DOCHT',sx,y(MK_LAST(9100))+28,C.down,{sz:11});});}
+  A(P(t,10300,10800)*(1-P(t,13600,13900)),()=>pill('KEINE LIQUIDATION ✓',270,368,C.up,{solid:true,sz:13}));
+  A(P(t,13800,14300),()=>pill('STOP-AUSLÖSER PRÜFEN',270,368,C.orange,{solid:true,sz:13}));
+ },
+ box:{was:'Der letzte Preis (Last Price) stammt aus deiner Börse. Der Mark-Preis wird aus einem Index mehrerer Börsen berechnet und dient für Liquidation und unrealisierten Gewinn.',
+  erkennen:['In der Positionsübersicht stehen oft beide Preise','Liquidation: fast immer per Mark-Preis','Stop-Loss: Auslöser „Letzter Preis“ oder „Mark-Preis“ wählbar'],
+  bedeutung:'Der Mark-Preis schützt vor Manipulation und kurzen Dochten. Dein Stop kann trotzdem ausgelöst werden, wenn er auf den letzten Preis reagiert.',
+  tipp:'Für Stops in hektischen Märkten ist der Mark-Preis als Auslöser oft die ruhigere Wahl – dafür etwas ungenauer.'}});
+
+const BS_SPOT=u=>100+Math.sin(u/1300)*2.2+Math.sin(u/470)*.6;
+const BS_BASIS=u=>4*(1-clamp(u/13000));
+add({id:'basis',area:'futures',title:'Basis & Contango',sub:'Warum Future und Spot zusammenlaufen',
+ lead:'Futures mit Ablaufdatum kosten selten genau so viel wie der Spot-Preis. Die Differenz – die Basis – schrumpft bis zum Ablauf auf null.',
+ total:17000,steps:[
+  {at:0,text:'Ein Future mit Ablaufdatum (z. B. März) kostet oft MEHR als Bitcoin im Spot.'},
+  {at:3500,text:'Die Differenz heißt BASIS. Liegt der Future über dem Spot, nennt man das CONTANGO – typisch bei guter Stimmung.'},
+  {at:7000,text:'Je näher der Ablauf rückt, desto kleiner wird die Basis …'},
+  {at:10500,text:'… am Ablauftag sind Future und Spot gleich: Der Future wird zum Spot-Preis abgerechnet (Basis-Konvergenz).'},
+  {at:13800,text:'Liegt der Future UNTER dem Spot, heißt das BACKWARDATION – das kommt eher in Panikphasen vor.'}],
+ draw(t){bg();const x0=30,x1=450,y=yMap(95,107,36,320),tot=13000;
+  const te=Math.min(t,tot);
+  if(t>=3500){X.fillStyle=hexA(C.gold,.18);X.beginPath();for(let u=0;u<=te;u+=100){const x=x0+u/tot*(x1-x0);X.lineTo(x,y(BS_SPOT(u)+BS_BASIS(u)));}for(let u=te;u>=0;u-=100){const x=x0+u/tot*(x1-x0);X.lineTo(x,y(BS_SPOT(u)));}X.closePath();X.fill();}
+  poly(series(BS_SPOT,t,x0,x1,tot,y),C.blue,3);poly(series(u=>BS_SPOT(u)+BS_BASIS(u),t,x0,x1,tot,y),C.orange,3);
+  const xe=x0+te/tot*(x1-x0);T('Future',xe+8,y(BS_SPOT(te)+BS_BASIS(te))-10,{sz:12,c:C.orange,al:'left'});T('Spot',xe+8,y(BS_SPOT(te))+12,{sz:12,c:C.blue,al:'left'});
+  line(x1,40,x1,322,C.mute,1.5,[4,5]);T('ABLAUF',x1,346,{sz:12,c:C.mute});T('HEUTE',x0,346,{sz:12,c:C.mute,al:'left'});
+  A(P(t,3600,4100)*(1-P(t,6800,7100)),()=>pill('BASIS ≈ 4 %',x0+70,y(BS_SPOT(1500)+2)-50,C.gold,{sz:12}));
+  if(t>=13000)A(P(t,13000,13400),()=>{circ(x1,y(BS_SPOT(13000)),9,{f:C.up});});
+  A(P(t,10500,11000)*(1-P(t,13600,13900)),()=>pill('BASIS = 0 ✓',270,378,C.up,{solid:true,sz:13}));
+  A(P(t,13800,14300),()=>pill('BACKWARDATION: FUTURE < SPOT',270,378,C.down,{solid:true,sz:12}));
+ },
+ box:{was:'Die Basis ist der Unterschied zwischen Future-Preis und Spot-Preis. Contango: Future teurer als Spot. Backwardation: Future billiger als Spot.',
+  erkennen:['Basis = Future-Preis − Spot-Preis','Sie schrumpft bis zum Ablauf auf null','Bei Perps übernimmt die Funding Rate diese Aufgabe'],
+  bedeutung:'Eine hohe Basis zeigt Optimismus. Profis nutzen sie für „Cash and Carry“: Spot kaufen, Future verkaufen, Basis kassieren.',
+  tipp:'Rechne die Basis aufs Jahr hoch: 3 % Basis bei 3 Monaten Laufzeit sind etwa 12 % pro Jahr.'}});
+
+const HG_P=u=>u<7000?100000:L(100000,85000,P(u,7000,10300));
+add({id:'hedging',area:'futures',title:'Hedging mit Short',sub:'Dein Spot-Depot absichern',
+ lead:'Du willst deine Coins behalten, aber dich gegen fallende Kurse schützen? Dann kannst du dein Spot-Depot mit einem Short absichern.',
+ total:17000,steps:[
+  {at:0,text:'Du hast 1 BTC im Spot zu 100.000 $ und willst ihn nicht verkaufen – zum Beispiel wegen der Haltefrist.'},
+  {at:3500,text:'Du eröffnest zusätzlich einen SHORT über 1 BTC – mit wenig Hebel, damit er nicht liquidiert wird.'},
+  {at:7000,text:'Der Kurs fällt auf 85.000 $: Dein Spot verliert 15.000 $, dein Short gewinnt 15.000 $.'},
+  {at:10500,text:'Summe: ±0 $. Dein Depot ist gegen fallende Kurse abgesichert – das nennt man HEDGING.'},
+  {at:13600,text:'Kosten: Gebühren und Funding. Und: Short-Gewinne sind steuerpflichtig – auch wenn der Spot-Verkauf steuerfrei wäre.'}],
+ draw(t){bg();const x0=24,x1=290,y=yMap(82000,103000,40,330),tot=11000;
+  line(x0,y(100000),x1,y(100000),C.blue,2,[6,5]);T('100.000 $',x0+2,y(100000)-14,{sz:12,c:C.blue,al:'left'});
+  poly(series(HG_P,t,x0,x1,tot,y),C.text,2.5);const pr=HG_P(Math.min(t,tot));
+  T('Kurs '+de(pr,0)+' $',x0+130,356,{sz:13,c:C.soft});
+  const sp=pr-100000,sh=t>=3500?100000-pr:0;
+  const card=(yy,name,c,v,a)=>A(a,()=>{box(310,yy,214,96,{f:C.card,s:c,lw:2.5});T(name,417,yy+22,{sz:14,c,b:800});const vc=v>0.5?C.up:v<-0.5?C.down:C.soft;T((v>=0?'+':'−')+de(Math.abs(v),0)+' $',417,yy+62,{sz:24,c:vc,b:800});});
+  card(24,'SPOT 1 BTC',C.gold,sp,1);card(136,'SHORT 1 BTC',C.down,sh,P(t,3500,4000));
+  card(248,'SUMME',C.up,sp+sh,P(t,10500,11000));
+  A(P(t,10600,11100)*(1-P(t,13400,13700)),()=>pill('ABGESICHERT ✓',157,384,C.up,{solid:true,sz:13}));
+  A(P(t,13600,14100),()=>pill('KOSTEN: GEBÜHREN + FUNDING',157,384,C.orange,{solid:true,sz:11}));
+ },
+ box:{was:'Hedging bedeutet: Du eröffnest eine Gegenposition, damit sich Gewinne und Verluste ausgleichen. Ein Short in gleicher Größe neutralisiert dein Spot-Risiko.',
+  erkennen:['Spot-Bestand + Short gleicher Größe = neutral','Funktioniert in beide Richtungen: Steigt der Kurs, verliert der Short','Kosten: Gebühren und Funding'],
+  bedeutung:'Profis sichern so vor wichtigen Terminen oder in unsicheren Phasen ab, ohne ihre Coins zu verkaufen.',
+  tipp:'Steuerlich bleiben Spot (§ 23) und Futures (Kapitalerträge) getrennte Töpfe. Ein Short-Gewinn ist steuerpflichtig, ein Short-Verlust nur mit Kapitalerträgen verrechenbar.'}});
+
+function sqPrice(t){return 200000-kPrice(t);}
+add({id:'squeeze',area:'futures',title:'Short Squeeze',sub:'Wenn Shorts zum Kaufen gezwungen werden',
+ lead:'Das Gegenstück zur Liquidationskaskade: Viele Shorts müssen gleichzeitig zurückkaufen – und treiben den Kurs nach oben.',
+ total:17500,steps:[
+  {at:0,text:'Viele Trader sind short. Ihre Stopps und Liquidationen liegen ÜBER dem aktuellen Kurs (Beispiel-Zonen rechts).'},
+  {at:3500,text:'Der Kurs steigt leicht und trifft die erste Zone. Einen Short schließen heißt: KAUFEN.'},
+  {at:7000,text:'Diese Zwangskäufe treiben den Kurs weiter hoch – die nächste Zone wird getroffen …'},
+  {at:10200,text:'… ein SHORT SQUEEZE: steile grüne Kerzen in kurzer Zeit.'},
+  {at:13500,text:'Warnzeichen: stark negative Funding (zu viele Shorts) und hohes Open Interest.'}],
+ draw(t){bg();const x0=24,x1=360,y=yMap(98000,116000,50,360),xt=u=>x0+u/17500*(x1-x0);
+  const zones=[[103000,.5,5000],[106000,.9,7000],[110000,1.4,9000]];let sum=0;
+  zones.forEach(([lv,sz,hit])=>{const gone=P(t,hit,hit+700);if(t>=hit)sum+=sz;A(1-gone*.75,()=>{box(x0,y(lv)-9,x1-x0,18,{f:hexA(C.up,.16),r:3});T(de(lv/1000)+'k',x1+6,y(lv),{sz:12,c:C.up,al:'left'});box(408,y(lv)-11,sz*36,22,{f:hexA(C.up,.75),r:3});T(de(sz,1)+' Mrd',408+sz*36+6,y(lv),{sz:12,al:'left',c:C.soft});});
+   if(t>=hit)burst(xt(hit),y(lv),PL_(t,hit,hit+700),C.up);});
+  T('SHORT-LIQS',466,24,{sz:11,c:C.mute});T('(Beispiel)',466,40,{sz:11,c:C.mute});
+  const pts=[];for(let u=0;u<=t;u+=50)pts.push([xt(u),y(sqPrice(u))]);poly(pts,C.text,2.5);circ(xt(t),y(sqPrice(t)),5,{f:C.text});
+  pill('SHORTS LIQUIDIERT: '+de(sum,1)+' MRD $',24,24,sum>0?C.up:C.soft,{al:'left',sz:12,solid:sum>1.5});
+  A(P(t,13500,14000),()=>pill('FUNDING STARK NEGATIV = WARNUNG',270,384,C.orange,{solid:true,sz:11}));
+ },
+ box:{was:'Ein Short Squeeze entsteht, wenn steigende Kurse viele Short-Positionen zum Schließen zwingen. Jeder Short, der schließt, kauft – das verstärkt den Anstieg.',
+  erkennen:['Plötzliche, sehr steile grüne Kerzen','Open Interest fällt stark (Shorts werden geschlossen)','Vorher oft negative Funding'],
+  bedeutung:'Wer gegen einen starken Markt shortet, riskiert, im Squeeze liquidiert zu werden.',
+  tipp:'Shorts nie ohne Stop-Loss. Und: Ein Stop direkt über einem offensichtlichen Hoch wird bei einem Squeeze als Erstes getroffen.'}});
+
+add({id:'gebuehren',area:'futures',title:'Gebühren bei Hebel',sub:'Der stille Konto-Killer',
+ lead:'Gebühren klingen klein – 0,05 %. Mit Hebel werden sie aber auf die ganze Position berechnet und fressen schnell einen großen Teil deiner Margin.',
+ total:17000,steps:[
+  {at:0,text:'Gebühren werden auf die GANZE Position berechnet – nicht auf deine Margin.'},
+  {at:3400,text:'Beispiel: 1.000 $ Margin mit 10× Hebel = 10.000 $ Position. Taker-Gebühr: 0,05 %.'},
+  {at:6800,text:'Eröffnen: 10.000 $ × 0,05 % = 5 $. Schließen: noch einmal 5 $. Zusammen 10 $.'},
+  {at:10300,text:'10 $ sind 1 % deiner Margin – pro Trade! Bei 50× Hebel wären es schon 5 %.'},
+  {at:13600,text:'Wer täglich viele Trades macht, verliert so einen großen Teil des Kontos – nur durch Gebühren.'}],
+ draw(t){bg();const s=.04,bx=120;
+  T('MARGIN',18,46,{sz:13,c:C.mute,al:'left'});box(bx,28,1000*s,36,{f:C.gold,r:5});T('1.000 $',bx+1000*s+10,46,{sz:15,al:'left',b:800});
+  const g=P(t,3400,4400);A(g,()=>{T('POSITION',18,112,{sz:13,c:C.mute,al:'left'});box(bx,94,L(1000,10000,g)*s,36,{f:hexA(C.orange,.85),r:5});T('10.000 $',bx+10,112,{sz:15,al:'left',c:C.onTag,b:800});});
+  A(P(t,6800,7300),()=>{coin(150,176,18,'$',C.down);T('Eröffnen: 5 $',176,176,{sz:15,al:'left',c:C.down});});
+  A(P(t,7800,8300),()=>{coin(350,176,18,'$',C.down);T('Schließen: 5 $',376,176,{sz:15,al:'left',c:C.down});});
+  A(P(t,10300,10800),()=>{T('GEBÜHREN PRO TRADE IN % DER MARGIN',18,224,{sz:12,c:C.mute,al:'left'});
+   [[1,.1],[10,1],[20,2],[50,5]].forEach(([lv,pc],i)=>{const yy=252+i*32,p=P(t,10500+i*300,11100+i*300);T(lv+'×',60,yy,{sz:15,al:'right',b:800});box(72,yy-11,Math.max(3,pc*68*p),22,{f:pc>=2?C.down:pc>=1?C.orange:C.up,r:4});A(p,()=>T(de(pc,1)+' %',72+pc*68*p+8,yy,{sz:14,al:'left',b:800}));});});
+  A(P(t,13600,14100),()=>pill('100 TRADES × 1 % = KONTO HALBIERT',270,384,C.down,{solid:true,sz:11}));
+ },
+ box:{was:'Börsen berechnen Maker- und Taker-Gebühren auf den Wert der Position. Hebel vergrößert die Position – und damit die Gebühren im Verhältnis zur Margin.',
+  erkennen:['Gebühr = Positionsgröße × Gebührensatz','Fällt beim Eröffnen UND beim Schließen an','Dazu kommt bei Perps die Funding'],
+  bedeutung:'Bei hohem Hebel und vielen Trades sind Gebühren oft der größte Verlustposten – noch vor schlechten Trades.',
+  tipp:'Limit-Orders (Maker) nutzen und weniger, dafür bessere Trades machen. Prüfe die Gebührenstufen deiner Börse.'}});
+
+const TR_K=[[0,100],[1500,101.5],[3500,105],[5000,103.6],[7500,108],[9000,107],[10500,116],[11500,114.4],[12500,112],[14000,111]];
+const TR_P=u=>KF(TR_K,u)+(u<12500&&u>0?Math.sin(u/170)*.35:0);
+function trStop(u){if(u<3500)return 95;if(u<7500)return 100;let m=0;for(let v=7500;v<=Math.min(u,12500);v+=50)m=Math.max(m,KF(TR_K,v));return Math.max(100,m-4);}
+add({id:'trailing',area:'futures',title:'Teilgewinne & Trailing Stop',sub:'Gewinne laufen lassen – und sichern',
+ lead:'Profis nehmen unterwegs Teilgewinne mit und lassen den Rest mit einem nachziehenden Stop laufen.',
+ total:16500,steps:[
+  {at:0,text:'Long bei 100 $, Stop-Loss bei 95 $. Der Kurs steigt.'},
+  {at:3500,text:'Bei 105 $: TEILGEWINN – die Hälfte verkaufen und den Stop auf den Einstieg ziehen (Break-even).'},
+  {at:7500,text:'TRAILING STOP: Der Stop folgt dem Kurs automatisch nach oben – hier im Abstand von 4 $.'},
+  {at:10600,text:'Dreht der Kurs, wird der Rest beim Trailing Stop verkauft. Der Gewinn ist gesichert.'},
+  {at:13300,text:'Ergebnis: Hälfte 1 bei 105 $ (+5 %), Hälfte 2 bei 112 $ (+12 %). Ab Break-even war kein Verlust mehr möglich.'}],
+ draw(t){bg();const x0=24,x1=460,y=yMap(92,119,30,340),tot=13000,xt=u=>x0+u/tot*(x1-x0);
+  line(x0,y(100),x1,y(100),C.blue,1.5,[6,5]);T('EINSTIEG 100 $',x0+4,y(100)+14,{sz:11,c:C.blue,al:'left'});
+  const te=Math.min(t,12500);const sp=[];for(let u=0;u<=te;u+=50){sp.push([xt(u),y(trStop(u))]);}if(sp.length)poly(sp,C.down,3);
+  if(sp.length&&t<12500)T('STOP '+de(trStop(te),0)+' $',xt(te)+8,y(trStop(te))+12,{sz:12,c:C.down,al:'left'});
+  poly(series(TR_P,t,x0,x1,tot,y,40),C.text,2.5);const pe=TR_P(Math.min(t,tot));circ(xt(Math.min(t,tot)),y(pe),5,{f:C.text});
+  A(P(t,3500,3900),()=>{circ(xt(3500),y(105),9,{f:C.gold});pill('½ VERKAUFT 105 $',xt(3500),y(105)-28,C.gold,{sz:11});});
+  A(P(t,7600,8100)*(1-P(t,10400,10700)),()=>pill('STOP FOLGT DEM KURS ↑',270,378,C.down,{sz:12}));
+  if(t>=12500)A(P(t,12500,12900),()=>{circ(xt(12500),y(112),9,{f:C.up});pill('REST 112 $ ✓',xt(12500),y(112)+30,C.up,{solid:true,sz:11});});
+  A(P(t,13300,13800),()=>pill('ERGEBNIS: +5 % UND +12 %',270,378,C.up,{solid:true,sz:13}));
+ },
+ box:{was:'Ein Teilgewinn sichert einen Teil des Gewinns früh. Ein Trailing Stop zieht automatisch hinter dem Kurs her und wird nur nach oben (bei Long) verschoben.',
+  erkennen:['Teilgewinn an einem ersten Ziel (z. B. Widerstand)','Danach Stop auf Break-even','Trailing-Abstand in $ oder %'],
+  bedeutung:'So kombinierst du Sicherheit mit der Chance auf große Bewegungen – ohne ständig vor dem Chart zu sitzen.',
+  tipp:'Ein zu enger Trailing-Abstand wird vom normalen Rauschen ausgelöst. Orientiere dich an der durchschnittlichen Schwankung (z. B. ATR).'}});
+
+/* ---------- PAKET 2: SICHERHEIT & BETRUG ---------- */
+add({id:'phishing',area:'sicher',title:'Phishing & Fake-Support',sub:'Gefälschte Mails, Seiten und Helfer',
+ lead:'Die meisten Krypto-Verluste entstehen nicht durch Hacks der Blockchain, sondern durch Tricks, die Menschen täuschen.',
+ total:17000,steps:[
+  {at:0,text:'Eine E-Mail „von deiner Börse“: Dein Konto wird gesperrt – sofort bestätigen!'},
+  {at:3500,text:'Der Link führt auf eine täuschend echte Kopie. Schau genau auf die Adresse: „rn“ statt „m“!'},
+  {at:7000,text:'Gibst du dort Passwort, 2FA-Code oder Seed-Phrase ein, landen sie direkt beim Betrüger.'},
+  {at:10400,text:'Auch „Support“ schreibt dich in Telegram, WhatsApp oder X an. Echter Support fragt NIE nach Seed oder Passwort.'},
+  {at:13600,text:'Schutz: Die Börse nur über ein eigenes Lesezeichen öffnen – niemals über Links aus Mails oder Nachrichten.'}],
+ draw(t){bg();
+  A(1-P(t,10200,10500),()=>{box(16,18,320,150,{f:C.card,s:C.line,lw:2});T('Von: support@meine-boerse-info.net',30,40,{sz:12,c:C.mute,al:'left',mono:false,b:600});
+   T('⚠ Konto wird gesperrt!',30,70,{sz:17,c:C.down,al:'left',mono:false,b:800});T('Bestätige jetzt deine Daten,',30,98,{sz:14,c:C.soft,al:'left',mono:false,b:400});T('sonst ist dein Guthaben weg.',30,118,{sz:14,c:C.soft,al:'left',mono:false,b:400});
+   box(30,132,150,26,{f:C.down,r:6});T('JETZT BESTÄTIGEN',105,146,{sz:11,c:C.onTag,b:800});});
+  hacker(452,92,46);T('Betrüger',452,142,{sz:12,c:C.down,mono:false,b:700});
+  A(P(t,3500,4000)*(1-P(t,10200,10500)),()=>{
+   box(16,196,508,38,{f:C.card,s:C.up,lw:2});T('🔒 meineboerse.de',30,215,{sz:16,al:'left',b:700});check(500,215,14,C.up,3);
+   box(16,246,508,38,{f:C.card,s:C.down,lw:2});const pre='🔒 ',o={sz:16,b:700};T(pre,30,265,{...o,al:'left'});const xa=30+tw(pre,o);T('rn',xa,265,{...o,al:'left',c:C.down});T('eineboerse.de',xa+tw('rn',o),265,{...o,al:'left'});cross(500,265,14,C.down,3);
+   circ(xa+tw('rn',o)/2,265,16,{s:C.down,lw:2.5});});
+  A(P(t,7000,7400)*(1-P(t,10200,10500)),()=>{['Passwort','2FA-Code','Seed'].forEach((n,i)=>{const p=P(t,7200+i*500,8200+i*500);if(p<1)pill(n,L(80+i*100,430,p),L(320,130,p),C.down,{sz:12});});});
+  A(P(t,10400,10900),()=>{box(16,190,380,96,{f:C.card,s:C.down,lw:2,r:16});T('„Support“ · Telegram',32,212,{sz:12,c:C.mute,al:'left',mono:false,b:700});T('Hallo! Um dein Konto zu retten,',32,240,{sz:15,al:'left',mono:false,b:600});T('nenne mir deine 12 Wörter 🙂',32,264,{sz:15,al:'left',mono:false,b:600});cross(370,212,14,C.down,3);});
+  A(P(t,13600,14100),()=>pill('NUR ÜBER EIGENES LESEZEICHEN ✓',270,370,C.up,{solid:true,sz:12}));
+ },
+ box:{was:'Phishing sind gefälschte Mails, Webseiten oder Nachrichten, die dich dazu bringen sollen, Zugangsdaten oder deine Seed-Phrase preiszugeben.',
+  erkennen:['Zeitdruck und Drohung („sofort“, „gesperrt“)','Leicht veränderte Adresse (rn statt m, Bindestriche, andere Endung)','Unaufgeforderte Kontaktaufnahme durch „Support“'],
+  bedeutung:'Einmal preisgegebene Seed-Phrasen oder Zugangsdaten werden in Minuten ausgenutzt. Krypto-Zahlungen lassen sich nicht zurückholen.',
+  tipp:'Gesponserte Suchergebnisse sind oft gefälscht. Tippe die Adresse selbst ein oder nutze dein Lesezeichen.'}});
+
+add({id:'drainer',area:'sicher',title:'Wallet-Drainer & Freigaben',sub:'Ein Klick kann alles kosten',
+ lead:'In DeFi bestätigst du oft „Freigaben“. Betrüger nutzen genau das, um Wallets leerzuräumen.',
+ total:16000,steps:[
+  {at:0,text:'Auf DeFi-Seiten bestätigst du oft eine FREIGABE (Approval): Die Seite darf Token aus deiner Wallet bewegen.'},
+  {at:3500,text:'Eine gefälschte Seite verlangt eine UNBEGRENZTE Freigabe – getarnt als „Airdrop abholen“.'},
+  {at:7000,text:'Ein Tipp auf „Bestätigen“ – und der Drainer räumt deine Wallet leer. Auch Tage später noch!'},
+  {at:10500,text:'Schutz: Was du signierst, immer lesen. Keine unbegrenzten Freigaben. Alte Freigaben regelmäßig widerrufen (z. B. mit revoke.cash).'}],
+ draw(t){bg();
+  box(120,18,300,200,{f:C.card,s:C.purple,lw:2.5});header(120,18,300,30,'FREIGABE ANFORDERN',C.purple);
+  T('Seite: airdrop-claim-now.xyz',138,70,{sz:13,al:'left',c:C.soft,mono:false,b:600});
+  T('Token:',138,100,{sz:14,al:'left',c:C.mute,mono:false,b:600});T('USDC',402,100,{sz:15,al:'right'});
+  const unl=t>=3500;T('Menge:',138,130,{sz:14,al:'left',c:C.mute,mono:false,b:600});
+  if(unl){box(250,116,160,28,{f:hexA(C.down,.18),r:6});}T(unl?'UNBEGRENZT':'100',402,130,{sz:15,al:'right',c:unl?C.down:C.text,b:800});
+  box(138,168,124,36,{s:C.line,lw:2,r:8});T('Ablehnen',200,186,{sz:14});
+  const tap=t>=7000&&t<7600;box(278,168,124,36,{f:tap?C.down:C.up,r:8});T('Bestätigen',340,186,{sz:14,c:C.onTag});
+  if(t>=6600&&t<8200){const p=P(t,6600,7000);circ(L(380,340,p),L(260,190,p),12,{s:C.text,lw:3});}
+  box(20,270,150,100,{f:C.card,s:C.purple,lw:2});T('DEINE WALLET',95,288,{sz:12,c:C.purple});
+  for(let i=0;i<5;i++){const fly=P(t,7600+i*300,8800+i*300);const x=L(50+(i%3)*30,460,fly),y=L(324+Math.floor(i/3)*28,322,fly)-Math.sin(fly*Math.PI)*70;A(t>=7600?1-P(t,8600+i*300,8900+i*300):1,()=>coin(x,y,12,'$',C.blue));}
+  hacker(470,300,44);T('Drainer',470,350,{sz:12,c:C.down,mono:false,b:700});
+  A(P(t,9200,9600)*(1-P(t,10300,10600)),()=>pill('WALLET LEER ✗',95,388,C.down,{solid:true,sz:12}));
+  A(P(t,10500,11000),()=>{pill('LESEN VOR SIGNIEREN',270,232,C.up,{sz:11});pill('FREIGABEN WIDERRUFEN ✓',270,384,C.up,{solid:true,sz:12});});
+ },
+ box:{was:'Ein Wallet-Drainer ist ein Schadprogramm auf einer Webseite. Es bringt dich dazu, eine Freigabe oder Signatur zu bestätigen, mit der es deine Token abziehen kann.',
+  erkennen:['Lockangebote: Gratis-Airdrop, Mint, „Claim“','Freigabe mit „unbegrenzt“ oder einer riesigen Zahl','Unbekannte Seite, neu angelegte Domain'],
+  bedeutung:'Eine Freigabe bleibt gültig, bis du sie widerrufst. Auch eine alte, vergessene Freigabe kann später ausgenutzt werden.',
+  tipp:'Nutze für DeFi eine eigene „Spiel-Wallet“ mit wenig Geld. Dein Hauptvermögen bleibt auf der Hardware-Wallet, die nie mit fremden Seiten verbunden wird.'}});
+
+const RG=u=>u<7600?1+Math.pow(PL_(u,0,7400),2.4)*99+Math.sin(u/160)*2*PL_(u,0,7400):u<8200?L(100,2,P(u,7600,8200)):2-PL_(u,8200,11000)*1.2;
+add({id:'rugpull',area:'sicher',title:'Rug Pull',sub:'Wenn die Entwickler mit dem Geld verschwinden',
+ lead:'Ein neuer Coin, riesiger Hype, Kurs ×100 – und plötzlich ist alles weg. So funktioniert ein Rug Pull.',
+ total:15000,steps:[
+  {at:0,text:'Ein neuer Coin wird stark beworben: „100× garantiert!“ Viele kaufen – der Preis explodiert.'},
+  {at:3800,text:'Die Entwickler halten einen großen Teil der Coins und kontrollieren den Liquiditätspool.'},
+  {at:7400,text:'Plötzlich ziehen sie die gesamte Liquidität ab: der RUG PULL („Teppich wegziehen“). Der Preis fällt um fast 100 %.'},
+  {at:10800,text:'Warnzeichen: anonymes Team, Liquidität nicht gesperrt, riesige Entwickler-Wallets, Zeitdruck.'}],
+ draw(t){bg();const x0=24,x1=330,y=yMap(-5,110,36,260),tot=11000,xt=u=>x0+u/tot*(x1-x0);
+  poly(series(RG,t,x0,x1,tot,y,40),t>=7600?C.down:C.up,3);const te=Math.min(t,tot);circ(xt(te),y(RG(te)),5,{f:C.text});
+  A(P(t,600,1100)*(1-P(t,7300,7600)),()=>pill('„100× GARANTIERT!“',150,40,C.gold,{solid:true,sz:12}));
+  A(P(t,3800,4400),()=>{const cx=445,cy=120,r=58;X.lineWidth=22;X.strokeStyle=hexA(C.soft,.4);X.beginPath();X.arc(cx,cy,r,0,Math.PI*2);X.stroke();X.strokeStyle=C.down;X.beginPath();X.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+Math.PI*2*.6*P(t,3900,4800));X.stroke();T('60 %',cx,cy-6,{sz:20,c:C.down,b:800});T('Entwickler',cx,cy+16,{sz:11,c:C.soft,mono:false,b:600});});
+  A(P(t,7400,7800)*(1-P(t,10600,10900)),()=>{pill('LIQUIDITÄT ABGEZOGEN',445,224,C.down,{solid:true,sz:11});pill('−98 %',320,214,C.down,{sz:13});});
+  A(P(t,10800,11300),()=>{const w=[['ANONYMES TEAM',24,300],['LIQUIDITÄT NICHT GESPERRT',24,346],['RIESIGE DEV-WALLETS',300,300],['ZEITDRUCK',300,346]];w.forEach(([s,x,yy],i)=>A(P(t,10900+i*250,11300+i*250),()=>pill('⚠ '+s,x,yy,C.orange,{al:'left',sz:11})));});
+ },
+ box:{was:'Bei einem Rug Pull verkaufen die Macher eines Projekts ihre Coins oder ziehen die Liquidität ab. Zurück bleiben Käufer mit wertlosen Token.',
+  erkennen:['Versprechen von garantierten Gewinnen','Wenige Wallets halten den Großteil der Coins','Liquiditätspool nicht gesperrt (kein „Lock“)'],
+  bedeutung:'Bei neuen, kleinen Coins ist das Risiko eines Totalverlusts sehr hoch – unabhängig vom Chart.',
+  tipp:'Prüfe vor dem Kauf die Verteilung der Coins mit einem Block-Explorer. Garantierte Gewinne gibt es nicht.'}});
+
+const PD=u=>u<3500?1+Math.sin(u/300)*.03:u<6500?1+PL_(u,3500,6500)*.15+Math.sin(u/300)*.03:u<8800?L(1.15,3.4,P(u,6500,8800))+Math.sin(u/120)*.08:u<11500?L(3.4,.8,P(u,8800,11500)):.8+Math.sin(u/400)*.04;
+add({id:'pumpdump',area:'sicher',title:'Pump & Dump',sub:'Organisierter Hype mit Ansage',
+ lead:'„Um 20 Uhr kaufen wir alle!“ – hinter solchen Aufrufen steckt fast immer ein Pump & Dump. Gewinnen tun nur die Organisatoren.',
+ total:16000,steps:[
+  {at:0,text:'In einer Telegram-Gruppe heißt es: „Um 20:00 Uhr kaufen wir alle Coin XY!“'},
+  {at:3500,text:'Die Organisatoren haben VORHER ganz in Ruhe günstig gekauft.'},
+  {at:6500,text:'20:00 Uhr: Alle kaufen gleichzeitig – der Preis schießt hoch (PUMP).'},
+  {at:8800,text:'Die Organisatoren verkaufen an die Nachzügler (DUMP). Der Preis fällt tiefer als vorher.'},
+  {at:12600,text:'Pump & Dump ist Marktmanipulation und in der EU verboten. Die Letzten tragen immer den Verlust.'}],
+ draw(t){bg();const x0=24,x1=500,y=yMap(.5,3.8,80,330),tot=13000,xt=u=>x0+u/tot*(x1-x0);
+  A(1-P(t,3300,3600),()=>{box(60,30,420,64,{f:C.card,s:C.blue,lw:2,r:16});T('📣 „Um 20:00 Uhr kaufen wir alle Coin XY! 🚀“',270,62,{sz:15,mono:false,b:700});});
+  poly(series(PD,t,x0,x1,tot,y,40),C.text,2.5);const te=Math.min(t,tot);circ(xt(te),y(PD(te)),5,{f:C.text});
+  A(P(t,3500,4000),()=>{box(xt(3500),y(1.25),xt(6500)-xt(3500),y(.85)-y(1.25),{f:hexA(C.up,.15),r:6});pill('INSIDER KAUFEN',(xt(3500)+xt(6500))/2,y(1.25)-20,C.up,{sz:11});});
+  A(P(t,6600,7000),()=>{for(let i=0;i<5;i++){const p=P(t,6700+i*200,7400+i*200);A(p,()=>person(xt(7600)-60+i*24,366-p*16,18,C.soft));}T('Nachzügler',xt(7600)-12,384,{sz:11,c:C.soft});});
+  A(P(t,8800,9200),()=>{circ(xt(8800),y(3.4),9,{f:C.down});pill('INSIDER VERKAUFEN',xt(8800)+14,y(3.4)-6,C.down,{al:'left',sz:11});});
+  A(P(t,12600,13100),()=>pill('MARKTMANIPULATION – VERBOTEN',270,40,C.down,{solid:true,sz:12}));
+ },
+ box:{was:'Beim Pump & Dump treiben Gruppen den Preis eines kleinen Coins gezielt hoch, um dann an die Nachzügler zu verkaufen.',
+  erkennen:['Aufrufe zu gemeinsamem Kauf zu einer Uhrzeit','Kleine Coins mit wenig Handelsvolumen','„Signal-Gruppen“ mit Bezahl-Mitgliedschaft'],
+  bedeutung:'Die Organisatoren verkaufen immer zuerst. Fast alle anderen Teilnehmer verlieren Geld.',
+  tipp:'Seriöse Analysten sagen dir nie, um welche Uhrzeit „alle“ kaufen sollen. Finger weg von solchen Gruppen.'}});
+
+add({id:'zweifa',area:'sicher',title:'2FA richtig nutzen',sub:'Der zweite Schlüssel für dein Konto',
+ lead:'Zwei-Faktor-Authentifizierung (2FA) ist Pflicht für jedes Börsenkonto. Aber nicht jede 2FA ist gleich sicher.',
+ total:15500,steps:[
+  {at:0,text:'Mit Passwort allein ist dein Konto nur einfach geschützt. 2FA fügt einen zweiten Schlüssel hinzu.'},
+  {at:3500,text:'Am besten: eine Authenticator-App (der Code wechselt alle 30 Sekunden) oder ein Sicherheitsschlüssel (Passkey/Hardware-Key).'},
+  {at:7500,text:'SMS-Codes sind schwächer: Beim SIM-SWAP lässt ein Betrüger deine Nummer auf seine SIM-Karte übertragen.'},
+  {at:11200,text:'Wichtig: Wiederherstellungs-Codes der 2FA offline sichern – sonst sperrst du dich bei Handyverlust selbst aus.'}],
+ draw(t){bg();
+  lockI(80,90,60,C.up,false);T('KONTO',80,148,{sz:12,c:C.mute});
+  keyI(190,70,40,C.soft);T('Passwort',190,100,{sz:12,c:C.soft,mono:false,b:600});
+  A(P(t,600,1100),()=>{keyI(190,130,40,C.up);T('2. Faktor',190,160,{sz:12,c:C.up,mono:false,b:700});});
+  A(P(t,3500,4000),()=>{box(300,24,110,170,{f:C.card,s:C.up,lw:2.5,r:14});T('AUTH-APP',355,46,{sz:11,c:C.up});const code=['482 913','105 774','930 251','617 408'][Math.floor(Math.max(0,t-3500)/3000)%4];T(code,355,98,{sz:19,b:800});
+   const ph=((t-3500)%3000)/3000;X.strokeStyle=C.up;X.lineWidth=4;X.beginPath();X.arc(355,146,18,-Math.PI/2,-Math.PI/2+Math.PI*2*(1-ph));X.stroke();T('30 s',355,180,{sz:10,c:C.mute});
+   box(430,90,92,52,{f:C.card,s:C.up,lw:2.5,r:10});circ(452,116,8,{f:C.up});T('KEY',490,116,{sz:12,c:C.up});check(510,98,12,C.up,3);});
+  A(P(t,7500,8000)*(1-P(t,11000,11300)),()=>{line(16,214,524,214,C.line,1.5,[5,6]);
+   box(40,236,70,120,{f:C.card,s:C.soft,lw:2,r:10});T('SMS',75,256,{sz:11,c:C.mute});T('Code',75,300,{sz:12,c:C.soft});
+   const p=P(t,8400,9800);box(L(60,385,p),L(318,262,p)-Math.sin(p*Math.PI)*40,30,22,{f:C.gold,r:3});
+   hacker(450,286,42);T('SIM-Swap',450,338,{sz:12,c:C.down,mono:false,b:700});
+   A(P(t,9600,10000),()=>pill('SMS = SCHWÄCHER',230,372,C.down,{sz:12}));});
+  A(P(t,11200,11700),()=>{box(130,232,280,80,{f:C.card,s:C.gold,lw:2.5});T('WIEDERHERSTELLUNGS-CODES',270,252,{sz:12,c:C.gold});T('auf Papier · offline · sicher',270,284,{sz:14,mono:false,b:600,c:C.soft});});
+ },
+ box:{was:'2FA bedeutet: Zum Login brauchst du etwas, das du WEISST (Passwort), und etwas, das du HAST (Handy-App oder Sicherheitsschlüssel).',
+  erkennen:['Authenticator-App: 6-stelliger Code, wechselt alle 30 Sekunden','Hardware-Key/Passkey: am sichersten gegen Phishing','SMS: besser als nichts, aber anfällig für SIM-Swap'],
+  bedeutung:'Selbst wenn dein Passwort gestohlen wird, kommt ohne den zweiten Faktor niemand in dein Konto.',
+  tipp:'Aktiviere bei Börsen zusätzlich eine Auszahlungs-Whitelist: Auszahlungen gehen dann nur an vorher freigegebene Adressen.'}});
+
+add({id:'vergiftung',area:'sicher',title:'Adress-Vergiftung',sub:'Die falsche Adresse im eigenen Verlauf',
+ lead:'Ein besonders fieser Trick: Der Betrüger schmuggelt eine fast gleiche Adresse in deinen Transaktionsverlauf.',
+ total:17000,steps:[
+  {at:0,text:'Du schickst regelmäßig Geld an deine eigene Adresse 0x7a3F…91cE.'},
+  {at:3500,text:'Ein Betrüger erzeugt eine Adresse, die vorne und hinten GLEICH aussieht – nur die Mitte ist anders.'},
+  {at:7000,text:'Er schickt dir eine Mini-Zahlung über 0 $. Jetzt steht seine Adresse in deinem Verlauf.'},
+  {at:10400,text:'Kopierst du beim nächsten Mal aus dem Verlauf, geht dein Geld an ihn – unwiderruflich.'},
+  {at:13600,text:'Schutz: Adressen aus dem Adressbuch oder der Original-Quelle kopieren und ALLE Zeichen prüfen.'}],
+ draw(t){bg();T('VERLAUF',20,20,{sz:12,c:C.mute,al:'left'});
+  const row=(y,lab,a,mid,b,c,hl,amt)=>{box(16,y,508,46,{f:C.card,s:hl?C.down:C.line,lw:hl?2.5:1.5});T(lab,30,y+23,{sz:12,c:C.mute,al:'left',mono:false,b:600});const o={sz:15,b:700};let x=140;T(a,x,y+23,{...o,al:'left'});x+=tw(a,o);T(mid,x,y+23,{...o,al:'left',c});x+=tw(mid,o);T(b,x,y+23,{...o,al:'left'});T(amt,510,y+23,{sz:13,al:'right',c:C.soft});};
+  const ins=P(t,7000,7700);
+  row(36+ins*56,'Ausgang','0x7a3F ','2c81 9d0e','…91cE',C.text,false,'−500 $');
+  row(92+ins*56,'Ausgang','0x7a3F ','2c81 9d0e','…91cE',C.text,false,'−800 $');
+  A(P(t,3500,4000)*(1-P(t,6800,7000)),()=>{row(170,'Betrüger','0x7a3F ','b54e 07aa','…91cE',C.down,true,'');pill('NUR DIE MITTE IST ANDERS',270,250,C.down,{sz:12});});
+  if(t>=7000)A(ins,()=>row(36,'Eingang','0x7a3F ','b54e 07aa','…91cE',C.down,true,'+0 $'));
+  if(t>=10400){const p=P(t,10400,11000);A(p,()=>{box(110,220,320,46,{f:C.card,s:C.gold,lw:2});T('Senden an: 0x7a3F…91cE',270,243,{sz:15,c:C.gold});});
+   const cp=P(t,10600,11400);circ(L(470,300,cp),L(58,236,cp),11,{s:C.text,lw:3});
+   const f=P(t,11600,12800);if(f>0&&f<1){coin(L(270,470,f),L(290,320,f)-Math.sin(f*Math.PI)*40,14,'$',C.blue);}
+   hacker(476,330,40);}
+  A(P(t,13600,14100),()=>pill('ALLE ZEICHEN PRÜFEN ✓',230,374,C.up,{solid:true,sz:12}));
+ },
+ box:{was:'Bei der Adress-Vergiftung (Address Poisoning) erzeugen Betrüger Adressen mit gleichem Anfang und Ende wie deine und senden dir Mini-Beträge, damit sie im Verlauf auftauchen.',
+  erkennen:['Unerwartete Eingänge über 0 $ oder winzige Beträge','Adresse sieht in der Kurzform identisch aus','Oft kurz nach deiner eigenen Überweisung'],
+  bedeutung:'Wer aus dem Verlauf kopiert, schickt sein Geld an den Betrüger. Es gibt keine Rückbuchung.',
+  tipp:'Speichere eigene Adressen im Adressbuch der Wallet oder Börse und sende größere Beträge immer erst als kleinen Test.'}});
+
+/* ---------- PAKET 3: BLOCKCHAIN VERTIEFT ---------- */
+add({id:'pos',area:'chain',title:'Proof of Stake',sub:'Pfand statt Rechenleistung',
+ lead:'Proof of Stake ist die stromsparende Alternative zum Mining: Statt Rechenleistung zählt hinterlegtes Kapital.',
+ total:17000,steps:[
+  {at:0,text:'Statt Rechenleistung hinterlegen VALIDATOREN Coins als Pfand – das STAKING.'},
+  {at:3500,text:'Für jeden neuen Block wird ein Validator zufällig ausgewählt – je mehr Einsatz, desto höher die Chance.'},
+  {at:7000,text:'Der Gewählte schlägt den Block vor, andere bestätigen ihn. Belohnung: neue Coins plus Gebühren.'},
+  {at:10500,text:'Wer betrügt, verliert einen Teil seines Pfands: das SLASHING.'},
+  {at:13600,text:'Vorteil: Proof of Stake braucht über 99 % weniger Strom als Proof of Work. Ethereum nutzt es seit 2022.'}],
+ draw(t){bg();const st=[3,1,5,2,4],xs=i=>70+i*100,base=290;
+  st.forEach((n,i)=>{const sl=i===4&&t>=10500;for(let k=0;k<n;k++){const drop=sl&&k>=n-2?P(t,10800,11800):0;A(1-drop,()=>coin(xs(i),base-k*18+drop*60,15,'Ξ',C.purple));}
+   person(xs(i),base+44,30,sl?C.down:C.soft);T('V'+(i+1),xs(i),base+86,{sz:12,c:sl?C.down:C.mute});});
+  if(t>=3500&&t<10500){const sel=t<6000?Math.floor((t-3500)/250)%5:2;const yy=base-st[sel]*18-30;X.fillStyle=hexA(C.gold,.14);X.beginPath();X.moveTo(xs(sel)-10,30);X.lineTo(xs(sel)+10,30);X.lineTo(xs(sel)+46,base+70);X.lineTo(xs(sel)-46,base+70);X.closePath();X.fill();
+   if(t>=6000)A(P(t,6000,6400),()=>pill('AUSGEWÄHLT',xs(sel),yy-14,C.gold,{solid:true,sz:11}));}
+  A(P(t,7000,7600)*(1-P(t,10300,10600)),()=>{box(xs(2)-60,40,120,60,{f:C.card,s:C.up,lw:2.5});T('NEUER BLOCK',xs(2),62,{sz:12,c:C.up});T('+ Belohnung',xs(2),84,{sz:12,c:C.gold,mono:false,b:700});[0,1,3,4].forEach(i=>A(P(t,7800+i*150,8200+i*150),()=>check(xs(i),base-st[i]*18-30,14,C.up,3)));});
+  A(P(t,10500,11000)*(1-P(t,13400,13700)),()=>pill('SLASHING: PFAND WEG ✗',xs(4)-40,170,C.down,{solid:true,sz:11}));
+  A(P(t,13600,14100),()=>{T('STROMVERBRAUCH',270,36,{sz:12,c:C.mute});box(120,56,320,26,{f:hexA(C.orange,.8),r:4});T('Proof of Work',128,69,{sz:12,al:'left',c:C.onTag,b:800});box(120,92,4,26,{f:C.up,r:2});T('Proof of Stake  −99 %',132,105,{sz:12,al:'left',c:C.up,b:800});});
+ },
+ box:{was:'Bei Proof of Stake sichern Validatoren das Netzwerk mit hinterlegten Coins. Wer ehrlich arbeitet, bekommt Belohnungen; wer betrügt, verliert Pfand.',
+  erkennen:['Validatoren statt Miner','Auswahl nach Größe des Einsatzes (plus Zufall)','Slashing als Strafe für Fehlverhalten'],
+  bedeutung:'Proof of Stake ist sehr energieeffizient. Kritiker sagen: Wer viele Coins hat, hat auch viel Einfluss.',
+  tipp:'Du kannst auch ohne eigenen Validator mitmachen – über Staking bei Börsen oder Staking-Pools. Lies dazu die Lektion „Staking & Lending“.'}});
+
+add({id:'smartcontract',area:'chain',title:'Ethereum & Smart Contracts',sub:'Programme auf der Blockchain',
+ lead:'Ethereum ist mehr als eine Währung: Auf der Blockchain laufen Programme, die niemand stoppen oder heimlich ändern kann.',
+ total:17000,steps:[
+  {at:0,text:'Ein SMART CONTRACT ist ein Programm auf der Blockchain – stell dir einen Getränkeautomaten vor.'},
+  {at:3500,text:'Regel: WENN 2 € eingeworfen, DANN Getränk ausgeben. Niemand muss dazwischen jemandem vertrauen.'},
+  {at:7000,text:'Auf Ethereum: WENN 1 ETH eingezahlt, DANN 3.000 USDC zurück – automatisch und für jeden gleich.'},
+  {at:10400,text:'Daraus entstehen dezentrale Börsen (DEX), Kredite, NFTs und vieles mehr – zusammen nennt man das DeFi.'},
+  {at:13600,text:'Aber: Code kann Fehler haben. Ein Bug kann Millionen kosten – und lässt sich oft nicht rückgängig machen.'}],
+ draw(t){bg();
+  A(1-P(t,6800,7100),()=>{box(40,40,130,250,{f:C.card,s:C.blue,lw:2.5,r:10});for(let i=0;i<3;i++)for(let j=0;j<2;j++)box(56+j*52,58+i*50,44,40,{f:hexA([C.down,C.up,C.gold,C.blue,C.purple,C.orange][i*2+j],.6),r:6});box(56,224,96,40,{f:C.bg,r:6});
+   const p=P(t,3600,4600);coin(L(250,140,p),L(150,170,p),14,'€',C.gold);
+   if(t>=4800){const d=P(t,4800,5600);box(80,224+d*0,40,36*d,{f:C.up,r:4});}
+   A(P(t,3500,4000),()=>{box(220,80,290,120,{f:C.card,s:C.gold,lw:2.5});T('WENN 2 € eingeworfen',240,120,{sz:16,al:'left',c:C.gold});T('DANN Getränk ausgeben',240,160,{sz:16,al:'left',c:C.up});});});
+  A(P(t,7000,7500)*(1-P(t,10200,10500)),()=>{coin(70,150,30,'Ξ',C.purple);T('1 ETH',70,200,{sz:14,c:C.purple});arrow(110,150,180,150,C.purple,P(t,7300,7900),{lw:3});
+   box(190,90,170,120,{f:C.card,s:C.blue,lw:2.5});T('SMART',275,124,{sz:15,c:C.blue});T('CONTRACT',275,148,{sz:15,c:C.blue});T('{ code }',275,180,{sz:13,c:C.mute});
+   arrow(370,150,440,150,C.blue,P(t,8200,8800),{lw:3});A(P(t,8600,9100),()=>{coin(478,150,30,'$',C.blue);T('3.000 USDC',478,200,{sz:13,c:C.blue});});});
+  A(P(t,10400,10900),()=>{[['DEX',C.up],['KREDITE',C.gold],['NFTs',C.purple],['STAKING',C.blue]].forEach(([n,c],i)=>{const x=24+(i%2)*256,y=40+Math.floor(i/2)*90;A(P(t,10500+i*250,11000+i*250),()=>{box(x,y,236,74,{f:C.card,s:c,lw:2.5});T(n,x+118,y+37,{sz:18,c,b:800});});});});
+  A(P(t,13600,14100),()=>{box(60,248,420,70,{f:hexA(C.down,.1),s:C.down,lw:2.5});T('🐞 Bug im Code = Geld weg',270,283,{sz:18,c:C.down,mono:false,b:800});});
+ },
+ box:{was:'Ein Smart Contract ist ein Programm, das auf einer Blockchain gespeichert ist und automatisch ausgeführt wird, wenn bestimmte Bedingungen erfüllt sind.',
+  erkennen:['Läuft auf Ethereum und anderen Chains (Solana, BNB Chain …)','Für jede Ausführung wird eine Gebühr („Gas“) fällig','Code ist öffentlich einsehbar'],
+  bedeutung:'Smart Contracts ersetzen Vermittler wie Banken oder Börsen durch Code. Das macht sie offen für alle – aber auch angreifbar bei Fehlern.',
+  tipp:'Nutze nur bekannte, geprüfte Protokolle („audited“). Auch ein Audit ist aber keine Garantie.'}});
+
+add({id:'layer2',area:'chain',title:'Layer 2 & Lightning',sub:'Schneller und billiger über der Hauptkette',
+ lead:'Die Hauptkette ist sicher, aber langsam und teuer. Layer-2-Netzwerke lösen das, indem sie Zahlungen bündeln.',
+ total:16500,steps:[
+  {at:0,text:'Die Hauptkette (LAYER 1) ist sicher, aber langsam: Bitcoin schafft nur wenige Transaktionen pro Sekunde.'},
+  {at:3500,text:'LAYER 2 wickelt viele Zahlungen außerhalb der Hauptkette ab – blitzschnell.'},
+  {at:7000,text:'Nur das Ergebnis wird gebündelt auf Layer 1 geschrieben. Schnell und billig – und trotzdem durch Layer 1 abgesichert.'},
+  {at:10400,text:'Bitcoin: das LIGHTNING-NETZWERK – Zahlungen in Sekunden für Bruchteile eines Cents.'},
+  {at:13400,text:'Ethereum: sogenannte Rollups wie Arbitrum, Optimism oder Base.'}],
+ draw(t){bg();
+  box(16,250,508,90,{f:hexA(C.blue,.08),s:C.blue,lw:2});T('LAYER 1 · HAUPTKETTE',30,266,{sz:12,c:C.blue,al:'left'});
+  for(let i=0;i<5;i++){const x=40+((t/30+i*100)%520)-40;if(x<20||x>480)continue;box(x,282,44,40,{f:C.card,s:C.blue,lw:2,r:6});}
+  A(P(t,3500,4000),()=>{box(16,40,508,110,{f:hexA(C.orange,.08),s:C.orange,lw:2});T('LAYER 2',30,56,{sz:12,c:C.orange,al:'left'});
+   for(let i=0;i<14;i++){const x=24+((t/3+i*37)%490);circ(x,82+(i%4)*18,5,{f:C.orange});}});
+  A(P(t,7000,7400)*(1-P(t,10200,10500)),()=>{const p=PL_(t,7200,8800)%1;box(240,L(150,250,p),60,34,{f:C.orange,r:6});T('BÜNDEL',270,L(167,267,p),{sz:11,c:C.onTag,b:800});pill('1.000 ZAHLUNGEN → 1 EINTRAG',270,200,C.orange,{sz:11});});
+  A(P(t,10400,10900),()=>{X.fillStyle=hexA(C.bg,.85);X.fillRect(16,40,508,110);person(70,100,32,C.soft);person(470,100,32,C.soft);line(110,100,430,100,C.gold,3,[8,6]);
+   for(let k=0;k<3;k++){const ph=((t-10400)/700+k/3)%1;T('⚡',L(110,430,ph),96,{sz:22,c:C.gold,mono:false});}
+   T('LIGHTNING-KANAL',270,128,{sz:12,c:C.gold});});
+  A(P(t,13400,13900),()=>pill('ETHEREUM: ROLLUPS (ARBITRUM, OPTIMISM, BASE)',270,370,C.purple,{sz:11}));
+ },
+ box:{was:'Layer-2-Lösungen sind Netzwerke, die auf einer Blockchain aufbauen. Sie verarbeiten Transaktionen schneller und günstiger und sichern das Ergebnis auf der Hauptkette ab.',
+  erkennen:['Bitcoin: Lightning-Netzwerk','Ethereum: Rollups (z. B. Arbitrum, Optimism, Base)','Sehr niedrige Gebühren, schnelle Bestätigung'],
+  bedeutung:'Layer 2 macht Krypto alltagstauglich – etwa für kleine Zahlungen, die auf Layer 1 zu teuer wären.',
+  tipp:'Achte beim Senden auf das richtige Netzwerk! Coins, die über das falsche Netzwerk geschickt werden, können verloren gehen.'}});
+
+add({id:'stablecoins',area:'chain',title:'Stablecoins',sub:'Krypto ohne Schwankung',
+ lead:'Stablecoins verbinden die Blockchain mit echtem Geld: Ein Token ist so viel wert wie ein Dollar oder Euro.',
+ total:17000,steps:[
+  {at:0,text:'Ein STABLECOIN ist an eine echte Währung gekoppelt: 1 USDC soll immer 1 US-Dollar wert sein.'},
+  {at:3500,text:'Dafür hält der Herausgeber Reserven: Bargeld und kurzlaufende Staatsanleihen.'},
+  {at:7000,text:'Während Bitcoin stark schwankt, bleibt der Stablecoin bei 1 $ – ideal zum Parken und als Futures-Margin.'},
+  {at:10400,text:'Risiko: Fehlen Reserven oder ist das Vertrauen weg, kann die Kopplung brechen (DEPEG) – wie bei TerraUSD 2022.'},
+  {at:13600,text:'In der EU regelt MiCA Stablecoins streng. Es gibt auch Euro-Stablecoins, zum Beispiel EURC.'}],
+ draw(t){bg();
+  A(1-P(t,6800,7100),()=>{coin(130,150,54,'$',C.blue);T('1 USDC',130,230,{sz:18,c:C.blue,b:800});T('=',240,150,{sz:40,c:C.soft,b:800});box(300,104,180,92,{f:hexA(C.up,.2),s:C.up,lw:2.5,r:8});T('1 US-$',390,150,{sz:24,c:C.up,b:800});
+   A(P(t,3500,4000),()=>{box(130,270,280,90,{f:C.card,s:C.gold,lw:2.5});T('RESERVEN',270,292,{sz:13,c:C.gold});T('Bargeld + Staatsanleihen',270,326,{sz:14,mono:false,b:600,c:C.soft});});});
+  A(P(t,7000,7500),()=>{const x0=30,x1=440,y=yMap(0,2,40,330),tot=10000;
+   line(x0,y(1),x1,y(1),C.line,1,[4,4]);T('1 $',x0-4,y(1),{sz:11,c:C.mute,al:'right'});
+   const btc=u=>1+Math.sin(u/700)*.45+Math.sin(u/230)*.18;const st=u=>u<10400?1+Math.sin(u/400)*.004:L(1,.05,P(u,10400,12400));
+   const tt=t-7000+3000;poly(series(btc,Math.min(tt,10000),x0,x1,tot,y),C.gold,2.5);
+   const sp=[];for(let u=0;u<=Math.min(tt,10000);u+=60){const real=u-3000+7000;sp.push([x0+u/tot*(x1-x0),y(t>=10400&&real>=10400?st(real):1+Math.sin(u/400)*.004)]);}poly(sp,t>=10400?C.down:C.blue,3);
+   const xe=x0+Math.min(tt,10000)/tot*(x1-x0)+8;T('Bitcoin',xe,y(btc(Math.min(tt,10000)))-12,{sz:12,c:C.gold,al:'left'});T(t>=10400?'Depeg!':'Stablecoin',xe,sp.length?sp[sp.length-1][1]+(t>=10400?0:14):0,{sz:12,c:t>=10400?C.down:C.blue,al:'left'});});
+  A(P(t,13600,14100),()=>pill('EU: MiCA-REGELN · EURO-STABLECOINS (EURC)',270,374,C.blue,{sz:11}));
+ },
+ box:{was:'Stablecoins sind Token mit stabilem Wert, meist 1:1 an den US-Dollar oder Euro gekoppelt. Bekannte Beispiele: USDT, USDC, EURC.',
+  erkennen:['Kurs bleibt (fast) immer bei 1,00','Gedeckt durch Reserven – oder (riskanter) durch Algorithmen','Werden auf vielen Blockchains angeboten'],
+  bedeutung:'Stablecoins sind das „Bargeld“ der Krypto-Welt: zum Handeln, Parken und für Futures-Margin.',
+  tipp:'Ein Stablecoin ist nur so gut wie seine Reserven und sein Herausgeber. Algorithmische Stablecoins ohne echte Deckung sind besonders riskant.'}});
+
+add({id:'forks',area:'chain',title:'Hard Fork & Soft Fork',sub:'Wenn sich die Regeln ändern',
+ lead:'Blockchains bekommen Updates. Je nachdem, ob alle mitziehen, bleibt die Kette eine – oder sie spaltet sich.',
+ total:15500,steps:[
+  {at:0,text:'Ändern sich die Regeln einer Blockchain, spricht man von einem FORK (Gabelung).'},
+  {at:3500,text:'SOFT FORK: Die neuen Regeln sind abwärtskompatibel. Auch alte Knoten akzeptieren die neuen Blöcke – die Kette bleibt eine.'},
+  {at:7400,text:'HARD FORK: Die neuen Regeln sind NICHT kompatibel. Sind sich nicht alle einig, spaltet sich die Kette.'},
+  {at:11000,text:'Beispiel: 2017 entstand so Bitcoin Cash. Wer vorher BTC hatte, besaß danach zusätzlich gleich viele BCH.'}],
+ draw(t){bg();const bw=46,g=16,bx=i=>24+i*(bw+g);
+  const blk=(x,y,c,lab)=>{box(x,y,bw,40,{f:C.card,s:c,lw:2.5,r:6});if(lab)T(lab,x+bw/2,y+20,{sz:11,c});};
+  const soft=t<7400,yA=soft?180:150;
+  for(let i=0;i<4;i++){A(P(t,200+i*300,600+i*300),()=>{blk(bx(i),yA+(soft?0:30)-(soft?0:30),C.blue);if(i>0)line(bx(i)-g,yA+20,bx(i),yA+20,C.blue,2.5);});}
+  if(soft){for(let i=4;i<8;i++){const p=P(t,3600+(i-4)*500,4100+(i-4)*500);A(p,()=>{blk(bx(i),yA,C.up,'neu');line(bx(i)-g,yA+20,bx(i),yA+20,C.up,2.5);});}
+   A(P(t,3600,4100),()=>pill('SOFT FORK: EINE KETTE',270,90,C.up,{sz:13}));
+   A(P(t,5800,6300),()=>pill('ALTE KNOTEN AKZEPTIEREN ✓',270,290,C.up,{solid:true,sz:12}));}
+  else{for(let i=4;i<8;i++){const p=P(t,7600+(i-4)*500,8100+(i-4)*500);A(p,()=>{blk(bx(i),yA-60,C.gold,i===4?'BTC':'');blk(bx(i),yA+60,C.orange,i===4?'BCH':'');
+    if(i===4){line(bx(3)+bw,yA+20,bx(4),yA-40,C.gold,2.5);line(bx(3)+bw,yA+20,bx(4),yA+80,C.orange,2.5);}else{line(bx(i)-g,yA-40,bx(i),yA-40,C.gold,2.5);line(bx(i)-g,yA+80,bx(i),yA+80,C.orange,2.5);}});}
+   A(P(t,7500,8000),()=>pill('HARD FORK: SPALTUNG',270,40,C.orange,{sz:13}));
+   A(P(t,11000,11500),()=>{box(80,300,380,74,{f:C.card,s:C.gold,lw:2.5});T('Vorher: 1 BTC',270,322,{sz:15,c:C.soft});T('Nachher: 1 BTC + 1 BCH',270,352,{sz:17,c:C.gold,b:800});});}
+ },
+ box:{was:'Ein Fork ist eine Änderung der Regeln einer Blockchain. Soft Forks sind abwärtskompatibel, Hard Forks nicht – sie können eine neue, eigene Kette erzeugen.',
+  erkennen:['Soft Fork: Update, Kette bleibt eine (z. B. SegWit, Taproot bei Bitcoin)','Hard Fork: inkompatibel, mögliche Abspaltung','Bei Spaltung entstehen zwei Coins'],
+  bedeutung:'Bei einer Spaltung bekommen Halter die neuen Coins dazu. Welche Kette „gewinnt“, entscheiden Nutzer, Miner und Börsen.',
+  tipp:'Wie Coins aus einem Hard Fork steuerlich behandelt werden, erfährst du im Bereich Steuern (Lektion „Airdrops & Forks steuerlich“).'}});
+
+add({id:'angriff51',area:'chain',title:'Der 51-%-Angriff',sub:'Wenn einer die Mehrheit hat',
+ lead:'Die Sicherheit einer Blockchain beruht darauf, dass niemand die Mehrheit der Rechenleistung kontrolliert. Was, wenn doch?',
+ total:17000,steps:[
+  {at:0,text:'Normal: Viele unabhängige Miner bauen gemeinsam an der Kette.'},
+  {at:3500,text:'Kontrolliert jemand MEHR ALS 50 % der Rechenleistung, kann er heimlich eine eigene Kette bauen …'},
+  {at:7200,text:'… und sie veröffentlichen, sobald sie länger ist. Die längere Kette gewinnt – seine Zahlung aus der alten Kette verschwindet.'},
+  {at:10600,text:'So könnte er Geld zweimal ausgeben: den DOUBLE SPEND.'},
+  {at:13600,text:'Bei Bitcoin wäre das extrem teuer. Kleine Coins mit wenigen Minern wurden aber schon so angegriffen.'}],
+ draw(t){bg();const cx=80,cy=90,r=56;const att=t>=3500;
+  const sl=att?[[.51,C.down],[.14,C.blue],[.13,C.purple],[.12,C.up],[.1,C.gold]]:[[.22,C.blue],[.2,C.purple],[.2,C.up],[.2,C.gold],[.18,C.orange]];let a0=-Math.PI/2;
+  sl.forEach(([f,c])=>{X.fillStyle=c;X.beginPath();X.moveTo(cx,cy);X.arc(cx,cy,r,a0,a0+f*Math.PI*2);X.closePath();X.fill();a0+=f*Math.PI*2;});
+  T(att?'51 % Angreifer':'viele Miner',cx,cy+r+18,{sz:12,c:att?C.down:C.soft,mono:false,b:700});
+  const bw=38,g=8,bx=i=>168+i*(bw+g);
+  const pub=t<7200?Math.min(6,1+Math.floor(PL_(t,0,7000)*6)):6;
+  for(let i=0;i<pub;i++){const old=t>=7200&&i>=2;box(bx(i),60,bw,36,{f:C.card,s:old?C.mute:C.blue,lw:2,r:6,dash:old?[4,4]:null});if(i>0)line(bx(i)-g,78,bx(i),78,old?C.mute:C.blue,2);if(i===2)T('A→B',bx(i)+bw/2,78,{sz:10,c:old?C.mute:C.text});}
+  T('ÖFFENTLICH',170,44,{sz:11,c:C.blue,al:'left'});
+  if(t>=3500){const pv=Math.min(6,Math.floor(PL_(t,3700,7000)*5.99));T('GEHEIM',170,160,{sz:11,c:C.down,al:'left'});
+   for(let i=0;i<2+pv;i++){const y=t>=7200?60:176;box(bx(i),y+(t>=7200?0:0),bw,36,{f:C.card,s:i<2?C.blue:C.down,lw:2,r:6});if(i>0)line(bx(i)-g,y+18,bx(i),y+18,i<2?C.blue:C.down,2);if(i===2)T('A→A',bx(i)+bw/2,y+18,{sz:10,c:C.down});}
+   if(t>=7200)A(P(t,7200,7700),()=>pill('LÄNGERE KETTE GEWINNT',340,130,C.down,{solid:true,sz:11}));}
+  A(P(t,10600,11100),()=>{box(60,236,420,84,{f:C.card,s:C.down,lw:2.5});T('DOUBLE SPEND',270,258,{sz:15,c:C.down});T('Ware bekommen – Geld zurück beim Angreifer',270,292,{sz:14,mono:false,b:600,c:C.soft});});
+  A(P(t,13600,14100),()=>pill('BITCOIN: EXTREM TEUER · KLEINE COINS: GEFÄHRDET',270,370,C.orange,{sz:11}));
+ },
+ box:{was:'Bei einem 51-%-Angriff kontrolliert ein Angreifer die Mehrheit der Rechenleistung (oder des Stakes) und kann dadurch die jüngste Geschichte der Kette umschreiben.',
+  erkennen:['Ein Pool oder Akteur mit über 50 % Anteil','Plötzliche Umbauten (Reorgs) der letzten Blöcke','Betroffen sind vor allem kleine Proof-of-Work-Coins'],
+  bedeutung:'Je größer und verteilter ein Netzwerk, desto teurer und unwahrscheinlicher ist so ein Angriff.',
+  tipp:'Darum verlangen Börsen bei kleinen Coins oft sehr viele Bestätigungen, bevor eine Einzahlung gutgeschrieben wird.'}});
+
+/* ---------- PAKET 4: DEFI & COINS ---------- */
+add({id:'dex',area:'defi',title:'DEX & Liquiditätspool',sub:'Handeln ohne Orderbuch',
+ lead:'Auf einer dezentralen Börse (DEX) handelst du direkt mit einem Smart Contract – dem Liquiditätspool.',
+ total:17500,steps:[
+  {at:0,text:'Eine DEX hat kein Orderbuch, sondern einen LIQUIDITÄTSPOOL – zum Beispiel 10 ETH und 30.000 USDC.'},
+  {at:3500,text:'Der Preis ergibt sich aus dem Verhältnis im Pool: 30.000 ÷ 10 = 3.000 USDC je ETH.'},
+  {at:7000,text:'Du kaufst 1 ETH: Du legst USDC hinein und nimmst ETH heraus. Danach ist ETH im Pool knapper – also teurer.'},
+  {at:10500,text:'Die Formel x × y = k hält das Produkt gleich: 9 ETH × 33.333 USDC ≈ 300.000. Du zahlst 3.333 USDC statt 3.000 – die Preiswirkung.'},
+  {at:14000,text:'Wer Coins in den Pool legt, ist LIQUIDITÄTSANBIETER und bekommt einen Teil der Handelsgebühren.'}],
+ draw(t){bg();const sw=P(t,7400,9400);const eth=L(10,9,sw),usd=L(30000,33333,sw);
+  const tank=(x,c,lab,val,max,fmt)=>{box(x,40,120,220,{s:C.line,lw:2.5,r:10});const h=212*val/max;box(x+4,256-h,112,h,{f:hexA(c,.7),r:7});T(lab,x+60,24,{sz:13,c});T(fmt,x+60,282,{sz:17,c,b:800});};
+  tank(90,C.purple,'ETH',eth,12,de(eth,eth%1?1:0)+' ETH');tank(330,C.aqua||C.blue,'USDC',usd,40000,de(usd,0)+' USDC');
+  T('POOL',270,150,{sz:14,c:C.mute});
+  A(P(t,3500,4000)*(1-P(t,10300,10600)),()=>pill('PREIS: '+de(usd/eth,0)+' USDC/ETH',270,320,C.gold,{solid:true,sz:12}));
+  if(t>=7400&&t<9600){const p=PL_(t,7400,9400);coin(L(500,390,p),L(330,200,p),13,'$',C.blue);coin(L(150,40,p),L(200,330,p),13,'Ξ',C.purple);person(40,350,26,C.soft);}
+  A(P(t,10500,11000)*(1-P(t,13800,14100)),()=>{pill('x × y = k',270,320,C.gold,{solid:true,sz:14});T('Du zahlst 3.333 USDC (Ø) statt 3.000',270,362,{sz:14,c:C.soft,mono:false,b:600});});
+  A(P(t,14000,14500),()=>pill('LIQUIDITÄTSANBIETER: + GEBÜHREN',270,340,C.up,{solid:true,sz:12}));
+ },
+ box:{was:'Ein Liquiditätspool ist ein Smart Contract mit zwei Token. Ein Automatischer Market Maker (AMM) berechnet den Preis aus dem Verhältnis der beiden Mengen.',
+  erkennen:['Bekannte DEX: Uniswap, Curve, PancakeSwap','Kein Konto, keine Identitätsprüfung – nur deine Wallet','Große Käufe verschieben den Preis stark (Preiswirkung)'],
+  bedeutung:'DEX sind offen für jeden – aber du trägst Risiken selbst: Smart-Contract-Fehler, Betrugs-Token, Slippage.',
+  tipp:'Stelle bei Swaps eine maximale Slippage ein (z. B. 0,5 %). Prüfe die Token-Adresse – Fälschungen mit gleichem Namen sind häufig.'}});
+
+add({id:'il',area:'defi',title:'Impermanent Loss',sub:'Der versteckte Verlust im Pool',
+ lead:'Liquidität bereitstellen klingt nach passivem Einkommen. Doch steigt oder fällt der Kurs stark, hast du am Ende weniger als beim einfachen Halten.',
+ total:17500,steps:[
+  {at:0,text:'Du legst 1 ETH + 3.000 USDC in den Pool. Gesamtwert: 6.000 $.'},
+  {at:3500,text:'Der ETH-Preis verdoppelt sich auf 6.000 $. Händler kaufen dem Pool ETH ab, bis das Verhältnis wieder stimmt.'},
+  {at:7000,text:'Im Pool hast du jetzt nur noch etwa 0,707 ETH, aber 4.243 USDC. Zusammen: 8.485 $.'},
+  {at:10500,text:'Hättest du einfach gehalten: 1 ETH + 3.000 USDC = 9.000 $. Differenz 515 $ = 5,7 % – der IMPERMANENT LOSS.'},
+  {at:14000,text:'„Impermanent“ (vorübergehend), weil er verschwindet, wenn der Preis zurückgeht. Die Handelsgebühren sollen ihn ausgleichen.'}],
+ draw(t){bg();const sc=.032,base=330;
+  const stack=(x,lab,ethV,usdV,c,a)=>A(a,()=>{const he=ethV*sc,hu=usdV*sc;box(x,base-hu,110,hu,{f:hexA(C.blue,.7),r:4});box(x,base-hu-he,110,he,{f:hexA(C.purple,.8),r:4});T(lab,x+55,base+20,{sz:14,c,b:800});T(de(ethV+usdV,0)+' $',x+55,base-hu-he-14,{sz:16,c,b:800});});
+  const dbl=P(t,3500,5000),pool=P(t,7000,8200);
+  const ethP=L(3000,6000,dbl);const poolEth=L(1,.7071,pool),poolUsd=L(3000,4242.6,pool);
+  stack(24,'IM POOL',poolEth*ethP,poolUsd,C.text,1);
+  stack(160,'HALTEN',1*ethP,3000,C.soft,P(t,10500,11000));
+  T('ETH-Preis: '+de(ethP,0)+' $',310,60,{sz:15,c:C.gold,al:'left'});
+  box(310,90,14,14,{f:hexA(C.purple,.8),r:2});T('ETH-Anteil',330,97,{sz:12,al:'left',c:C.soft});box(310,112,14,14,{f:hexA(C.blue,.7),r:2});T('USDC-Anteil',330,119,{sz:12,al:'left',c:C.soft});
+  A(P(t,7200,7700),()=>{T(de(poolEth,3)+' ETH',310,170,{sz:14,al:'left',c:C.purple});T(de(poolUsd,0)+' USDC',310,192,{sz:14,al:'left',c:C.blue});});
+  A(P(t,10600,11100),()=>pill('−515 $ = −5,7 %',400,260,C.down,{solid:true,sz:12}));
+  A(P(t,14000,14500),()=>pill('GEBÜHREN GLEICHEN AUS',400,300,C.up,{sz:11}));
+ },
+ box:{was:'Impermanent Loss ist der Unterschied zwischen dem Wert deiner Coins im Pool und dem Wert, den du beim einfachen Halten gehabt hättest.',
+  erkennen:['Entsteht bei jeder starken Preisänderung – nach oben oder unten','Preis ×2 → ca. 5,7 % · ×3 → ca. 13,4 % · ×5 → ca. 25,5 %','Stablecoin-Paare (USDC/USDT) haben kaum Impermanent Loss'],
+  bedeutung:'Liquidität lohnt sich nur, wenn die Gebühren den Impermanent Loss übertreffen.',
+  tipp:'Der Verlust wird erst „echt“, wenn du die Liquidität abziehst. Steigt der Preis auf den Ausgangswert zurück, ist er weg.'}});
+
+add({id:'lending',area:'defi',title:'Staking & Lending',sub:'Zinsen auf Krypto – und die Risiken',
+ lead:'Mit Staking und Lending kannst du auf deine Coins Erträge bekommen. Doch hohe Zinsen haben immer einen Haken.',
+ total:16000,steps:[
+  {at:0,text:'STAKING: Du sperrst Coins, um eine Proof-of-Stake-Blockchain abzusichern. Dafür gibt es Belohnungen – oft wenige Prozent pro Jahr.'},
+  {at:4000,text:'LENDING: Du verleihst Coins an andere. Die zahlen Zinsen und hinterlegen meist Sicherheiten (Collateral).'},
+  {at:8000,text:'Rechenbeispiel: 10 ETH bei 4 % pro Jahr (APY) ≈ 0,4 ETH Ertrag pro Jahr.'},
+  {at:11400,text:'Risiken: Sperrfristen, Slashing, Pleite der Plattform (z. B. Celsius 2022) und Fehler in Smart Contracts. Hohe Zinsen = hohes Risiko!'}],
+ draw(t){bg();
+  box(24,30,220,170,{f:C.card,s:C.purple,lw:2.5});T('STAKING',134,52,{sz:14,c:C.purple});lockI(100,120,46,C.purple);coin(170,120,22,'Ξ',C.purple);
+  for(let k=0;k<3;k++){const ph=(t/1300+k/3)%1;A(1-ph,()=>coin(200,100-ph*60,8,'+',C.gold));}
+  A(P(t,4000,4500),()=>{box(296,30,220,170,{f:C.card,s:C.blue,lw:2.5});T('LENDING',406,52,{sz:14,c:C.blue});person(340,120,30,C.soft);person(470,120,30,C.soft);
+   const ph=(t/1500)%1;coin(L(370,440,ph),100,10,'Ξ',C.purple);coin(L(440,370,ph),140,9,'%',C.gold);T('Sicherheit',470,176,{sz:11,c:C.mute,mono:false,b:600});});
+  A(P(t,8000,8500)*(1-P(t,11200,11500)),()=>{box(80,236,380,80,{f:C.card,s:C.gold,lw:2.5});T('10 ETH × 4 % APY',270,262,{sz:16,c:C.soft});T('≈ 0,4 ETH pro Jahr',270,294,{sz:20,c:C.gold,b:800});});
+  A(P(t,11400,11900),()=>{[['SPERRFRIST',24,240],['SLASHING',24,290],['PLATTFORM-PLEITE',280,240],['CONTRACT-FEHLER',280,290]].forEach(([s,x,y],i)=>A(P(t,11500+i*250,11900+i*250),()=>pill('⚠ '+s,x,y,C.down,{al:'left',sz:11})));pill('HOHE ZINSEN = HOHES RISIKO',270,350,C.down,{solid:true,sz:12});});
+ },
+ box:{was:'Staking-Erträge kommen aus der Absicherung einer Blockchain. Lending-Zinsen zahlen Kreditnehmer, die sich Coins leihen – oft Trader für gehebelte Positionen.',
+  erkennen:['APR: einfacher Zins · APY: mit Zinseszins','Liquid Staking: du bekommst einen Ersatz-Token (z. B. stETH)','Plattform: Börse (zentral) oder DeFi-Protokoll'],
+  bedeutung:'Erträge sind nie risikofrei. Bei Plattform-Pleiten (Celsius, BlockFi 2022) waren Kundengelder eingefroren oder verloren.',
+  tipp:'Steuer: Staking- und Lending-Erträge sind sonstige Einkünfte – steuerfrei nur unter 256 € im Jahr (siehe Bereich Steuern).'}});
+
+add({id:'marketcap',area:'defi',title:'Marktkapitalisierung vs. Preis',sub:'Warum ein billiger Coin nicht billig ist',
+ lead:'Der Preis pro Coin sagt fast nichts darüber aus, ob ein Coin „günstig“ ist. Entscheidend ist der Gesamtwert.',
+ total:17000,steps:[
+  {at:0,text:'Coin A kostet 0,001 $. Coin B kostet 50.000 $. Welcher ist „billiger“?'},
+  {at:3500,text:'Entscheidend ist die MARKTKAPITALISIERUNG: Preis × Anzahl der Coins im Umlauf.'},
+  {at:7000,text:'Coin A: 0,001 $ × 1 Billion Coins = 1 Mrd. $. Coin B: 50.000 $ × 20.000 Coins = 1 Mrd. $. Beide sind gleich groß!'},
+  {at:10500,text:'Darum kann Coin A nicht einfach auf 1 $ steigen: Er wäre dann 1.000 Mrd. $ wert – mehr als fast jedes Unternehmen.'},
+  {at:13800,text:'Achte auch auf die FDV (vollständig verwässerte Bewertung): Preis × ALLE Coins, auch die noch nicht freigegebenen.'}],
+ draw(t){bg();
+  const col=(x,name,c,price,n,mc)=>{box(x,24,230,240,{f:C.card,s:c,lw:2.5});T(name,x+115,46,{sz:15,c,b:800});T(price,x+115,86,{sz:24,b:800});T('pro Coin',x+115,110,{sz:11,c:C.mute,mono:false,b:600});
+   A(P(t,3500,4000),()=>{T('× '+n,x+115,150,{sz:16,c:C.soft});T('Coins im Umlauf',x+115,172,{sz:11,c:C.mute,mono:false,b:600});});
+   A(P(t,7000,7500),()=>{line(x+20,196,x+210,196,C.line,1.5);T('= '+mc,x+115,226,{sz:20,c:C.gold,b:800});});};
+  col(24,'COIN A',C.purple,'0,001 $','1 Billion','1 Mrd. $');col(286,'COIN B',C.gold,'50.000 $','20.000','1 Mrd. $');
+  A(P(t,7400,7900)*(1-P(t,10300,10600)),()=>pill('GLEICH GROSS!',270,300,C.up,{solid:true,sz:13}));
+  A(P(t,10500,11000)*(1-P(t,13600,13900)),()=>{box(40,286,460,70,{f:C.card,s:C.down,lw:2.5});T('Coin A bei 1 $ = 1.000 Mrd. $ wert',270,321,{sz:16,c:C.down,mono:false,b:800});});
+  A(P(t,13800,14300),()=>{box(40,286,460,90,{f:C.card,s:C.orange,lw:2.5});T('FDV = Preis × ALLE Coins',270,312,{sz:16,c:C.orange});T('Viele gesperrte Coins = späterer Verkaufsdruck',270,344,{sz:14,mono:false,b:600,c:C.soft});});
+ },
+ box:{was:'Die Marktkapitalisierung (Market Cap) ist der Gesamtwert aller umlaufenden Coins: Preis × Umlaufmenge.',
+  erkennen:['Market Cap = Preis × Umlaufmenge','FDV = Preis × maximale Gesamtmenge','Rangliste z. B. auf CoinMarketCap oder CoinGecko'],
+  bedeutung:'Nur die Marktkapitalisierung zeigt, wie groß ein Projekt wirklich ist und wie viel Luft nach oben realistisch ist.',
+  tipp:'Ist die FDV viel höher als die Market Cap, werden künftig viele Coins freigegeben („Unlocks“). Das kann den Preis drücken.'}});
+
+add({id:'tokenarten',area:'defi',title:'Token-Arten',sub:'Coin, Utility, Stablecoin, Memecoin',
+ lead:'„Krypto“ ist nicht gleich „Krypto“. Es gibt sehr unterschiedliche Arten von Coins und Token.',
+ total:15500,steps:[
+  {at:0,text:'Nicht jeder Coin ist gleich. Es gibt grob vier Arten.'},
+  {at:3000,text:'COINS mit eigener Blockchain (z. B. Bitcoin, Ether, Solana) – mit ihnen bezahlt man die Gebühren ihres Netzwerks.'},
+  {at:6000,text:'UTILITY-TOKEN: für die Nutzung eines Dienstes, zum Beispiel Gebühren-Rabatt an einer Börse oder Zugang zu einer App.'},
+  {at:9000,text:'STABLECOINS: an eine Währung gekoppelt, zum Beispiel USDC oder EURC.'},
+  {at:12000,text:'MEMECOINS: Spaß und Hype ohne echten Nutzen. Extrem schwankend – viele fallen auf null.'}],
+ draw(t){bg();const cards=[['COINS','eigene Blockchain','BTC · ETH · SOL',C.gold,1],['UTILITY-TOKEN','Nutzung eines Dienstes','Rabatte · Zugang',C.blue,2],['STABLECOINS','an Währung gekoppelt','USDC · EURC',C.up,1],['MEMECOINS','Hype ohne Nutzen','extrem riskant',C.down,5]];
+  T('RISIKO',270,20,{sz:11,c:C.mute});
+  cards.forEach(([a,b,c,col,r],i)=>{const x=16+(i%2)*258,y=36+Math.floor(i/2)*176,st=[3000,6000,9000,12000][i];A(Math.max(.18,P(t,st,st+500)),()=>{box(x,y,250,164,{f:C.card,s:col,lw:t>=st?2.5:1.5});T(a,x+125,y+30,{sz:16,c:col,b:800});T(b,x+125,y+64,{sz:14,mono:false,b:600,c:C.soft});T(c,x+125,y+92,{sz:13,c:C.mute});
+   for(let k=0;k<5;k++)box(x+50+k*32,y+120,26,14,{f:k<r?(r>=4?C.down:r>=2?C.orange:C.up):C.line,r:3});});});
+ },
+ box:{was:'Coins haben eine eigene Blockchain. Token laufen auf einer fremden Blockchain (z. B. als ERC-20 auf Ethereum).',
+  erkennen:['Coin: Bitcoin, Ether, Solana …','Token: USDC, Uniswap (UNI), Memecoins …','Gleicher Name heißt nicht gleicher Token – auf die Vertragsadresse achten'],
+  bedeutung:'Je weniger echter Nutzen, desto stärker hängt der Preis nur an Stimmung und Hype.',
+  tipp:'Memecoins nur mit Geld, dessen Totalverlust du verkraften kannst. Und: Sehr viele neue Memecoins sind von Anfang an Betrug.'}});
+
+add({id:'airdrops',area:'defi',title:'Airdrops',sub:'Gratis-Token – und die Fallen dabei',
+ lead:'Manchmal verschenken Projekte Token an ihre Nutzer. Doch nicht alles, was gratis in deiner Wallet landet, ist ein Geschenk.',
+ total:14500,steps:[
+  {at:0,text:'Bei einem AIRDROP verteilt ein Projekt kostenlos Token an Nutzer – als Belohnung oder Werbung.'},
+  {at:3500,text:'Oft bekommen ihn Nutzer, die früh eine App oder ein Netzwerk verwendet haben.'},
+  {at:7000,text:'Achtung: Unbekannte Token, die plötzlich in deiner Wallet liegen, sind oft Fallen. Nicht anfassen und nicht auf ihre Webseite gehen!'},
+  {at:10500,text:'Steuer: Airdrops können steuerpflichtig sein – mehr dazu im Bereich Steuern.'}],
+ draw(t){bg();
+  const fly=(t/30)%640-60;A(1-P(t,6800,7100),()=>{box(fly,40,90,30,{f:C.soft,r:14});T('PROJEKT',fly+45,55,{sz:11,c:C.bg,b:800});
+   for(let i=0;i<3;i++){const st=1000+i*1500,p=((t-st)%4500)/4500;if(t<st)continue;const x=110+i*160,y=L(80,240,Math.min(1,p*1.6));line(x,y-30,x,y-10,C.soft,1.5);X.strokeStyle=C.soft;X.lineWidth=2;X.beginPath();X.arc(x,y-30,16,Math.PI,0);X.stroke();coin(x,y,12,'+',C.up);}
+   for(let i=0;i<3;i++){box(70+i*160,270,80,60,{f:C.card,s:C.purple,lw:2});T('Wallet',110+i*160,300,{sz:12,c:C.purple});}
+   A(P(t,3500,4000),()=>pill('FRÜHE NUTZER BELOHNT',270,370,C.up,{sz:12}));});
+  A(P(t,7000,7500)*(1-P(t,10300,10600)),()=>{box(60,40,420,200,{f:C.card,s:C.purple,lw:2.5});T('DEINE WALLET',270,62,{sz:12,c:C.purple});
+   T('ETH',90,100,{sz:15,al:'left'});T('1,2',450,100,{sz:15,al:'right'});
+   box(76,124,388,60,{f:hexA(C.down,.12),s:C.down,lw:2,r:8});T('🎁 FREE-REWARD.claim',90,144,{sz:14,al:'left',c:C.down,mono:false,b:700});T('„Einlösen auf free-reward.xyz“',90,166,{sz:12,al:'left',c:C.soft,mono:false,b:600});T('50.000',450,154,{sz:15,al:'right',c:C.down});
+   pill('NICHT ANFASSEN ✗',270,280,C.down,{solid:true,sz:13});});
+  A(P(t,10500,11000),()=>{box(90,120,360,120,{f:C.card,s:C.gold,lw:2.5});T('§',140,180,{sz:44,c:C.gold});T('Airdrops können',290,165,{sz:16,mono:false,b:700});T('steuerpflichtig sein',290,193,{sz:16,mono:false,b:700});});
+ },
+ box:{was:'Ein Airdrop ist eine kostenlose Verteilung von Token an viele Wallets – zum Beispiel an frühe Nutzer eines Netzwerks.',
+  erkennen:['Echte Airdrops werden auf der offiziellen Projekt-Seite angekündigt','Fake-Airdrops tauchen ungefragt in der Wallet auf','Oft mit Link zu einer „Claim“-Seite = Drainer'],
+  bedeutung:'Seriöse Airdrops können viel wert sein. Fake-Airdrops sind ein häufiger Weg, Wallets leerzuräumen.',
+  tipp:'Unbekannte Token in der Wallet einfach ausblenden. Niemals versuchen, sie zu verkaufen oder „einzulösen“.'}});
+
+/* ---------- PAKET 5: MARKT VERSTEHEN ---------- */
+const ZY=[[2012.0,5],[2012.9,12],[2013.9,1150],[2015.0,170],[2016.5,650],[2017.95,19700],[2018.95,3200],[2020.4,8700],[2021.85,69000],[2022.9,15500],[2024.3,64000],[2025.75,126000]];
+add({id:'zyklen',area:'markt',title:'Bitcoin-Zyklen',sub:'Das 4-Jahres-Muster',
+ lead:'Bitcoin bewegte sich bisher in auffälligen Zyklen von etwa vier Jahren – eng verbunden mit dem Halving.',
+ total:17000,steps:[
+  {at:0,text:'Bitcoin bewegte sich bisher in Zyklen von etwa 4 Jahren – passend zum Halving (gestrichelte Linien).'},
+  {at:3500,text:'Nach dem Halving folgte oft ein starker Anstieg (Bullenmarkt) bis zu einem neuen Allzeithoch …'},
+  {at:7000,text:'… danach ein tiefer Absturz (Bärenmarkt) – bisher meist um 75–85 %.'},
+  {at:10500,text:'Dann eine lange Bodenbildung – und der nächste Zyklus begann. Das letzte Allzeithoch lag im Oktober 2025 bei rund 126.000 $.'},
+  {at:13800,text:'Achtung: Vergangene Zyklen sind keine Garantie. ETFs und große Anleger können das Muster verändern.'}],
+ draw(t){bg();const x0=50,x1=500,yr=v=>x0+(v-2012)/(2026.2-2012)*(x1-x0),lg=yMap(Math.log10(3),Math.log10(250000),34,330),y=v=>lg(Math.log10(v));
+  [10,100,1000,10000,100000].forEach(v=>{line(x0,y(v),x1,y(v),C.grid,1);T(v>=1000?de(v/1000)+'k':String(v),x0-6,y(v),{sz:11,c:C.mute,al:'right'});});
+  [2012.9,2016.5,2020.4,2024.3].forEach(h=>{line(yr(h),34,yr(h),330,C.gold,1.5,[4,5]);});T('HALVING',yr(2012.9)+4,344,{sz:10,c:C.gold,al:'left'});
+  [2013,2017,2021,2025].forEach(v=>T(String(v),yr(v),362,{sz:11,c:C.mute}));
+  const pts=ZY.map(([a,v])=>[yr(a),y(v)]);poly(pts,C.text,2.5,P(t,0,10500));
+  A(P(t,3500,4000),()=>[[2013.9,1150],[2017.95,19700],[2021.85,69000],[2025.75,126000]].forEach(([a,v])=>{if(P(t,0,10500)>=(yr(a)-x0)/(x1-x0)-.02)circ(yr(a),y(v),6,{f:C.up});}));
+  A(P(t,7000,7500),()=>[[2015.0,170,'−85 %'],[2018.95,3200,'−84 %'],[2022.9,15500,'−77 %']].forEach(([a,v,s])=>pill(s,yr(a),y(v)+24,C.down,{sz:11})));
+  A(P(t,10500,11000),()=>pill('ATH ≈ 126.000 $ (OKT. 2025)',yr(2025.75)-6,y(126000)-20,C.up,{al:'right',sz:11}));
+  A(P(t,13800,14300),()=>pill('KEINE GARANTIE!',150,60,C.orange,{solid:true,sz:12}));
+ },
+ box:{was:'Ein Marktzyklus besteht aus Anstieg, Hoch, Absturz und Bodenbildung. Bei Bitcoin dauerten die Zyklen bisher etwa vier Jahre.',
+  erkennen:['Halving → 12–18 Monate später oft ein Hoch','Danach Bärenmarkt mit −75 bis −85 %','Logarithmische Skala: gleiche Abstände = gleiche Prozent'],
+  bedeutung:'Wer Zyklen kennt, lässt sich im Hoch weniger von Euphorie und im Tief weniger von Panik leiten.',
+  tipp:'Nutze für Bitcoin-Langfristcharts immer die logarithmische Skala – sonst sieht alles vor 2020 wie eine flache Linie aus.'}});
+
+add({id:'dominanz',area:'markt',title:'Bitcoin-Dominanz',sub:'Bitcoin vs. Altcoins',
+ lead:'Die Bitcoin-Dominanz zeigt, ob Geld gerade eher in Bitcoin oder in Altcoins fließt.',
+ total:15500,steps:[
+  {at:0,text:'Die BITCOIN-DOMINANZ zeigt, wie viel Prozent des gesamten Krypto-Markts auf Bitcoin entfallen.'},
+  {at:3500,text:'Beispiel: Gesamtmarkt 3 Billionen $, Bitcoin 1,8 Billionen $ → Dominanz 60 %.'},
+  {at:7000,text:'Steigt die Dominanz, fließt Geld eher in Bitcoin – Altcoins entwickeln sich dann meist schwächer.'},
+  {at:10500,text:'Fällt die Dominanz deutlich, laufen Altcoins oft stärker. Man spricht dann von einer „Altcoin-Saison“.'}],
+ draw(t){bg();
+  const dom=t<7000?60:t<10500?L(60,66,P(t,7000,9000)):L(66,48,P(t,10500,12800));
+  const cx=140,cy=170,r=92;const parts=[[dom/100,C.gold],[(100-dom)*.4/100,C.purple],[(100-dom)*.6/100,C.blue]];let a0=-Math.PI/2;
+  X.lineWidth=40;parts.forEach(([f,c])=>{X.strokeStyle=c;X.beginPath();X.arc(cx,cy,r,a0,a0+f*Math.PI*2*P(t,0,1500));X.stroke();a0+=f*Math.PI*2*P(t,0,1500);});
+  T(de(dom,0)+' %',cx,cy-6,{sz:30,c:C.gold,b:800});T('Bitcoin',cx,cy+22,{sz:12,c:C.soft,mono:false,b:600});
+  [['Bitcoin',C.gold],['Ether',C.purple],['Andere',C.blue]].forEach(([n,c],i)=>{box(296,40+i*26,14,14,{f:c,r:3});T(n,318,47+i*26,{sz:13,al:'left',c:C.soft});});
+  A(P(t,3500,4000)*(1-P(t,6800,7100)),()=>{box(280,150,240,100,{f:C.card,s:C.gold,lw:2.5});T('1,8 Bio. $ ÷ 3 Bio. $',400,182,{sz:15,c:C.soft});T('= 60 %',400,220,{sz:22,c:C.gold,b:800});});
+  A(P(t,7000,7500)*(1-P(t,10300,10600)),()=>pill('DOMINANZ ↑ → BITCOIN STÄRKER',400,200,C.gold,{solid:true,sz:11}));
+  A(P(t,10500,11000),()=>pill('DOMINANZ ↓ → ALTCOIN-SAISON',400,200,C.blue,{solid:true,sz:11}));
+ },
+ box:{was:'Bitcoin-Dominanz = Marktkapitalisierung von Bitcoin ÷ Marktkapitalisierung aller Kryptowerte × 100.',
+  erkennen:['Auf TradingView: Symbol BTC.D','Steigt oft in unsicheren Phasen','Fällt oft in späten Euphorie-Phasen'],
+  bedeutung:'Die Dominanz hilft bei der Frage, ob Altcoins oder Bitcoin gerade die bessere Wahl sind.',
+  tipp:'Stablecoins zählen zum Gesamtmarkt. Fliehen Anleger in Stablecoins, kann die BTC-Dominanz sinken, obwohl Altcoins nicht steigen.'}});
+
+add({id:'feargreed',area:'markt',title:'Fear & Greed Index',sub:'Die Stimmung in einer Zahl',
+ lead:'Der Fear & Greed Index fasst die Marktstimmung in einer Zahl von 0 bis 100 zusammen.',
+ total:16500,steps:[
+  {at:0,text:'Der Fear & Greed Index misst die Stimmung am Markt von 0 bis 100.'},
+  {at:3500,text:'0–24: EXTREME ANGST. Viele verkaufen panisch.'},
+  {at:7000,text:'75–100: EXTREME GIER. Alle sind euphorisch, jeder kauft.'},
+  {at:10400,text:'Gegen-Strategie: „Sei gierig, wenn andere ängstlich sind.“ Extreme Werte markierten oft Wendepunkte.'},
+  {at:13600,text:'Aber: Der Index ist kein Timing-Signal. Angst kann lange anhalten. Nur zusammen mit deiner Analyse nutzen.'}],
+ draw(t){bg();const cx=270,cy=250,r=170;
+  const seg=[[0,25,C.down,'EXTREME ANGST'],[25,45,C.orange,'ANGST'],[45,55,C.soft,'NEUTRAL'],[55,75,C.gold,'GIER'],[75,100,C.up,'EXTREME GIER']];
+  X.lineWidth=34;seg.forEach(([a,b,c])=>{X.strokeStyle=c;X.beginPath();X.arc(cx,cy,r,Math.PI+a/100*Math.PI+.01,Math.PI+b/100*Math.PI-.01);X.stroke();});
+  [0,25,50,75,100].forEach(v=>{const a=Math.PI+v/100*Math.PI;T(String(v),cx+Math.cos(a)*(r+30),cy+Math.sin(a)*(r+30),{sz:12,c:C.mute});});
+  const v=t<3500?50+Math.sin(t/400)*6:t<7000?L(50,12,P(t,3500,4800)):t<10400?L(12,88,P(t,7000,8400)):t<13600?L(88,12,P(t,10400,11800))+Math.sin(t/250)*2:50+Math.sin(t/400)*10;
+  const a=Math.PI+v/100*Math.PI;line(cx,cy,cx+Math.cos(a)*(r-40),cy+Math.sin(a)*(r-40),C.text,5);circ(cx,cy,12,{f:C.text});
+  const s=seg.find(([a,b])=>v>=a&&v<=b)||seg[2];T(de(v,0),cx,cy+44,{sz:30,c:s[2],b:800});T(s[3],cx,cy+76,{sz:14,c:s[2],b:800});
+  A(P(t,10400,10900)*(1-P(t,13400,13700)),()=>pill('„SEI GIERIG, WENN ANDERE ÄNGSTLICH SIND“',cx,20,C.gold,{sz:11}));
+  A(P(t,13600,14100),()=>pill('KEIN TIMING-SIGNAL!',cx,20,C.orange,{solid:true,sz:12}));
+ },
+ box:{was:'Der Krypto Fear & Greed Index (z. B. von alternative.me) kombiniert Volatilität, Volumen, soziale Medien, Bitcoin-Dominanz und Trends zu einer Zahl von 0 bis 100.',
+  erkennen:['0–24 extreme Angst · 25–49 Angst','50 neutral','51–74 Gier · 75–100 extreme Gier'],
+  bedeutung:'Extreme Angst war historisch oft eine gute Kaufgelegenheit, extreme Gier eher ein Moment zur Vorsicht.',
+  tipp:'Behalte den Index als Stimmungsbarometer im Blick, aber triff Entscheidungen nie allein danach.'}});
+
+add({id:'onchain',area:'markt',title:'On-Chain-Daten',sub:'Was die Blockchain verrät',
+ lead:'Weil die Blockchain öffentlich ist, kann jeder sehen, was dort passiert. Analysten lesen daraus das Verhalten der Anleger ab.',
+ total:17000,steps:[
+  {at:0,text:'Die Blockchain ist öffentlich – jeder kann sehen, was dort passiert. Das nennt man ON-CHAIN-DATEN.'},
+  {at:3500,text:'AKTIVE ADRESSEN: Wie viele Adressen nutzen das Netzwerk? Steigend = mehr Nutzung.'},
+  {at:7000,text:'LANGZEIT-HALTER: Coins, die über ein Jahr nicht bewegt wurden. Verkaufen diese Halter viel, ist das oft ein Zeichen für ein Hoch.'},
+  {at:10500,text:'WALE: Adressen mit sehr vielen Coins. Ihre großen Bewegungen werden genau beobachtet.'},
+  {at:13800,text:'Anbieter wie Glassnode oder CryptoQuant werten das aus – vieles davon ist kostenpflichtig.'}],
+ draw(t){bg();
+  A(P(t,3500,4000)*(1-P(t,6800,7100)),()=>{T('AKTIVE ADRESSEN',30,30,{sz:13,c:C.blue,al:'left'});const pts=[];for(let i=0;i<=40;i++)pts.push([30+i*12,330-(i*4+Math.sin(i*.9)*18+nz(i,3)*20)]);poly(pts,C.blue,3,P(t,3600,6000));});
+  A(P(t,7000,7500)*(1-P(t,10300,10600)),()=>{T('ANTEIL LANGZEIT-HALTER',30,30,{sz:13,c:C.purple,al:'left'});
+   for(let i=0;i<24;i++){const v=i<16?50+i*1.8:L(78,55,(i-16)/7);const h=v*3;box(30+i*20,340-h,14,h,{f:hexA(i>=16?C.down:C.purple,.75),r:2});}
+   A(P(t,8200,8700),()=>pill('HALTER VERKAUFEN → OFT HOCH',330,70,C.down,{sz:11}));});
+  A(P(t,10500,11000),()=>{T('🐋',120,180,{sz:80,mono:false});const p=P(t,11200,12800);coin(L(190,420,p),L(180,180,p)-Math.sin(p*Math.PI)*60,26);box(400,140,120,80,{f:C.card,s:C.soft,lw:2});T('BÖRSE',460,180,{sz:14,c:C.soft});pill('10.000 BTC BEWEGT',270,300,C.gold,{solid:true,sz:12});});
+  A(1-P(t,3300,3600),()=>{T('ÖFFENTLICH',270,120,{sz:28,c:C.blue,b:800});T('jede Transaktion ist sichtbar',270,160,{sz:15,mono:false,b:600,c:C.soft});for(let i=0;i<6;i++)box(60+i*72,220,56,40,{f:C.card,s:C.blue,lw:2,r:6});});
+  A(P(t,13800,14300),()=>pill('GLASSNODE · CRYPTOQUANT',270,370,C.soft,{sz:12}));
+ },
+ box:{was:'On-Chain-Daten sind alle Informationen, die direkt in der Blockchain gespeichert sind: Transaktionen, Guthaben, Alter der Coins und vieles mehr.',
+  erkennen:['Aktive Adressen und Transaktionsanzahl','Verhalten von Kurz- und Langzeit-Haltern','Bewegungen großer Wallets (Wale)'],
+  bedeutung:'On-Chain-Daten zeigen, was Anleger TUN – nicht nur, was sie sagen. Das ergänzt die Chartanalyse.',
+  tipp:'Kostenlose Einstiege bieten Block-Explorer wie mempool.space oder Seiten wie lookintobitcoin.com.'}});
+
+add({id:'flows',area:'markt',title:'Börsen-Zu- und -Abflüsse',sub:'Wohin wandern die Coins?',
+ lead:'Ob Coins auf Börsen oder in private Wallets fließen, verrät viel über die Absichten der Anleger.',
+ total:17000,steps:[
+  {at:0,text:'Coins können auf Börsen oder in privaten Wallets liegen.'},
+  {at:3500,text:'ZUFLÜSSE auf Börsen: Viele schicken Coins zur Börse – oft, um zu verkaufen. Eher bärisch.'},
+  {at:7000,text:'ABFLÜSSE von Börsen: Coins wandern in private Wallets – zum langfristigen Halten. Eher bullisch.'},
+  {at:10500,text:'NETTO-FLUSS = Zuflüsse − Abflüsse. Ein Balkendiagramm zeigt das Tag für Tag.'},
+  {at:13800,text:'Vorsicht: Auch interne Umbuchungen der Börsen erzeugen Flüsse. Verlasse dich nie nur auf diese Kennzahl.'}],
+ draw(t){bg();
+  A(1-P(t,10300,10600),()=>{box(200,90,140,90,{f:C.card,s:C.soft,lw:2.5});T('BÖRSE',270,135,{sz:16,c:C.soft});
+   [[60,60],[60,210],[480,60],[480,210]].forEach(([x,y])=>{box(x-34,y-20,68,40,{f:C.card,s:C.purple,lw:2});T('Wallet',x,y,{sz:11,c:C.purple});});
+   const inflow=t>=3500&&t<7000,out=t>=7000;
+   if(inflow||out){for(let k=0;k<4;k++){const ph=((t/900)+k/4)%1;const w=[[60,60],[60,210],[480,60],[480,210]][k];const a=inflow?w:[270,135],b=inflow?[270,135]:w;coin(L(a[0],b[0],ph),L(a[1],b[1],ph),10,'₿',inflow?C.down:C.up);}}
+   A(P(t,3500,4000)*(1-P(t,6800,7100)),()=>pill('ZUFLUSS → EHER BÄRISCH',270,290,C.down,{solid:true,sz:12}));
+   A(P(t,7000,7500),()=>pill('ABFLUSS → EHER BULLISCH',270,290,C.up,{solid:true,sz:12}));});
+  A(P(t,10500,11000),()=>{T('NETTO-FLUSS PRO TAG',30,30,{sz:13,c:C.mute,al:'left'});const z=200;line(30,z,510,z,C.line,1.5);
+   for(let i=0;i<24;i++){const v=Math.sin(i*.7)*60+nz(i,5)*50-35-(i>14?30:0);const p=P(t,10600+i*60,11000+i*60);box(34+i*20,v>0?z-v*p:z,14,Math.abs(v)*p,{f:v>0?C.down:C.up,r:2});}
+   T('Zufluss',510,60,{sz:12,c:C.down,al:'right'});T('Abfluss',510,340,{sz:12,c:C.up,al:'right'});});
+  A(P(t,13800,14300),()=>pill('INTERNE UMBUCHUNGEN BEACHTEN',270,378,C.orange,{sz:11}));
+ },
+ box:{was:'Exchange-Flows messen, wie viele Coins auf Börsen eingezahlt (Inflow) und von Börsen abgehoben (Outflow) werden.',
+  erkennen:['Großer Inflow: möglicher Verkaufsdruck','Anhaltender Outflow: Anleger halten langfristig','Börsenbestand sinkt seit Jahren tendenziell'],
+  bedeutung:'Flows sind ein Puzzleteil der Stimmung – besonders aussagekräftig bei großen Ausreißern.',
+  tipp:'Achte auf Stablecoin-Zuflüsse zu Börsen: Viele Stablecoins auf Börsen bedeuten „Kaufkraft an der Seitenlinie“.'}});
+
+add({id:'makro',area:'markt',title:'Makro: Zinsen & ETFs',sub:'Was die Weltwirtschaft mit Krypto macht',
+ lead:'Krypto ist kein eigener Planet. Zinsen, Inflation und große Fonds bewegen auch Bitcoin.',
+ total:17500,steps:[
+  {at:0,text:'Krypto hängt stark an der Weltwirtschaft – vor allem an den Zinsen der US-Notenbank (Fed).'},
+  {at:3500,text:'Hohe Zinsen: Sichere Anlagen bringen viel, Geld ist teuer – riskante Anlagen wie Krypto haben es schwerer.'},
+  {at:7000,text:'Sinkende Zinsen: Geld wird billiger, Anleger suchen Rendite – das ist oft gut für Krypto.'},
+  {at:10500,text:'Seit Januar 2024 gibt es in den USA Spot-Bitcoin-ETFs. Ihre täglichen Zu- und Abflüsse bewegen den Markt.'},
+  {at:14000,text:'Wichtige Termine: Zinsentscheide der Fed, US-Inflationsdaten (CPI) und Arbeitsmarktdaten.'}],
+ draw(t){bg();
+  A(1-P(t,10300,10600),()=>{const tilt=t<3500?0:t<7000?P(t,3500,4600)*.22:L(.22,-.22,P(t,7000,8200));
+   X.save();X.translate(270,230);X.rotate(tilt);box(-210,-8,420,16,{f:C.soft,r:6});
+   box(-200,-60,110,52,{f:C.card,s:C.gold,lw:2.5});T('ZINSEN',-145,-34,{sz:14,c:C.gold});
+   box(90,-60,110,52,{f:C.card,s:C.blue,lw:2.5});T('KRYPTO',145,-34,{sz:14,c:C.blue});X.restore();
+   X.fillStyle=C.mute;X.beginPath();X.moveTo(270,238);X.lineTo(240,300);X.lineTo(300,300);X.closePath();X.fill();
+   A(P(t,3500,4000)*(1-P(t,6800,7100)),()=>pill('ZINSEN ↑ → KRYPTO ↓',270,60,C.down,{solid:true,sz:13}));
+   A(P(t,7000,7500),()=>pill('ZINSEN ↓ → KRYPTO ↑',270,60,C.up,{solid:true,sz:13}));});
+  A(P(t,10500,11000)*(1-P(t,13800,14100)),()=>{T('SPOT-BITCOIN-ETFs: TÄGLICHE FLÜSSE (BEISPIEL)',30,30,{sz:12,c:C.mute,al:'left'});const z=200;line(30,z,510,z,C.line,1.5);
+   for(let i=0;i<24;i++){const v=Math.sin(i*.5+1)*70+nz(i,9)*40-15;const p=P(t,10600+i*60,11000+i*60);box(34+i*20,v>0?z-v*p:z,14,Math.abs(v)*p,{f:v>0?C.up:C.down,r:2});}
+   T('Zufluss',510,70,{sz:12,c:C.up,al:'right'});T('Abfluss',510,330,{sz:12,c:C.down,al:'right'});});
+  A(P(t,14000,14500),()=>{[['FED-ZINSENTSCHEID',C.gold],['US-INFLATION (CPI)',C.orange],['ARBEITSMARKT',C.blue]].forEach(([s,c],i)=>A(P(t,14100+i*300,14500+i*300),()=>{box(90,60+i*90,360,70,{f:C.card,s:c,lw:2.5});T('📅 '+s,270,95+i*90,{sz:16,c,mono:false,b:800});}));});
+ },
+ box:{was:'Makro bezeichnet die großen wirtschaftlichen Einflüsse: Zinsen, Inflation, Arbeitsmarkt und die Geldpolitik der Notenbanken.',
+  erkennen:['Fed-Sitzungen etwa alle 6 Wochen','Inflationsdaten (CPI) einmal pro Monat','ETF-Flüsse täglich (z. B. bei Farside Investors)'],
+  bedeutung:'An wichtigen Terminen schwankt Bitcoin oft stark. Viele Trader reduzieren davor ihre Positionen.',
+  tipp:'Trage die wichtigsten Termine in deinen Kalender ein und vermeide hohe Hebel kurz vor Zinsentscheiden.'}});
+
+/* ---------- PAKET 6: STEUERN VERTIEFT ---------- */
+add({id:'verluste',area:'steuer',title:'Verlustverrechnung',sub:'Verluste richtig nutzen',
+ lead:'Verluste können deine Steuer senken – aber nur, wenn du sie in den richtigen „Topf“ legst und sie in der Steuererklärung angibst.',
+ total:17500,steps:[
+  {at:0,text:'Verluste senken die Steuer – aber nur innerhalb des richtigen Topfs.'},
+  {at:3500,text:'Spot-Verluste (§ 23) werden mit Spot-Gewinnen (§ 23) verrechnet: +3.000 € und −1.000 € = 2.000 € steuerpflichtig.'},
+  {at:7000,text:'Futures-Verluste werden mit Kapitalerträgen verrechnet – seit Ende 2024 wieder ohne die 20.000-€-Grenze.'},
+  {at:10500,text:'Spot-Topf und Futures-Topf lassen sich NICHT miteinander verrechnen.'},
+  {at:13800,text:'Nicht genutzte Spot-Verluste werden vorgetragen. Darum: Verluste immer in der Steuererklärung angeben – auch in Jahren ohne Gewinn!'}],
+ draw(t){bg();
+  const pot=(x,lab,sub,c)=>{X.strokeStyle=c;X.lineWidth=3;X.fillStyle=hexA(c,.08);X.beginPath();X.moveTo(x,90);X.lineTo(x+20,300);X.lineTo(x+200,300);X.lineTo(x+220,90);X.closePath();X.fill();X.stroke();T(lab,x+110,60,{sz:15,c,b:800});T(sub,x+110,80,{sz:11,c:C.mute,mono:false,b:600});};
+  pot(20,'SPOT · § 23','private Veräußerungsgeschäfte',C.gold);pot(300,'FUTURES · § 20','Kapitalerträge / Termingeschäfte',C.blue);
+  A(P(t,3500,4000),()=>{pill('+3.000 €',130,140,C.up,{sz:13});pill('−1.000 €',130,190,C.down,{sz:13});A(P(t,4800,5300),()=>T('= 2.000 €',130,250,{sz:20,c:C.gold,b:800}));});
+  A(P(t,7000,7500),()=>{pill('+5.000 €',410,140,C.up,{sz:13});pill('−2.000 €',410,190,C.down,{sz:13});A(P(t,8000,8500),()=>T('= 3.000 €',410,250,{sz:20,c:C.blue,b:800}));});
+  A(P(t,10500,11000),()=>{line(270,90,270,300,C.down,4);circ(270,190,20,{f:C.bg,s:C.down,lw:3});cross(270,190,18,C.down,4);});
+  A(P(t,13800,14300),()=>{box(60,320,420,62,{f:C.card,s:C.up,lw:2.5});T('Verluste IMMER angeben → Vortrag ins nächste Jahr',270,351,{sz:14,c:C.up,mono:false,b:800});});
+ },
+ box:{was:'Verluste aus privaten Veräußerungsgeschäften (§ 23) dürfen nur mit Gewinnen derselben Art verrechnet werden. Futures-Verluste gehören zu den Kapitalerträgen.',
+  erkennen:['§ 23: Rücktrag ins Vorjahr oder Vortrag in Folgejahre','Vortrag nur, wenn Verluste per Bescheid festgestellt werden','Futures: Verrechnung mit Kapitalerträgen (Anlage KAP)'],
+  bedeutung:'Ein nicht erklärter Verlust ist verschenkt. Mit Verlustvortrag kannst du künftige Gewinne steuerfrei stellen.',
+  tipp:'Verlustverkäufe vor Jahresende können Gewinne im selben Jahr senken. Rechne das aber vorher genau durch. Keine Steuerberatung!'}});
+
+add({id:'forksteuer',area:'steuer',title:'Airdrops & Forks steuerlich',sub:'Geschenkte Coins und das Finanzamt',
+ lead:'Auch Coins, die du ohne Kauf bekommst, können steuerlich zählen. Das Finanzministerium (BMF) unterscheidet mehrere Fälle.',
+ total:16500,steps:[
+  {at:0,text:'AIRDROP MIT GEGENLEISTUNG (z. B. Aufgaben erledigen, Daten angeben): sonstige Einkünfte nach § 22 Nr. 3 – bewertet mit dem Marktkurs beim Erhalt.'},
+  {at:4000,text:'AIRDROP OHNE GEGENLEISTUNG: keine Einkommensteuer beim Erhalt. Das BMF verweist aber auf mögliche Schenkungsteuer.'},
+  {at:7800,text:'HARD FORK: Beim Erhalt keine Einkünfte. Die neuen Coins gelten als zusammen mit den alten angeschafft.'},
+  {at:11400,text:'Die Anschaffungskosten der alten Coins werden im Verhältnis der Marktkurse beim Fork auf alte und neue Coins aufgeteilt.'}],
+ draw(t){bg();
+  const card=(y,head,c,l1,l2,a)=>A(a,()=>{box(20,y,500,100,{f:C.card,s:c,lw:2.5});T(head,40,y+24,{sz:14,c,al:'left',b:800});T(l1,40,y+56,{sz:14,al:'left',mono:false,b:700});T(l2,40,y+80,{sz:13,al:'left',mono:false,b:500,c:C.soft});});
+  const ph=t<7800?0:1;
+  if(!ph){card(24,'AIRDROP MIT GEGENLEISTUNG',C.orange,'§ 22 Nr. 3 EStG (sonstige Einkünfte)','Wert = Marktkurs beim Erhalt · unter 256 € frei',1);
+   card(146,'AIRDROP OHNE GEGENLEISTUNG',C.up,'Keine Einkommensteuer beim Erhalt','ggf. Schenkungsteuer · späterer Verkauf: § 23',P(t,4000,4500));}
+  else{card(24,'HARD FORK',C.gold,'Erhalt: keine Einkünfte','Neue Coins gelten als zusammen mit den alten angeschafft',P(t,7800,8300));
+   A(P(t,11400,11900),()=>{T('ANSCHAFFUNGSKOSTEN 10.000 € AUFTEILEN',270,160,{sz:12,c:C.mute});box(40,180,460,40,{f:hexA(C.gold,.7),r:6});box(40+460*.9,180,460*.1,40,{f:hexA(C.orange,.85),r:0});T('BTC 9.000 €',60,200,{sz:14,al:'left',c:C.onTag,b:800});T('BCH',500-23,246,{sz:12,c:C.orange});T('1.000 €',500-23,264,{sz:12,c:C.orange});T('Verhältnis der Marktkurse beim Fork (Beispiel 90 : 10)',270,300,{sz:13,mono:false,b:600,c:C.soft});});}
+  A(P(t,1000,1500),()=>T('Stand: BMF-Schreiben vom 06.03.2025 · keine Steuerberatung',270,384,{sz:11,c:C.mute,mono:false,b:600}));
+ },
+ box:{was:'Das BMF-Schreiben zu Kryptowerten regelt, wie Airdrops, Hard Forks, Staking und Lending im Privatvermögen besteuert werden.',
+  erkennen:['Airdrop mit Gegenleistung: § 22 Nr. 3 EStG','Airdrop ohne Gegenleistung: keine Einkommensteuer beim Erhalt','Hard Fork: Anschaffungskosten aufteilen, Haltefrist läuft weiter'],
+  bedeutung:'Verkaufst du Coins aus Airdrops oder Forks später, ist das ein privates Veräußerungsgeschäft nach § 23 – mit Haltefrist und Freigrenze.',
+  tipp:'Notiere bei jedem Airdrop Datum, Menge und Euro-Wert. Ohne diese Daten wird die Steuererklärung schwierig.'}});
+
+add({id:'mining-steuer',area:'steuer',title:'Mining & Staking steuerlich',sub:'Laufende Erträge richtig einordnen',
+ lead:'Wer Coins durch Mining oder Staking verdient, hat steuerlich laufende Einkünfte – unabhängig davon, ob er sie verkauft.',
+ total:15500,steps:[
+  {at:0,text:'MINING im kleinen, privaten Rahmen: sonstige Einkünfte nach § 22 Nr. 3 – bewertet mit dem Marktkurs bei Erhalt.'},
+  {at:3800,text:'Wer nachhaltig, mit Gewinnabsicht und in größerem Umfang mined, ist GEWERBLICH tätig (§ 15) – mit Gewerbeanmeldung.'},
+  {at:7600,text:'STAKING-Erträge: sonstige Einkünfte nach § 22 Nr. 3. Freigrenze: steuerfrei, wenn alle Einkünfte dieser Art im Jahr unter 256 € liegen.'},
+  {at:11200,text:'Der Euro-Wert bei Erhalt gilt später als Anschaffungskosten. Ab dann läuft für diese Coins die einjährige Haltefrist.'}],
+ draw(t){bg();
+  A(1-P(t,7400,7700),()=>{box(20,24,240,180,{f:C.card,s:C.soft,lw:2.5});T('PRIVAT',140,48,{sz:14,c:C.soft});gear(140,110,26,t/500,C.soft);T('§ 22 Nr. 3',140,170,{sz:16,c:C.gold,b:800});
+   A(P(t,3800,4300),()=>{box(280,24,240,180,{f:C.card,s:C.orange,lw:2.5});T('GEWERBLICH',400,48,{sz:14,c:C.orange});for(let i=0;i<3;i++)gear(340+i*60,110,18,t/300+i,C.orange);T('§ 15 EStG',400,170,{sz:16,c:C.orange,b:800});});});
+  A(P(t,7600,8100),()=>{box(20,24,500,180,{f:C.card,s:C.purple,lw:2.5});T('STAKING-ERTRÄGE',270,48,{sz:14,c:C.purple});const sc=230/400,base=180;
+   [[180,C.up,'180 €','frei'],[300,C.down,'300 €','alles steuerpflichtig']].forEach(([v,c,lab,s],i)=>{const x=110+i*200;box(x,base-v*sc*.5,90,v*sc*.5,{f:hexA(c,.8),r:4});T(lab,x+45,base-v*sc*.5-12,{sz:13,c,b:800});T(s,x+45,base+14,{sz:11,c,mono:false,b:700});});
+   line(60,base-256*sc*.5,480,base-256*sc*.5,C.gold,2,[6,5]);T('256 €',480,base-256*sc*.5-10,{sz:11,c:C.gold,al:'right'});});
+  A(P(t,11200,11700),()=>{box(20,236,500,110,{f:C.card,s:C.gold,lw:2.5});T('Erhalt: 0,01 BTC · Wert 900 €',270,264,{sz:15,mono:false,b:700});T('→ Anschaffungskosten 900 €',270,294,{sz:15,c:C.gold,mono:false,b:700});T('→ Haltefrist startet am Tag des Erhalts',270,322,{sz:14,c:C.soft,mono:false,b:600});});
+ },
+ box:{was:'Mining- und Staking-Erträge sind im Privatvermögen meist sonstige Einkünfte nach § 22 Nr. 3 EStG. Bei großem, nachhaltigem Umfang wird Mining gewerblich.',
+  erkennen:['Bewertung: Marktkurs in Euro zum Zeitpunkt des Erhalts','Freigrenze § 22 Nr. 3: unter 256 € pro Jahr','Später: Verkauf als § 23-Geschäft mit Haltefrist'],
+  bedeutung:'Auch ohne Verkauf kann Steuer anfallen. Wer viele kleine Rewards bekommt, sollte sie lückenlos dokumentieren.',
+  tipp:'Viele Krypto-Steuer-Tools lesen Staking-Rewards automatisch aus den Börsen-Exporten aus. Keine Steuerberatung!'}});
+
+add({id:'mica',area:'steuer',title:'MiCA erklärt',sub:'Die EU-Regeln für Krypto',
+ lead:'MiCA ist das große Krypto-Gesetz der EU. Es regelt, wer in Europa Krypto-Dienste anbieten darf.',
+ total:15500,steps:[
+  {at:0,text:'MiCA („Markets in Crypto-Assets“) ist eine EU-Verordnung. Sie gilt einheitlich in allen EU-Staaten.'},
+  {at:3800,text:'Börsen und Verwahrer brauchen eine Lizenz als Krypto-Dienstleister (CASP). Mit einer Lizenz dürfen sie in der ganzen EU arbeiten („Passporting“).'},
+  {at:7600,text:'Stablecoin-Herausgeber müssen Reserven halten und strenge Regeln erfüllen.'},
+  {at:11200,text:'Für dich heißt das: mehr Schutz – aber manche Produkte (z. B. bestimmte Futures oder Stablecoins) sind in der EU nicht mehr oder nur eingeschränkt verfügbar.'}],
+ draw(t){bg();
+  const cx=270,cy=150;for(let i=0;i<12;i++){const a=i/12*Math.PI*2;T('★',cx+Math.cos(a)*90,cy+Math.sin(a)*90,{sz:20,c:C.gold,mono:false});}
+  T('MiCA',cx,cy-8,{sz:30,c:C.blue,b:800});T('EU-Verordnung',cx,cy+22,{sz:13,c:C.soft,mono:false,b:600});
+  A(P(t,3800,4300)*(1-P(t,7400,7700)),()=>{box(30,270,480,90,{f:C.card,s:C.blue,lw:2.5});T('LIZENZ (CASP)',270,296,{sz:15,c:C.blue});T('einmal zugelassen → in der ganzen EU tätig',270,328,{sz:14,mono:false,b:600,c:C.soft});});
+  A(P(t,7600,8100)*(1-P(t,11000,11300)),()=>{box(30,270,480,90,{f:C.card,s:C.up,lw:2.5});T('STABLECOINS',270,296,{sz:15,c:C.up});T('Reserven + Aufsicht + Rücktauschrecht',270,328,{sz:14,mono:false,b:600,c:C.soft});});
+  A(P(t,11200,11700),()=>{pill('MEHR SCHUTZ ✓',150,300,C.up,{solid:true,sz:12});pill('WENIGER ANGEBOT',390,300,C.orange,{solid:true,sz:12});T('Lizenz prüfen: Register der ESMA bzw. BaFin',270,350,{sz:13,c:C.soft,mono:false,b:600});});
+ },
+ box:{was:'MiCA ist die EU-Verordnung über Märkte für Kryptowerte. Sie regelt Zulassung, Pflichten und Verbraucherschutz für Krypto-Dienstleister und Stablecoin-Herausgeber.',
+  erkennen:['Seit 30.12.2024 vollständig anwendbar','Übergangsfristen für bestehende Anbieter in den Mitgliedstaaten','Zuständig in Deutschland: die BaFin'],
+  bedeutung:'Eine MiCA-Lizenz bedeutet geprüfte Regeln – zum Beispiel getrennte Verwahrung von Kundengeldern.',
+  tipp:'Prüfe vor der Anmeldung, ob deine Börse eine MiCA-Lizenz hat. Seriöse Anbieter nennen sie auf ihrer Webseite.'}});
+
+add({id:'dac8',area:'steuer',title:'DAC8 – das Finanzamt sieht mit',sub:'Automatischer Datenaustausch',
+ lead:'Mit DAC8 melden Krypto-Dienstleister in der EU die Daten ihrer Kunden an die Steuerbehörden – automatisch.',
+ total:15000,steps:[
+  {at:0,text:'DAC8 ist eine EU-Richtlinie: Krypto-Dienstleister erfassen seit dem 01.01.2026 die Transaktionen ihrer Kunden für die Steuerbehörden.'},
+  {at:3800,text:'Gemeldet werden u. a. Name, Steuer-Identifikationsnummer, Käufe, Verkäufe und Übertragungen – jährlich.'},
+  {at:7400,text:'Die Behörden tauschen die Daten untereinander aus. Auch Börsen in anderen EU-Ländern melden so ans deutsche Finanzamt.'},
+  {at:10800,text:'Für dich heißt das: vollständige und ehrliche Angaben machen. Unstimmigkeiten fallen künftig leichter auf.'}],
+ draw(t){bg();
+  const ex=[[90,70,'Börse DE'],[90,170,'Börse FR'],[90,270,'Börse NL']];
+  ex.forEach(([x,y,n],i)=>A(P(t,200+i*300,700+i*300),()=>{box(x-60,y-26,120,52,{f:C.card,s:C.soft,lw:2});T(n,x,y,{sz:13,c:C.soft});}));
+  A(P(t,3800,4300)*(1-P(t,7200,7500)),()=>{box(200,40,150,180,{f:C.card,s:C.gold,lw:2.5,r:6});T('MELDUNG',275,62,{sz:13,c:C.gold});['Name','Steuer-ID','Käufe','Verkäufe','Transfers'].forEach((s,i)=>T('• '+s,216,92+i*24,{sz:13,al:'left',mono:false,b:600,c:C.soft}));});
+  A(P(t,7400,7900),()=>{box(400,130,124,90,{f:C.card,s:C.blue,lw:2.5});T('FINANZAMT',462,166,{sz:13,c:C.blue});T('🇩🇪',462,196,{sz:20,mono:false});
+   ex.forEach(([x,y],i)=>{const ph=((t-7400)/1500+i/3)%1;line(x+60,y,400,175,hexA(C.blue,.35),2,[5,5]);box(L(x+60,390,ph)-10,L(y,175,ph)-7,20,14,{f:C.gold,r:2});});});
+  A(P(t,10800,11300),()=>pill('VOLLSTÄNDIG & EHRLICH ANGEBEN ✓',270,368,C.up,{solid:true,sz:12}));
+ },
+ box:{was:'DAC8 erweitert den automatischen Informationsaustausch der EU auf Kryptowerte. Er ergänzt das weltweite Melde-Rahmenwerk der OECD (CARF).',
+  erkennen:['Datenerhebung seit 01.01.2026','Erste Meldungen über das Jahr 2026 im Jahr 2027','Betrifft zugelassene Krypto-Dienstleister in der EU'],
+  bedeutung:'Das Finanzamt erfährt künftig von deinen Krypto-Geschäften auf EU-Börsen – auch ohne deine Angabe.',
+  tipp:'Wer in früheren Jahren Krypto-Gewinne nicht erklärt hat, sollte mit einem Steuerberater über eine Korrektur sprechen.'}});
+
+add({id:'doku',area:'steuer',title:'Saubere Dokumentation',sub:'So bist du fürs Finanzamt gerüstet',
+ lead:'Die beste Steuerstrategie nützt nichts ohne Nachweise. So dokumentierst du deine Krypto-Geschäfte richtig.',
+ total:15500,steps:[
+  {at:0,text:'Lade regelmäßig die Transaktions-Exporte (CSV) ALLER Börsen und Wallets herunter – Börsen können schließen.'},
+  {at:3500,text:'Für jeden Vorgang brauchst du: Datum und Uhrzeit, Art, Menge, Euro-Wert und Gebühren.'},
+  {at:7000,text:'Ein Steuer-Tool oder eine eigene Auswertung berechnet daraus Gewinne nach FIFO – getrennt nach Spot und Futures.'},
+  {at:10400,text:'Bewahre die Unterlagen mindestens 10 Jahre auf – auf Nachfrage des Finanzamts musst du sie vorlegen können.'}],
+ draw(t){bg();
+  ['Börse A','Börse B','Wallet'].forEach((n,i)=>A(P(t,200+i*400,700+i*400),()=>{const x=30,y=30+i*80;box(x,y,140,60,{f:C.card,s:C.soft,lw:2});T(n,x+70,y+20,{sz:13,c:C.soft});T('export.csv',x+70,y+42,{sz:11,c:C.up});arrow(x+146,y+30,236,140,C.mute,P(t,1400+i*300,1900+i*300),{lw:2,head:8});}));
+  A(P(t,3500,4000),()=>{box(240,30,280,210,{f:C.card,s:C.gold,lw:2.5});T('PRO VORGANG',380,52,{sz:12,c:C.gold});['Datum & Uhrzeit','Art (Kauf/Verkauf/Tausch)','Menge','Euro-Wert','Gebühren'].forEach((s,i)=>A(P(t,3700+i*300,4100+i*300),()=>{check(262,86+i*30,12,C.up,3);T(s,278,86+i*30,{sz:13,al:'left',mono:false,b:600});}));});
+  A(P(t,7000,7500),()=>{box(30,270,230,70,{f:C.card,s:C.blue,lw:2.5});T('STEUER-TOOL',145,292,{sz:13,c:C.blue});T('FIFO · Spot / Futures',145,318,{sz:12,c:C.soft,mono:false,b:600});});
+  A(P(t,10400,10900),()=>{box(280,270,240,70,{f:C.card,s:C.up,lw:2.5});T('10 JAHRE',400,292,{sz:16,c:C.up,b:800});T('aufbewahren',400,318,{sz:12,c:C.soft,mono:false,b:600});});
+ },
+ box:{was:'Für die Steuer musst du jeden Kauf, Verkauf, Tausch und jeden Ertrag nachweisen können – mit Datum, Menge und Euro-Wert.',
+  erkennen:['CSV-Exporte aller Börsen regelmäßig sichern','Wallet-Adressen und Transfers zwischen eigenen Konten dokumentieren','Spot, Futures und Erträge getrennt auswerten'],
+  bedeutung:'Ohne Nachweise kann das Finanzamt Anschaffungskosten schätzen – meist zu deinem Nachteil.',
+  tipp:'Speichere die Exporte zusätzlich offline (z. B. auf einem USB-Stick oder deinem Heimserver). Keine Steuerberatung!'}});
+
 /* Nummern je Bereich */
 AREAS.forEach(a=>{let n=0;LESSONS.forEach(l=>{if(l.area===a.id)l.no=++n;});});
 const BYID=Object.fromEntries(LESSONS.map(l=>[l.id,l]));
@@ -1212,9 +2060,39 @@ const QPOOL=[
  {q:'Bis zu welchem Betrag bleiben Staking-Erträge im Jahr steuerfrei?',o:['Unter 256 €','Unter 1.000 €','Unter 10.000 €','Immer steuerfrei'],l:'tausch',ex:'Staking-Erträge sind sonstige Einkünfte nach § 22 Nr. 3 EStG mit einer Freigrenze von unter 256 € pro Jahr.'},
  {q:'Was gilt laut Finanzministerium für Staking und Haltefrist?',o:['Die Haltefrist bleibt bei einem Jahr','Sie verlängert sich auf 10 Jahre','Sie entfällt ganz','Sie verkürzt sich auf 6 Monate'],l:'tausch',ex:'Das BMF hat klargestellt: Staking verlängert die Haltefrist nicht auf 10 Jahre.'},
  {q:'Was ist eine Liquidationskaskade?',o:['Zwangsverkäufe lösen weitere Liquidationen aus','Ein besonders schneller Mining-Block','Eine Steuerprüfung','Ein Hardware-Wallet-Update'],l:'kaskade',ex:'Liquidierte Longs werden verkauft, der Kurs fällt weiter, die nächsten werden liquidiert – Domino.'},
- {q:'Was ist eine Cold Wallet?',o:['Ein Gerät, das den Schlüssel offline aufbewahrt','Eine Wallet auf einer Börse','Eine App mit Internetverbindung','Ein eingefrorenes Börsenkonto'],l:'hotcold',ex:'Cold Wallets (Hardware-Wallets) halten den privaten Schlüssel offline.'}
+ {q:'Was ist eine Cold Wallet?',o:['Ein Gerät, das den Schlüssel offline aufbewahrt','Eine Wallet auf einer Börse','Eine App mit Internetverbindung','Ein eingefrorenes Börsenkonto'],l:'hotcold',ex:'Cold Wallets (Hardware-Wallets) halten den privaten Schlüssel offline.'},
+ {img:['phishing',6000],q:'Woran erkennst du hier die gefälschte Seite?',o:['An der Adresse: „rn“ statt „m“','Am Schloss-Symbol','An der Farbe der Seite','Gar nicht – beide sind echt'],l:'phishing',ex:'„rneineboerse.de“ sieht auf den ersten Blick aus wie „meineboerse.de“. Das Schloss-Symbol beweist nur Verschlüsselung, nicht Echtheit.'},
+ {img:['drainer',6500],q:'Was ist an dieser Freigabe gefährlich?',o:['Die Menge ist UNBEGRENZT','Der Token heißt USDC','Es gibt einen Ablehnen-Knopf','Nichts – Freigaben sind immer sicher'],l:'drainer',ex:'Eine unbegrenzte Freigabe erlaubt der Seite, jederzeit alle deine USDC abzuziehen.'},
+ {img:['rugpull',10000],q:'Was ist mit diesem Coin passiert?',o:['Rug Pull – die Liquidität wurde abgezogen','Ein Halving','Ein Short Squeeze','Ein normaler Rücksetzer'],l:'rugpull',ex:'Die Entwickler haben die Liquidität abgezogen – der Preis fällt auf fast null.'},
+ {img:['basis',12500],q:'Was passiert am Ablauftag mit Future und Spot?',o:['Beide Preise laufen zusammen','Der Future verdoppelt sich','Der Spot-Preis wird gelöscht','Die Basis wird maximal'],l:'basis',ex:'Am Ablauf wird der Future zum Spot-Preis abgerechnet – die Basis ist null.'},
+ {img:['squeeze',11000],q:'Wie nennt man diesen schnellen Anstieg?',o:['Short Squeeze','Liquidationskaskade nach unten','Rug Pull','Halving'],l:'squeeze',ex:'Liquidierte Shorts müssen kaufen und treiben den Kurs weiter nach oben.'},
+ {img:['zyklen',12000],q:'Was zeigen die gestrichelten Linien?',o:['Die Bitcoin-Halvings','Die Allzeithochs','Zinsentscheide der Fed','Neue Börsen'],l:'zyklen',ex:'Die gestrichelten Linien markieren die Halvings 2012, 2016, 2020 und 2024.'},
+ {img:['forks',12500],q:'Was ist hier passiert?',o:['Eine Hard Fork – die Kette hat sich gespalten','Eine Soft Fork','Ein 51-%-Angriff','Ein Airdrop'],l:'forks',ex:'Bei einer Hard Fork mit Spaltung laufen zwei Ketten weiter – hier BTC und BCH.'},
+ {img:['feargreed',5500],q:'Welche Stimmung zeigt die Anzeige?',o:['Extreme Angst','Extreme Gier','Neutral','Gier'],l:'feargreed',ex:'Werte von 0 bis 24 bedeuten extreme Angst.'},
+ {q:'Welchen Preis nutzt die Börse meist für die Liquidation?',o:['Den Mark-Preis','Den letzten Handelspreis','Den Eröffnungspreis des Tages','Den höchsten Preis des Tages'],l:'markpreis',ex:'Der Mark-Preis ist ein fairer Index aus mehreren Börsen und schützt vor kurzen Ausreißern.'},
+ {q:'Wie nennt man es, wenn ein Future teurer ist als Spot?',o:['Contango','Backwardation','Slippage','Funding'],l:'basis',ex:'Contango: Future über Spot. Backwardation: Future unter Spot.'},
+ {q:'Du hast 1 BTC Spot und eröffnest 1 BTC Short. Was passiert bei −10 %?',o:['Gewinn und Verlust gleichen sich aus','Du verlierst doppelt','Du gewinnst doppelt','Der Short wird sofort liquidiert'],l:'hedging',ex:'Spot verliert, Short gewinnt gleich viel – das ist Hedging.'},
+ {q:'Was macht ein Trailing Stop?',o:['Er folgt dem Kurs automatisch nach oben','Er kauft automatisch nach','Er erhöht den Hebel','Er löscht die Position bei Gewinn'],l:'trailing',ex:'Ein Trailing Stop zieht im festen Abstand hinter dem Kurs her und sichert so Gewinne.'},
+ {q:'Welche 2FA-Methode ist am anfälligsten für SIM-Swap?',o:['SMS-Code','Authenticator-App','Hardware-Sicherheitsschlüssel','Passkey'],l:'zweifa',ex:'Beim SIM-Swap übernimmt ein Betrüger deine Telefonnummer – und damit deine SMS-Codes.'},
+ {q:'Eine unbekannte 0-$-Zahlung taucht in deinem Verlauf auf. Was steckt oft dahinter?',o:['Adress-Vergiftung','Ein Airdrop vom Finanzamt','Ein Fehler der Blockchain','Eine Rückerstattung der Börse'],l:'vergiftung',ex:'Betrüger schmuggeln so eine fast gleiche Adresse in deinen Verlauf.'},
+ {q:'„Um 20 Uhr kaufen wir alle Coin XY!“ – was ist das?',o:['Ein Pump & Dump','Eine Anlageempfehlung','Ein Halving','Ein Airdrop'],l:'pumpdump',ex:'Die Organisatoren kaufen vorher und verkaufen an die Nachzügler. Das ist Marktmanipulation.'},
+ {q:'Womit sichern Validatoren bei Proof of Stake das Netzwerk?',o:['Mit hinterlegten Coins (Stake)','Mit Rechenleistung','Mit Bankbürgschaften','Mit ihrer Seed-Phrase'],l:'pos',ex:'Validatoren hinterlegen Coins als Pfand. Wer betrügt, verliert einen Teil davon (Slashing).'},
+ {q:'Wofür steht „Lightning“ bei Bitcoin?',o:['Ein Layer-2-Netzwerk für schnelle, günstige Zahlungen','Ein neuer Coin','Ein Mining-Gerät','Eine Börse'],l:'layer2',ex:'Das Lightning-Netzwerk wickelt Zahlungen außerhalb der Hauptkette in Sekunden ab.'},
+ {q:'Was bedeutet „Depeg“ bei einem Stablecoin?',o:['Er verliert seine Kopplung an z. B. 1 $','Er wird verdoppelt','Er wird zu Bitcoin','Er wird steuerfrei'],l:'stablecoins',ex:'Beim Depeg weicht der Kurs deutlich von 1 $ ab – wie bei TerraUSD 2022.'},
+ {q:'Was ist ein Smart Contract?',o:['Ein Programm, das auf der Blockchain automatisch ausgeführt wird','Ein Vertrag beim Notar','Eine Hardware-Wallet','Ein Börsenkonto'],l:'smartcontract',ex:'Smart Contracts führen Regeln automatisch aus: WENN … DANN …'},
+ {q:'Wie berechnet sich die Marktkapitalisierung?',o:['Preis × Coins im Umlauf','Preis × Handelsvolumen','Preis ÷ Anzahl Börsen','Höchstkurs × 21 Millionen'],l:'marketcap',ex:'Market Cap = Preis × Umlaufmenge. Nur sie zeigt, wie groß ein Projekt wirklich ist.'},
+ {q:'Was ist Impermanent Loss?',o:['Der Nachteil im Pool gegenüber einfachem Halten','Eine Gebühr der Börse','Ein Hackerangriff','Der Verlust durch Halving'],l:'il',ex:'Bei starken Preisänderungen hast du im Pool weniger Wert, als wenn du die Coins nur gehalten hättest.'},
+ {q:'Was steigt meist, wenn Anleger in Bitcoin flüchten?',o:['Die Bitcoin-Dominanz','Die Zahl der Memecoins','Die Funding aller Altcoins','Das Halving'],l:'dominanz',ex:'Fließt Geld eher in Bitcoin als in Altcoins, steigt die Bitcoin-Dominanz.'},
+ {q:'Große Zuflüsse von Bitcoin auf Börsen gelten eher als …',o:['… bärisch (möglicher Verkaufsdruck)','… bullisch','… steuerfrei','… Halving-Signal'],l:'flows',ex:'Coins werden oft auf Börsen geschickt, um sie zu verkaufen.'},
+ {q:'Sinkende Leitzinsen sind für Krypto meist …',o:['… eher positiv','… eher negativ','… völlig egal','… verboten'],l:'makro',ex:'Billiges Geld lässt Anleger nach Rendite suchen – davon profitieren oft riskantere Anlagen.'},
+ {q:'Lassen sich Spot-Verluste (§ 23) mit Futures-Gewinnen verrechnen?',o:['Nein, das sind getrennte Töpfe','Ja, immer','Nur bis 20.000 €','Nur bei Ehepaaren'],l:'verluste',ex:'§ 23-Verluste nur mit § 23-Gewinnen, Futures-Verluste nur mit Kapitalerträgen.'},
+ {q:'Wie werden Coins aus einer Hard Fork beim Erhalt behandelt?',o:['Keine Einkünfte beim Erhalt','Voll steuerpflichtig zum Marktwert','Schenkungsteuer immer fällig','Sofort steuerfrei für immer'],l:'forksteuer',ex:'Laut BMF führt eine Hard Fork im Privatvermögen nicht zu Einkünften. Die Anschaffungskosten werden aufgeteilt.'},
+ {q:'Seit wann erfassen Krypto-Dienstleister in der EU Daten nach DAC8?',o:['Seit 01.01.2026','Seit 2009','Erst ab 2030','Gar nicht'],l:'dac8',ex:'DAC8 gilt seit 01.01.2026. Die ersten Meldungen für 2026 erfolgen 2027.'},
+ {q:'Wie lange solltest du Krypto-Unterlagen aufbewahren?',o:['Mindestens 10 Jahre','1 Monat','Bis zum Verkauf','Gar nicht'],l:'doku',ex:'Bewahre Exporte und Nachweise mindestens 10 Jahre auf.'}
 ];
 const QGEN=[
+ ()=>{const m=[500,1000,2000][Math.floor(Math.random()*3)],lv=[10,20,50][Math.floor(Math.random()*3)],pos=m*lv,fee=pos*0.0005*2;return{q:`${de(m)} $ Margin, ${lv}× Hebel, Taker-Gebühr 0,05 % beim Eröffnen UND Schließen. Wie hoch sind die Gebühren insgesamt?`,o:[de(fee,fee%1?2:0)+' $',de(fee/2,2)+' $',de(m*0.001,2)+' $',de(fee*10,0)+' $'],l:'gebuehren',ex:`Position ${de(pos)} $ × 0,05 % × 2 = ${de(fee,2)} $.`};},
+ ()=>{const p=[0.5,2,10][Math.floor(Math.random()*3)],n=[1e9,2e7,5e8][Math.floor(Math.random()*3)],mc=p*n;const f=v=>v>=1e9?de(v/1e9,v%1e9?1:0)+' Mrd. $':de(v/1e6,0)+' Mio. $';return{q:`Ein Coin kostet ${de(p,p<1?2:0)} $, im Umlauf sind ${de(n/1e6)} Mio. Coins. Wie hoch ist die Marktkapitalisierung?`,o:[f(mc),f(mc*10),f(mc/10),f(mc*100)],l:'marketcap',ex:`${de(p,p<1?2:0)} $ × ${de(n/1e6)} Mio. = ${f(mc)}.`};},
  ()=>{const m=[50,100,200,250,500][Math.floor(Math.random()*5)],lv=[5,10,20,25][Math.floor(Math.random()*4)];const r=m*lv;return{q:`Du hinterlegst ${de(m)} $ Margin mit ${lv}× Hebel. Wie groß ist deine Position?`,o:[de(r)+' $',de(r*2)+' $',de(r/2)+' $',de(m)+' $'],l:'hebel',ex:`Position = Margin × Hebel = ${de(m)} $ × ${lv} = ${de(r)} $.`};},
  ()=>{const lv=[2,5,10,20][Math.floor(Math.random()*4)],e=100000,lq=e*(1-1/lv);return{q:`Long mit ${lv}× Hebel bei 100.000 $. Wo liegt die Liquidation grob (ohne Wartungsmargin)?`,o:[de(lq)+' $',de(e*(1-2/lv>0?1-2/lv:0.25))+' $',de(e*(1-1/(lv*10)))+' $',de(e*(1+1/lv))+' $'],l:'liquidation',ex:`Abstand ≈ 100 % ÷ ${lv} = ${de(100/lv)} %. Also etwa ${de(lq)} $.`};},
  ()=>{const pos=[5000,10000,20000,50000][Math.floor(Math.random()*4)],f=pos*0.0001;return{q:`Funding +0,01 % alle 8 h. Was zahlt eine Long-Position über ${de(pos)} $ pro 8 Stunden?`,o:[de(f,f<10?2:0)+' $',de(f*10,0)+' $',de(f*100,0)+' $',de(f/10,2)+' $'],l:'funding',ex:`${de(pos)} $ × 0,01 % = ${de(f,2)} $ pro 8 Stunden.`};},
